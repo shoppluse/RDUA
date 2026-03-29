@@ -437,3 +437,187 @@ body {
     grid-template-columns: 1fr;
   }
 }
+/* =========================
+   PHASE 2 GAME STYLES
+========================= */
+
+.center-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Shared */
+.status-box {
+  margin-top: 12px;
+  text-align: center;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.stats-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.stat-pill {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* Tic Tac Toe */
+.ttt-board {
+  display: grid;
+  grid-template-columns: repeat(3, 90px);
+  gap: 10px;
+  margin: 18px auto;
+  width: fit-content;
+}
+
+.ttt-cell {
+  width: 90px;
+  height: 90px;
+  border-radius: 18px;
+  background: var(--card-2);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 800;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ttt-cell:hover {
+  border-color: rgba(34, 211, 238, 0.35);
+}
+
+/* RPS */
+.rps-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.rps-btn {
+  min-width: 110px;
+}
+
+.rps-result {
+  text-align: center;
+  line-height: 1.8;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Reaction */
+.reaction-box {
+  width: 100%;
+  max-width: 520px;
+  height: 240px;
+  margin: 20px auto;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--card-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 800;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  transition: 0.2s ease;
+}
+
+.reaction-box.waiting {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.25);
+  color: #fde68a;
+}
+
+.reaction-box.ready {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.25);
+  color: #bbf7d0;
+}
+
+.reaction-box.too-soon {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #fecaca;
+}
+
+/* Memory */
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 78px);
+  gap: 12px;
+  width: fit-content;
+  margin: 18px auto;
+}
+
+.memory-card {
+  width: 78px;
+  height: 78px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.22), rgba(34, 211, 238, 0.12));
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.2s ease;
+}
+
+.memory-card.revealed,
+.memory-card.matched {
+  background: rgba(255,255,255,0.06);
+}
+
+.memory-card.matched {
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .ttt-board {
+    grid-template-columns: repeat(3, 78px);
+  }
+
+  .ttt-cell {
+    width: 78px;
+    height: 78px;
+  }
+
+  .memory-grid {
+    grid-template-columns: repeat(4, 64px);
+    gap: 10px;
+  }
+
+  .memory-card {
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+  }
+
+  .reaction-box {
+    height: 210px;
+  }
+}
