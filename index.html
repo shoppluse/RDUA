@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Arcade | Single Page Games Hub</title>
+  <style>
+    :root {
+      --bg: #0a0f1f;
+      --bg-2: #11182f;
+      --card: rgba(17, 24, 47, 0.92);
+      --card-2: rgba(23, 32, 63, 0.95);
+      --text: #eef2ff;
+      --muted: #a5b4fc;
+      --accent: #7c3aed;
+      --accent-2: #22d3ee;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --border: rgba(255, 255, 255, 0.08);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.18), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(34, 211, 238, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      backdrop-filter: blur(12px);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      background: rgba(124, 58, 237, 0.18);
+      border: 1px solid rgba(124, 58, 237, 0.35);
+      color: #ddd6fe;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 780px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .section-title h2 {
+      font-size: 1.35rem;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .game-card {
+      background: var(--card-2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 22px;
+      padding: 20px;
+      transition: 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(124, 58, 237, 0.35);
+      box-shadow: 0 16px 30px rgba(124, 58, 237, 0.12);
+    }
+
+    .game-icon {
+      font-size: 2rem;
+    }
+
+    .game-card h3 {
+      font-size: 1.15rem;
+    }
+
+    .game-card p {
+      color: var(--muted);
+      line-height: 1.5;
+      min-height: 68px;
+      font-size: 0.93rem;
+    }
+
+    .btn, .btn-secondary {
+      border: none;
+      cursor: pointer;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--accent), #5b21b6);
+      color: white;
+      padding: 11px 16px;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    .game-arena {
+      display: none;
+      margin-top: 24px;
+    }
+
+    .game-arena.active {
+      display: block;
+    }
+
+    .arena-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .arena-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .arena-desc {
+      color: var(--muted);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    .center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Tic Tac Toe */
+    .ttt-board {
+      display: grid;
+      grid-template-columns: repeat(3, 90px);
+      gap: 10px;
+      margin: 18px auto;
+      width: fit-content;
+    }
+
+    .ttt-cell {
+      width: 90px;
+      height: 90px;
+      border-radius: 18px;
+      background: var(--card-2);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 800;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .ttt-cell:hover {
+      border-color: rgba(34, 211, 238, 0.35);
+    }
+
+    .status-box {
+      margin-top: 10px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* RPS */
+    .rps-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .rps-btn {
+      min-width: 110px;
+    }
+
+    .rps-result {
+      text-align: center;
+      line-height: 1.8;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* Reaction */
+    .reaction-box {
+      width: 100%;
+      max-width: 520px;
+      height: 240px;
+      margin: 20px auto;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--card-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 800;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      transition: 0.2s ease;
+    }
+
+    .reaction-box.waiting {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.25);
+      color: #fde68a;
+    }
+
+    .reaction-box.ready {
+      background: rgba(34, 197, 94, 0.12);
+      border-color: rgba(34, 197, 94, 0.25);
+      color: #bbf7d0;
+    }
+
+    .reaction-box.too-soon {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.25);
+      color: #fecaca;
+    }
+
+    /* Memory */
+    .memory-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 78px);
+      gap: 12px;
+      width: fit-content;
+      margin: 18px auto;
+    }
+
+    .memory-card {
+      width: 78px;
+      height: 78px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.22), rgba(34, 211, 238, 0.12));
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      cursor: pointer;
+      user-select: none;
+      transition: 0.2s ease;
+    }
+
+    .memory-card.revealed,
+    .memory-card.matched {
+      background: rgba(255,255,255,0.06);
+    }
+
+    .memory-card.matched {
+      border-color: rgba(34, 197, 94, 0.35);
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .stat-pill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 14px;
+      }
+
+      .hero h1 {
+        font-size: 1.6rem;
+      }
+
+      .ttt-board {
+        grid-template-columns: repeat(3, 78px);
+      }
+
+      .ttt-cell {
+        width: 78px;
+        height: 78px;
+      }
+
+      .memory-grid {
+        grid-template-columns: repeat(4, 64px);
+        gap: 10px;
+      }
+
+      .memory-card {
+        width: 64px;
+        height: 64px;
+        font-size: 1.5rem;
+      }
+
+      .reaction-box {
+        height: 210px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <span class="badge">Single Page Mini Arcade</span>
+      <h1>Mini Arcade Games Hub</h1>
+      <p>
+        A single-page arcade website with multiple games inside one index file.
+        Choose any game, play instantly, and return to the menu anytime.
+      </p>
+    </section>
+
+    <!-- MENU -->
+    <section id="menuSection" class="card">
+      <div class="section-title">
+        <h2>Select a Game</h2>
+      </div>
+      <p class="sub">All games run inside this same page. Click a game card to start playing.</p>
+
+      <div class="games-grid">
+        <div class="game-card">
+          <div class="game-icon">⭕</div>
+          <h3>Tic Tac Toe</h3>
+          <p>Classic 2-player turn-based game. Clean, fast, and simple.</p>
+          <button class="btn" onclick="openGame('ticTacToe')">Play Now</button>
+        </div>
+
+        <div class="game-card">
+          <div class="game-icon">✊</div>
+          <h3>Rock Paper Scissors</h3>
+          <p>Play against the computer and test your luck with instant results.</p>
+          <button class="btn" onclick="openGame('rps')">Play Now</button>
+        </div>
+
+        <div class="game-card">
+          <div class="game-icon">⚡</div>
+          <h3>Reaction Speed Test</h3>
+          <p>Measure how fast you react when the box turns green.</p>
+          <button class="btn" onclick="openGame('reaction')">Play Now</button>
+        </div>
+
+        <div class="game-card">
+          <div class="game-icon">🧠</div>
+          <h3>Memory Match</h3>
+          <p>Match all emoji pairs with the fewest moves possible.</p>
+          <button class="btn" onclick="openGame('memory')">Play Now</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAME ARENA -->
+    <section id="gameArena" class="game-arena card active hidden">
+      <div class="arena-top">
+        <div class="arena-title" id="arenaTitle">Game</div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn-secondary" onclick="resetCurrentGame()">Restart</button>
+          <button class="btn-secondary" onclick="backToMenu()">← Back to Menu</button>
+        </div>
+      </div>
+
+      <p class="arena-desc" id="arenaDesc">Play the selected game here.</p>
+
+      <!-- Tic Tac Toe -->
+      <div id="ticTacToe" class="game-panel hidden">
+        <div class="center">
+          <div class="ttt-board" id="tttBoard"></div>
+        </div>
+        <div class="status-box" id="tttStatus">Player X's turn</div>
+      </div>
+
+      <!-- RPS -->
+      <div id="rps" class="game-panel hidden">
+        <div class="rps-buttons">
+          <button class="btn rps-btn" onclick="playRPS('Rock')">🪨 Rock</button>
+          <button class="btn rps-btn" onclick="playRPS('Paper')">📄 Paper</button>
+          <button class="btn rps-btn" onclick="playRPS('Scissors')">✂️ Scissors</button>
+        </div>
+        <div class="rps-result" id="rpsResult">
+          Choose Rock, Paper, or Scissors to begin.
+        </div>
+        <div class="stats-row">
+          <div class="stat-pill">Wins: <span id="rpsWins">0</span></div>
+          <div class="stat-pill">Losses: <span id="rpsLosses">0</span></div>
+          <div class="stat-pill">Draws: <span id="rpsDraws">0</span></div>
+        </div>
+      </div>
+
+      <!-- Reaction -->
+      <div id="reaction" class="game-panel hidden">
+        <div class="reaction-box" id="reactionBox" onclick="handleReactionClick()">
+          Click "Restart" to begin the test
+        </div>
+        <div class="stats-row">
+          <div class="stat-pill">Best Time: <span id="reactionBest">--</span></div>
+          <div class="stat-pill">Last Time: <span id="reactionLast">--</span></div>
+        </div>
+      </div>
+
+      <!-- Memory -->
+      <div id="memory" class="game-panel hidden">
+        <div class="center">
+          <div class="memory-grid" id="memoryGrid"></div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-pill">Moves: <span id="memoryMoves">0</span></div>
+          <div class="stat-pill">Matches: <span id="memoryMatches">0</span>/8</div>
+        </div>
+        <div class="status-box" id="memoryStatus">Find all matching pairs.</div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    let currentGame = null;
+
+    const menuSection = document.getElementById("menuSection");
+    const gameArena = document.getElementById("gameArena");
+    const arenaTitle = document.getElementById("arenaTitle");
+    const arenaDesc = document.getElementById("arenaDesc");
+
+    function openGame(gameId) {
+      currentGame = gameId;
+
+      menuSection.classList.add("hidden");
+      gameArena.classList.remove("hidden");
+
+      document.querySelectorAll(".game-panel").forEach(panel => panel.classList.add("hidden"));
+      document.getElementById(gameId).classList.remove("hidden");
+
+      if (gameId === "ticTacToe") {
+        arenaTitle.textContent = "Tic Tac Toe";
+        arenaDesc.textContent = "Classic 2-player mode. First to align 3 symbols wins.";
+        initTicTacToe();
+      } else if (gameId === "rps") {
+        arenaTitle.textContent = "Rock Paper Scissors";
+        arenaDesc.textContent = "Play against the computer. Choose your move.";
+        initRPS();
+      } else if (gameId === "reaction") {
+        arenaTitle.textContent = "Reaction Speed Test";
+        arenaDesc.textContent = "Wait for the box to turn green, then click as fast as possible.";
+        initReaction();
+      } else if (gameId === "memory") {
+        arenaTitle.textContent = "Memory Match";
+        arenaDesc.textContent = "Match all emoji pairs with the fewest moves.";
+        initMemory();
+      }
+    }
+
+    function backToMenu() {
+      currentGame = null;
+      menuSection.classList.remove("hidden");
+      gameArena.classList.add("hidden");
+      document.querySelectorAll(".game-panel").forEach(panel => panel.classList.add("hidden"));
+    }
+
+    function resetCurrentGame() {
+      if (!currentGame) return;
+      openGame(currentGame);
+    }
+
+    /* =========================
+       TIC TAC TOE
+    ========================= */
+    let tttBoard = Array(9).fill("");
+    let tttPlayer = "X";
+    let tttGameOver = false;
+
+    function initTicTacToe() {
+      tttBoard = Array(9).fill("");
+      tttPlayer = "X";
+      tttGameOver = false;
+
+      const boardEl = document.getElementById("tttBoard");
+      const statusEl = document.getElementById("tttStatus");
+
+      boardEl.innerHTML = "";
+      statusEl.textContent = "Player X's turn";
+
+      tttBoard.forEach((_, index) => {
+        const cell = document.createElement("div");
+        cell.className = "ttt-cell";
+        cell.onclick = () => playTTT(index);
+        boardEl.appendChild(cell);
+      });
+    }
+
+    function playTTT(index) {
+      if (tttBoard[index] || tttGameOver) return;
+
+      tttBoard[index] = tttPlayer;
+      const cells = document.querySelectorAll(".ttt-cell");
+      cells[index].textContent = tttPlayer;
+
+      const winner = checkTTTWinner();
+
+      if (winner) {
+        document.getElementById("tttStatus").textContent = `Player ${winner} wins!`;
+        tttGameOver = true;
+        return;
+      }
+
+      if (!tttBoard.includes("")) {
+        document.getElementById("tttStatus").textContent = "It's a draw!";
+        tttGameOver = true;
+        return;
+      }
+
+      tttPlayer = tttPlayer === "X" ? "O" : "X";
+      document.getElementById("tttStatus").textContent = `Player ${tttPlayer}'s turn`;
+    }
+
+    function checkTTTWinner() {
+      const wins = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+      ];
+
+      for (const [a,b,c] of wins) {
+        if (tttBoard[a] && tttBoard[a] === tttBoard[b] && tttBoard[a] === tttBoard[c]) {
+          return tttBoard[a];
+        }
+      }
+      return null;
+    }
+
+    /* =========================
+       ROCK PAPER SCISSORS
+    ========================= */
+    let rpsWins = 0;
+    let rpsLosses = 0;
+    let rpsDraws = 0;
+
+    function initRPS() {
+      document.getElementById("rpsResult").innerHTML = "Choose Rock, Paper, or Scissors to begin.";
+      document.getElementById("rpsWins").textContent = rpsWins;
+      document.getElementById("rpsLosses").textContent = rpsLosses;
+      document.getElementById("rpsDraws").textContent = rpsDraws;
+    }
+
+    function playRPS(playerChoice) {
+      const options = ["Rock", "Paper", "Scissors"];
+      const cpuChoice = options[Math.floor(Math.random() * 3)];
+
+      let result = "";
+
+      if (playerChoice === cpuChoice) {
+        result = "Draw";
+        rpsDraws++;
+      } else if (
+        (playerChoice === "Rock" && cpuChoice === "Scissors") ||
+        (playerChoice === "Paper" && cpuChoice === "Rock") ||
+        (playerChoice === "Scissors" && cpuChoice === "Paper")
+      ) {
+        result = "You Win";
+        rpsWins++;
+      } else {
+        result = "You Lose";
+        rpsLosses++;
+      }
+
+      document.getElementById("rpsResult").innerHTML = `
+        You chose <strong>${playerChoice}</strong><br>
+        Computer chose <strong>${cpuChoice}</strong><br>
+        Result: <strong>${result}</strong>
+      `;
+
+      document.getElementById("rpsWins").textContent = rpsWins;
+      document.getElementById("rpsLosses").textContent = rpsLosses;
+      document.getElementById("rpsDraws").textContent = rpsDraws;
+    }
+
+    /* =========================
+       REACTION SPEED TEST
+    ========================= */
+    let reactionTimeout = null;
+    let reactionStart = 0;
+    let reactionWaiting = false;
+    let reactionReady = false;
+    let reactionBest = null;
+    let reactionLast = null;
+
+    function initReaction() {
+      clearTimeout(reactionTimeout);
+
+      const box = document.getElementById("reactionBox");
+      box.className = "reaction-box";
+      box.textContent = "Wait for the green signal...";
+
+      reactionWaiting = true;
+      reactionReady = false;
+
+      const delay = Math.floor(Math.random() * 3000) + 2000;
+
+      reactionTimeout = setTimeout(() => {
+        reactionReady = true;
+        reactionWaiting = false;
+        reactionStart = performance.now();
+
+        box.className = "reaction-box ready";
+        box.textContent = "CLICK NOW!";
+      }, delay);
+
+      updateReactionStats();
+    }
+
+    function handleReactionClick() {
+      const box = document.getElementById("reactionBox");
+
+      if (reactionWaiting) {
+        clearTimeout(reactionTimeout);
+        reactionWaiting = false;
+        reactionReady = false;
+        box.className = "reaction-box too-soon";
+        box.textContent = "Too soon! Click Restart and try again.";
+        return;
+      }
+
+      if (reactionReady) {
+        const time = Math.round(performance.now() - reactionStart);
+        reactionLast = time;
+        if (reactionBest === null || time < reactionBest) {
+          reactionBest = time;
+        }
+
+        reactionReady = false;
+        box.className = "reaction-box";
+        box.textContent = `Your reaction time: ${time} ms. Click Restart to try again.`;
+        updateReactionStats();
+      }
+    }
+
+    function updateReactionStats() {
+      document.getElementById("reactionBest").textContent = reactionBest !== null ? `${reactionBest} ms` : "--";
+      document.getElementById("reactionLast").textContent = reactionLast !== null ? `${reactionLast} ms` : "--";
+    }
+
+    /* =========================
+       MEMORY MATCH
+    ========================= */
+    let memoryValues = [];
+    let memoryFlipped = [];
+    let memoryMatched = 0;
+    let memoryMoves = 0;
+    let memoryLock = false;
+
+    function initMemory() {
+      const emojis = ["🍎","🍌","🍇","🍒","🍉","🍋","🥝","🍓"];
+      memoryValues = [...emojis, ...emojis]
+        .sort(() => Math.random() - 0.5)
+        .map((emoji, index) => ({
+          id: index,
+          emoji,
+          revealed: false,
+          matched: false
+        }));
+
+      memoryFlipped = [];
+      memoryMatched = 0;
+      memoryMoves = 0;
+      memoryLock = false;
+
+      renderMemory();
+      updateMemoryStats();
+      document.getElementById("memoryStatus").textContent = "Find all matching pairs.";
+    }
+
+    function renderMemory() {
+      const grid = document.getElementById("memoryGrid");
+      grid.innerHTML = "";
+
+      memoryValues.forEach((card, index) => {
+        const cardEl = document.createElement("div");
+        cardEl.className = "memory-card";
+
+        if (card.revealed) cardEl.classList.add("revealed");
+        if (card.matched) cardEl.classList.add("matched");
+
+        cardEl.textContent = (card.revealed || card.matched) ? card.emoji : "?";
+        cardEl.onclick = () => flipMemoryCard(index);
+
+        grid.appendChild(cardEl);
+      });
+    }
+
+    function flipMemoryCard(index) {
+      if (memoryLock) return;
+
+      const card = memoryValues[index];
+      if (card.revealed || card.matched) return;
+
+      card.revealed = true;
+      memoryFlipped.push(index);
+      renderMemory();
+
+      if (memoryFlipped.length === 2) {
+        memoryMoves++;
+        memoryLock = true;
+
+        const [firstIndex, secondIndex] = memoryFlipped;
+        const first = memoryValues[firstIndex];
+        const second = memoryValues[secondIndex];
+
+        if (first.emoji === second.emoji) {
+          first.matched = true;
+          second.matched = true;
+          memoryMatched++;
+          memoryFlipped = [];
+          memoryLock = false;
+
+          updateMemoryStats();
+
+          if (memoryMatched === 8) {
+            document.getElementById("memoryStatus").textContent = `Excellent! You completed the game in ${memoryMoves} moves.`;
+          } else {
+            document.getElementById("memoryStatus").textContent = "Match found! Keep going.";
+          }
+
+          renderMemory();
+        } else {
+          document.getElementById("memoryStatus").textContent = "Not a match. Try again.";
+
+          setTimeout(() => {
+            first.revealed = false;
+            second.revealed = false;
+            memoryFlipped = [];
+            memoryLock = false;
+            renderMemory();
+            updateMemoryStats();
+          }, 800);
+        }
+
+        updateMemoryStats();
+      }
+    }
+
+    function updateMemoryStats() {
+      document.getElementById("memoryMoves").textContent = memoryMoves;
+      document.getElementById("memoryMatches").textContent = memoryMatched;
+    }
+  </script>
+</body>
+</html>
