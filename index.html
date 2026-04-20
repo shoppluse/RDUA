@@ -3,246 +3,362 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mini Arcade V4 | Structured Professional</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body class="theme-midnight">
-  <div class="container">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-top">
-        <span class="badge">Mini Arcade V4 • Structured Professional</span>
+  <title>Daily Class Topic</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        <div class="toolbar">
-          <input id="playerNameInput" class="player-input" type="text" placeholder="Player name" />
-          <button class="control-chip" id="saveNameBtn">💾 Save Name</button>
-          <button class="control-chip" id="soundToggleBtn">🔊 <span id="soundLabel">Sound On</span></button>
-          <button class="control-chip" id="themeToggleBtn">🎨 <span id="themeLabel">Midnight</span></button>
+    body {
+      background: #111;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #111 0%, #1b1b1b 100%);
+      padding: 30px;
+    }
+
+    .top-section {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+      align-items: center;
+      margin-bottom: 35px;
+    }
+
+    .left-content h1 {
+      font-size: 3rem;
+      line-height: 1.15;
+      margin-bottom: 15px;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .left-content p.subtitle {
+      color: #d6d6d6;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 90%;
+      margin-bottom: 25px;
+    }
+
+    .overview-box {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 25px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    }
+
+    .overview-circle {
+      min-width: 180px;
+      min-height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #1a1a1a 40%, #66d9d0 42%, #66d9d0 50%, #1a1a1a 52%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(102, 217, 208, 0.25);
+      border: 2px solid rgba(255,255,255,0.06);
+    }
+
+    .overview-circle span {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .points-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .point-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: #f2f2f2;
+      font-size: 1.05rem;
+      line-height: 1.5;
+      border-left: 3px solid #66d9d0;
+      padding-left: 12px;
+    }
+
+    .image-box {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #1a1a1a;
+    }
+
+    .image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .bottom-section {
+      background: #0d0d0d;
+      border-radius: 35px;
+      padding: 30px 25px;
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 25px;
+      align-items: start;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+    }
+
+    .stats-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100%;
+    }
+
+    .stats-title h2 {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      color: #66d9d0;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .stats-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .stat-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 999px;
+      padding: 18px 22px;
+      transition: 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(102, 217, 208, 0.08);
+    }
+
+    .stat-number {
+      min-width: 65px;
+      min-height: 65px;
+      border-radius: 50%;
+      background: radial-gradient(circle at top, #7ff5eb, #1f4d4a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: white;
+      box-shadow: 0 0 15px rgba(102, 217, 208, 0.2);
+    }
+
+    .stat-text {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #f1f1f1;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #cfcfcf;
+      font-size: 0.95rem;
+      margin-top: 18px;
+      opacity: 0.9;
+    }
+
+    .edit-btn-wrap {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 999;
+    }
+
+    .edit-btn {
+      background: #66d9d0;
+      color: #111;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 12px 18px;
+      border-radius: 50px;
+      box-shadow: 0 8px 20px rgba(102, 217, 208, 0.25);
+      transition: 0.3s ease;
+    }
+
+    .edit-btn:hover {
+      background: #7ef7ed;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 1100px) {
+      .top-section {
+        grid-template-columns: 1fr;
+      }
+
+      .image-box {
+        min-height: 350px;
+      }
+
+      .left-content h1 {
+        font-size: 2.4rem;
+      }
+
+      .bottom-section {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-title h2 {
+        writing-mode: horizontal-tb;
+        transform: none;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 18px;
+      }
+
+      .overview-box {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .overview-circle {
+        min-width: 140px;
+        min-height: 140px;
+      }
+
+      .overview-circle span {
+        font-size: 1.5rem;
+      }
+
+      .left-content h1 {
+        font-size: 1.8rem;
+      }
+
+      .left-content p.subtitle,
+      .point-item,
+      .stat-text {
+        font-size: 0.95rem;
+      }
+
+      .stat-card {
+        border-radius: 24px;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top-section">
+      <div class="left-content">
+        <h1 id="title">Who am I? Discover Yourself</h1>
+        <p class="subtitle" id="subtitle">
+          Introduction to the first lesson of spiritual life from scientific and philosophical perspectives.
+        </p>
+
+        <div class="overview-box">
+          <div class="overview-circle">
+            <span>Overview</span>
+          </div>
+
+          <div class="points-list">
+            <div class="point-item" id="point1">We are not the material body, but the conscious self.</div>
+            <div class="point-item" id="point2">The body changes continuously, but the observer remains the same.</div>
+            <div class="point-item" id="point3">Bhagavad Gita explains the eternal nature of the soul.</div>
+          </div>
         </div>
       </div>
 
-      <h1>Single-Page Multi-Game Arcade</h1>
-      <p>
-        A professional, structured single-page arcade platform. One website for the user,
-        modular architecture for the developer. Phase 2 connects the first 4 real game modules.
-      </p>
-    </section>
+      <div class="image-box">
+        <img id="topicImage" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80" alt="Topic Image">
+      </div>
+    </div>
 
-    <div class="layout">
-      <!-- MAIN -->
-      <main>
-        <!-- MENU -->
-        <section id="menuSection" class="card fade-in">
-          <div class="section-title">
-            <h2>Select a Game</h2>
-          </div>
-          <p class="sub">Phase 2 now activates the first 4 real games: Tic Tac Toe, RPS, Reaction, and Memory.</p>
+    <div class="bottom-section">
+      <div class="stats-title">
+        <h2>Key Highlights</h2>
+      </div>
 
-          <div class="games-grid">
-            <div class="game-card">
-              <div class="game-icon">⭕</div>
-              <h3>Tic Tac Toe</h3>
-              <p>Classic 2-player turn-based game.</p>
-              <button class="btn" data-game="ticTacToe">Open</button>
-            </div>
+      <div class="stats-list">
+        <div class="stat-card">
+          <div class="stat-number">01</div>
+          <div class="stat-text" id="stat1">The body changes from childhood to old age, yet the self remains the observer.</div>
+        </div>
 
-            <div class="game-card">
-              <div class="game-icon">✊</div>
-              <h3>Rock Paper Scissors</h3>
-              <p>Play against the computer.</p>
-              <button class="btn" data-game="rps">Open</button>
-            </div>
+        <div class="stat-card">
+          <div class="stat-number">02</div>
+          <div class="stat-text" id="stat2">Modern science studies the brain, but consciousness remains one of the deepest mysteries.</div>
+        </div>
 
-            <div class="game-card">
-              <div class="game-icon">⚡</div>
-              <h3>Reaction Speed Test</h3>
-              <p>Measure how fast you react.</p>
-              <button class="btn" data-game="reaction">Open</button>
-            </div>
+        <div class="stat-card">
+          <div class="stat-number">03</div>
+          <div class="stat-text" id="stat3">Bhagavad Gita 2.13 gives a direct and timeless explanation of identity.</div>
+        </div>
+      </div>
+    </div>
 
-            <div class="game-card">
-              <div class="game-icon">🧠</div>
-              <h3>Memory Match</h3>
-              <p>Match pairs with the fewest moves.</p>
-              <button class="btn" data-game="memory">Open</button>
-            </div>
-
-            <div class="game-card">
-              <div class="game-icon">🔨</div>
-              <h3>Whack-a-Mole</h3>
-              <p>Fast tapping arcade game.</p>
-              <button class="btn" data-game="mole">Open</button>
-            </div>
-
-            <div class="game-card">
-              <div class="game-icon">⌨️</div>
-              <h3>Typing Speed Test</h3>
-              <p>Measure speed and accuracy.</p>
-              <button class="btn" data-game="typing">Open</button>
-            </div>
-
-            <div class="game-card">
-              <div class="game-icon">🐍</div>
-              <h3>Snake</h3>
-              <p>Classic snake with keyboard controls.</p>
-              <button class="btn" data-game="snake">Open</button>
-            </div>
-
-            <div class="game-card">
-              <div class="game-icon">🔢</div>
-              <h3>2048</h3>
-              <p>Merge tiles and chase high scores.</p>
-              <button class="btn" data-game="game2048">Open</button>
-            </div>
-          </div>
-        </section>
-
-        <!-- GAME ARENA -->
-        <section id="gameArena" class="card hidden fade-in">
-          <div class="arena-top">
-            <div class="arena-title" id="arenaTitle">Game Arena</div>
-            <div class="arena-actions">
-              <button class="btn-secondary" id="restartGameBtn">Restart</button>
-              <button class="btn-secondary" id="backToMenuBtn">← Back to Menu</button>
-            </div>
-          </div>
-
-          <p class="arena-desc" id="arenaDesc">Game description will appear here.</p>
-
-          <!-- REAL GAME PANELS (Phase 2) -->
-          <div id="ticTacToe" class="game-panel hidden">
-            <div class="center-wrap">
-              <div class="ttt-board" id="tttBoard"></div>
-            </div>
-            <div class="status-box" id="tttStatus">Player X's turn</div>
-          </div>
-
-          <div id="rps" class="game-panel hidden">
-            <div class="rps-buttons">
-              <button class="btn rps-btn" id="rpsRockBtn">🪨 Rock</button>
-              <button class="btn rps-btn" id="rpsPaperBtn">📄 Paper</button>
-              <button class="btn rps-btn" id="rpsScissorsBtn">✂️ Scissors</button>
-            </div>
-            <div class="rps-result" id="rpsResult">Choose Rock, Paper, or Scissors to begin.</div>
-            <div class="stats-row">
-              <div class="stat-pill">Wins: <span id="rpsWins">0</span></div>
-              <div class="stat-pill">Losses: <span id="rpsLosses">0</span></div>
-              <div class="stat-pill">Draws: <span id="rpsDraws">0</span></div>
-            </div>
-          </div>
-
-          <div id="reaction" class="game-panel hidden">
-            <div class="reaction-box" id="reactionBox">Click Restart to begin the test.</div>
-            <div class="stats-row">
-              <div class="stat-pill">Best Time: <span id="reactionBest">--</span></div>
-              <div class="stat-pill">Last Time: <span id="reactionLast">--</span></div>
-            </div>
-          </div>
-
-          <div id="memory" class="game-panel hidden">
-            <div class="center-wrap">
-              <div class="memory-grid" id="memoryGrid"></div>
-            </div>
-            <div class="stats-row">
-              <div class="stat-pill">Moves: <span id="memoryMoves">0</span></div>
-              <div class="stat-pill">Matches: <span id="memoryMatches">0</span>/8</div>
-            </div>
-            <div class="status-box" id="memoryStatus">Find all matching pairs.</div>
-          </div>
-
-          <!-- PLACEHOLDERS (Phase 3) -->
-          <div id="mole" class="game-panel hidden">
-            <div class="placeholder-panel">
-              <div class="placeholder-icon">🔨</div>
-              <h3>Whack-a-Mole Module Slot</h3>
-              <p>Phase 3 will connect the real game logic here.</p>
-            </div>
-          </div>
-
-          <div id="typing" class="game-panel hidden">
-            <div class="placeholder-panel">
-              <div class="placeholder-icon">⌨️</div>
-              <h3>Typing Test Module Slot</h3>
-              <p>Phase 3 will connect the real game logic here.</p>
-            </div>
-          </div>
-
-          <div id="snake" class="game-panel hidden">
-            <div class="placeholder-panel">
-              <div class="placeholder-icon">🐍</div>
-              <h3>Snake Module Slot</h3>
-              <p>Phase 3 will connect the real game logic here.</p>
-            </div>
-          </div>
-
-          <div id="game2048" class="game-panel hidden">
-            <div class="placeholder-panel">
-              <div class="placeholder-icon">🔢</div>
-              <h3>2048 Module Slot</h3>
-              <p>Phase 3 will connect the real game logic here.</p>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <!-- SIDEBAR -->
-      <aside class="stats-panel">
-        <section class="card">
-          <div class="section-title">
-            <h2>Arcade Stats</h2>
-          </div>
-          <div class="stat-grid">
-            <div class="stat-box">
-              <div class="label">Games Played</div>
-              <div class="value" id="gamesPlayedStat">0</div>
-            </div>
-            <div class="stat-box">
-              <div class="label">Current Game</div>
-              <div class="value small" id="currentGameStat">Menu</div>
-            </div>
-            <div class="stat-box">
-              <div class="label">Player</div>
-              <div class="value small" id="playerNameStat">Guest</div>
-            </div>
-            <div class="stat-box">
-              <div class="label">Achievements</div>
-              <div class="value" id="achievementCount">0</div>
-            </div>
-          </div>
-        </section>
-
-        <section class="card">
-          <div class="section-title">
-            <h2>Leaderboard</h2>
-            <button class="btn-secondary" id="resetLeaderboardBtn">Reset</button>
-          </div>
-          <div class="leaderboard-list" id="leaderboardList"></div>
-        </section>
-
-        <section class="card">
-          <div class="section-title">
-            <h2>Achievements</h2>
-          </div>
-          <div class="achievement-list" id="achievementList"></div>
-        </section>
-      </aside>
+    <div class="footer-note" id="footerNote">
+      This slide is fully editable. Update today's class topic from the content page.
     </div>
   </div>
 
-  <!-- CORE MODULES -->
-  <script src="js/storage.js"></script>
-  <script src="js/sound.js"></script>
-  <script src="js/confetti.js"></script>
-  <script src="js/achievements.js"></script>
-  <script src="js/ui.js"></script>
+  <div class="edit-btn-wrap">
+    <a class="edit-btn" href="content.html">Edit Content</a>
+  </div>
 
-  <!-- GAME MODULES (Phase 2) -->
-  <script src="js/games/tictactoe.js"></script>
-  <script src="js/games/rps.js"></script>
-  <script src="js/games/reaction.js"></script>
-  <script src="js/games/memory.js"></script>
+  <script>
+    function loadContent() {
+      const savedData = JSON.parse(localStorage.getItem("dailyClassContent"));
 
-  <!-- APP BOOT -->
-  <script src="script.js"></script>
+      if (savedData) {
+        document.getElementById("title").textContent = savedData.title || "Daily Class Topic";
+        document.getElementById("subtitle").textContent = savedData.subtitle || "Update your class content from content.html";
+        document.getElementById("point1").textContent = savedData.point1 || "Add point 1";
+        document.getElementById("point2").textContent = savedData.point2 || "Add point 2";
+        document.getElementById("point3").textContent = savedData.point3 || "Add point 3";
+        document.getElementById("stat1").textContent = savedData.stat1 || "Add stat 1";
+        document.getElementById("stat2").textContent = savedData.stat2 || "Add stat 2";
+        document.getElementById("stat3").textContent = savedData.stat3 || "Add stat 3";
+        document.getElementById("footerNote").textContent = savedData.footerNote || "This slide is fully editable. Update today's class topic from the content page.";
+
+        if (savedData.imageUrl && savedData.imageUrl.trim() !== "") {
+          document.getElementById("topicImage").src = savedData.imageUrl;
+        }
+      }
+    }
+
+    window.onload = loadContent;
+  </script>
 </body>
 </html>
