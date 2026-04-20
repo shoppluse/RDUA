@@ -12,353 +12,565 @@
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     }
 
+    :root {
+      --bg: #05070d;
+      --panel: rgba(255, 255, 255, 0.04);
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --text: #f5f7fa;
+      --muted: #b8c2cc;
+      --accent: #61f0e7;
+      --accent-soft: rgba(97, 240, 231, 0.15);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+    }
+
     body {
-      background: #111;
-      color: #fff;
       min-height: 100vh;
+      background:
+        radial-gradient(circle at top right, rgba(97, 240, 231, 0.08), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(97, 240, 231, 0.05), transparent 30%),
+        linear-gradient(135deg, #04060a 0%, #0a0f18 50%, #05070d 100%);
+      color: var(--text);
       overflow-x: hidden;
     }
 
-    .container {
-      width: 100%;
+    .page {
       min-height: 100vh;
-      background: linear-gradient(135deg, #111 0%, #1b1b1b 100%);
-      padding: 30px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
     }
 
-    .top-section {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 30px;
-      align-items: center;
-      margin-bottom: 35px;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
     }
 
-    .left-content h1 {
-      font-size: 3rem;
-      line-height: 1.15;
-      margin-bottom: 15px;
-      color: #ffffff;
-      font-weight: 700;
+    .title-wrap {
+      max-width: 900px;
     }
 
-    .left-content p.subtitle {
-      color: #d6d6d6;
-      font-size: 1.1rem;
+    .title {
+      font-size: clamp(2.2rem, 5vw, 4.3rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+    }
+
+    .subtitle {
+      font-size: clamp(1rem, 1.6vw, 1.25rem);
+      color: var(--muted);
       line-height: 1.7;
-      max-width: 90%;
-      margin-bottom: 25px;
+      max-width: 980px;
     }
 
-    .overview-box {
+    .header-buttons {
       display: flex;
-      align-items: center;
-      gap: 25px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 24px;
-      padding: 25px;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .overview-circle {
-      min-width: 180px;
-      min-height: 180px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #1a1a1a 40%, #66d9d0 42%, #66d9d0 50%, #1a1a1a 52%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 25px rgba(102, 217, 208, 0.25);
-      border: 2px solid rgba(255,255,255,0.06);
+    .top-btn {
+      text-decoration: none;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 1px solid var(--panel-border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      transition: 0.25s ease;
+      backdrop-filter: blur(10px);
     }
 
-    .overview-circle span {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #ffffff;
-      text-align: center;
+    .top-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(97, 240, 231, 0.35);
+      box-shadow: 0 8px 20px rgba(97, 240, 231, 0.08);
     }
 
-    .points-list {
+    .top-btn.primary {
+      background: linear-gradient(135deg, #61f0e7, #4ad0c8);
+      color: #041014;
+      border: none;
+      box-shadow: 0 10px 25px rgba(97, 240, 231, 0.18);
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: 1.35fr 0.95fr;
+      gap: 26px;
+      align-items: stretch;
       flex: 1;
+    }
+
+    /* LEFT CONTENT */
+    .content-side {
+      min-height: 560px;
       display: flex;
       flex-direction: column;
       gap: 18px;
     }
 
-    .point-item {
+    .content-nav {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+
+    .content-nav-left {
+      display: flex;
+      align-items: center;
       gap: 12px;
-      color: #f2f2f2;
-      font-size: 1.05rem;
-      line-height: 1.5;
-      border-left: 3px solid #66d9d0;
-      padding-left: 12px;
+      flex-wrap: wrap;
     }
 
-    .image-box {
-      width: 100%;
-      height: 100%;
-      min-height: 420px;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    .nav-label {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .page-indicator {
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(97, 240, 231, 0.08);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: 1px solid rgba(97, 240, 231, 0.15);
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .arrow-btn {
+      width: 46px;
+      height: 46px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.35rem;
+      font-weight: 900;
+      background: rgba(255,255,255,0.05);
+      color: #fff;
       border: 1px solid rgba(255,255,255,0.08);
-      background: #1a1a1a;
+      transition: 0.25s ease;
     }
 
-    .image-box img {
+    .arrow-btn:hover {
+      background: rgba(97, 240, 231, 0.12);
+      border-color: rgba(97, 240, 231, 0.3);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .content-stage {
+      flex: 1;
+      position: relative;
+      border-radius: 28px;
+      padding: 30px 28px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.025)),
+        rgba(255,255,255,0.02);
+      border: 1px solid var(--panel-border);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .content-stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 28px;
+      padding: 1px;
+      background: linear-gradient(145deg, rgba(97, 240, 231, 0.22), rgba(255,255,255,0.03), rgba(97, 240, 231, 0.05));
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .content-text {
+      position: relative;
+      z-index: 1;
+      white-space: pre-wrap; /* IMPORTANT: keeps exact line breaks */
+      line-height: 1.9;
+      font-size: clamp(1rem, 1.25vw, 1.28rem);
+      color: #f4f7fb;
+      max-height: 100%;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .content-text::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .content-text::-webkit-scrollbar-thumb {
+      background: rgba(97, 240, 231, 0.18);
+      border-radius: 999px;
+    }
+
+    /* RIGHT IMAGE */
+    .image-side {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .image-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+
+    .image-stage {
+      position: relative;
+      flex: 1;
+      min-height: 560px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #0d1118;
+      border: 1px solid var(--panel-border);
+      box-shadow: var(--shadow);
+    }
+
+    .image-stage img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      transition: opacity 0.35s ease;
     }
 
-    .bottom-section {
-      background: #0d0d0d;
-      border-radius: 35px;
-      padding: 30px 25px;
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 25px;
-      align-items: start;
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 12px 35px rgba(0,0,0,0.35);
-    }
-
-    .stats-title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100%;
-    }
-
-    .stats-title h2 {
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      color: #66d9d0;
-      font-size: 2rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .stats-list {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .stat-card {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 999px;
-      padding: 18px 22px;
-      transition: 0.3s ease;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(102, 217, 208, 0.08);
-    }
-
-    .stat-number {
-      min-width: 65px;
-      min-height: 65px;
-      border-radius: 50%;
-      background: radial-gradient(circle at top, #7ff5eb, #1f4d4a);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-      color: white;
-      box-shadow: 0 0 15px rgba(102, 217, 208, 0.2);
-    }
-
-    .stat-text {
-      font-size: 1.1rem;
-      line-height: 1.5;
-      color: #f1f1f1;
+    .image-stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(0,0,0,0.08), rgba(0,0,0,0.02)),
+        linear-gradient(to right, rgba(0,0,0,0.04), transparent);
+      pointer-events: none;
     }
 
     .footer-note {
+      padding: 16px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #d7e0e8;
+      font-size: 1rem;
+      line-height: 1.7;
       text-align: center;
-      color: #cfcfcf;
-      font-size: 0.95rem;
-      margin-top: 18px;
-      opacity: 0.9;
+      box-shadow: var(--shadow);
     }
 
-    .edit-btn-wrap {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      z-index: 999;
-    }
-
-    .edit-btn {
-      background: #66d9d0;
-      color: #111;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 12px 18px;
-      border-radius: 50px;
-      box-shadow: 0 8px 20px rgba(102, 217, 208, 0.25);
-      transition: 0.3s ease;
-    }
-
-    .edit-btn:hover {
-      background: #7ef7ed;
-      transform: translateY(-2px);
+    .small-indicator {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 600;
     }
 
     @media (max-width: 1100px) {
-      .top-section {
+      .main {
         grid-template-columns: 1fr;
       }
 
-      .image-box {
-        min-height: 350px;
+      .content-side,
+      .image-stage {
+        min-height: auto;
       }
 
-      .left-content h1 {
-        font-size: 2.4rem;
-      }
-
-      .bottom-section {
-        grid-template-columns: 1fr;
-      }
-
-      .stats-title h2 {
-        writing-mode: horizontal-tb;
-        transform: none;
-        text-align: center;
+      .image-stage {
+        height: 420px;
       }
     }
 
     @media (max-width: 768px) {
-      .container {
-        padding: 18px;
+      .page {
+        padding: 16px;
       }
 
-      .overview-box {
+      .header {
         flex-direction: column;
-        align-items: flex-start;
       }
 
-      .overview-circle {
-        min-width: 140px;
-        min-height: 140px;
+      .content-stage {
+        padding: 22px 18px;
       }
 
-      .overview-circle span {
-        font-size: 1.5rem;
+      .image-stage {
+        height: 300px;
       }
 
-      .left-content h1 {
-        font-size: 1.8rem;
-      }
-
-      .left-content p.subtitle,
-      .point-item,
-      .stat-text {
-        font-size: 0.95rem;
-      }
-
-      .stat-card {
-        border-radius: 24px;
-        align-items: flex-start;
+      .arrow-btn {
+        width: 42px;
+        height: 42px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="top-section">
-      <div class="left-content">
-        <h1 id="title">Who am I? Discover Yourself</h1>
-        <p class="subtitle" id="subtitle">
-          Introduction to the first lesson of spiritual life from scientific and philosophical perspectives.
+  <div class="page">
+    <div class="header">
+      <div class="title-wrap">
+        <h1 class="title" id="mainTitle">I am not this body</h1>
+        <p class="subtitle" id="mainSubtitle">
+          The first lesson of spiritual life begins when we understand that the self is different from the temporary material body.
         </p>
-
-        <div class="overview-box">
-          <div class="overview-circle">
-            <span>Overview</span>
-          </div>
-
-          <div class="points-list">
-            <div class="point-item" id="point1">We are not the material body, but the conscious self.</div>
-            <div class="point-item" id="point2">The body changes continuously, but the observer remains the same.</div>
-            <div class="point-item" id="point3">Bhagavad Gita explains the eternal nature of the soul.</div>
-          </div>
-        </div>
       </div>
 
-      <div class="image-box">
-        <img id="topicImage" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80" alt="Topic Image">
+      <div class="header-buttons">
+        <a href="content.html" class="top-btn primary">Edit Content</a>
       </div>
     </div>
 
-    <div class="bottom-section">
-      <div class="stats-title">
-        <h2>Key Highlights</h2>
+    <div class="main">
+      <!-- LEFT: CONTENT SLIDER -->
+      <div class="content-side">
+        <div class="content-nav">
+          <div class="content-nav-left">
+            <span class="nav-label">Content Pages</span>
+            <span class="page-indicator" id="contentPageIndicator">1 / 3</span>
+          </div>
+
+          <div class="nav-controls">
+            <button class="arrow-btn" id="prevContentBtn" aria-label="Previous Content">&lt;</button>
+            <button class="arrow-btn" id="nextContentBtn" aria-label="Next Content">&gt;</button>
+          </div>
+        </div>
+
+        <div class="content-stage">
+          <div class="content-text" id="contentText">
+1. The Linguistic and Analytical Facet/Aspect
+
+The most immediate proof that you are not the body is found in how you describe yourself.
+When you speak of your body parts, you say, "my hand," "my leg," or "my head"; you never say, "I hand" or "I leg".
+
+Just as you say, "this is my book" or "this is my shirt," implying you are the owner and distinct from the object, you are the owner or occupier of the body and not the body itself.
+          </div>
+        </div>
       </div>
 
-      <div class="stats-list">
-        <div class="stat-card">
-          <div class="stat-number">01</div>
-          <div class="stat-text" id="stat1">The body changes from childhood to old age, yet the self remains the observer.</div>
+      <!-- RIGHT: IMAGE SLIDER -->
+      <div class="image-side">
+        <div class="image-nav">
+          <span class="small-indicator" id="imageIndicator">Image 1 / 3</span>
+
+          <div class="nav-controls">
+            <button class="arrow-btn" id="prevImageBtn" aria-label="Previous Image">&lt;</button>
+            <button class="arrow-btn" id="nextImageBtn" aria-label="Next Image">&gt;</button>
+          </div>
         </div>
 
-        <div class="stat-card">
-          <div class="stat-number">02</div>
-          <div class="stat-text" id="stat2">Modern science studies the brain, but consciousness remains one of the deepest mysteries.</div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-number">03</div>
-          <div class="stat-text" id="stat3">Bhagavad Gita 2.13 gives a direct and timeless explanation of identity.</div>
+        <div class="image-stage">
+          <img
+            id="sliderImage"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Krishna_and_Arjuna_on_the_chariot%2C_18th-19th_century%2C_India.jpg/800px-Krishna_and_Arjuna_on_the_chariot%2C_18th-19th_century%2C_India.jpg"
+            alt="Topic Image"
+          />
         </div>
       </div>
     </div>
 
     <div class="footer-note" id="footerNote">
-      This slide is fully editable. Update today's class topic from the content page.
+      “I am not this body; I am the eternal soul” — the foundational truth of spiritual life.
     </div>
   </div>
 
-  <div class="edit-btn-wrap">
-    <a class="edit-btn" href="content.html">Edit Content</a>
-  </div>
-
   <script>
-    function loadContent() {
-      const savedData = JSON.parse(localStorage.getItem("dailyClassContent"));
+    const defaultData = {
+      title: "I am not this body",
+      subtitle: "The first lesson of spiritual life begins when we understand that the self is different from the temporary material body.",
+      footerNote: "“I am not this body; I am the eternal soul” — the foundational truth of spiritual life.",
+      contentPages: [
+`1. The Linguistic and Analytical Facet/Aspect
 
-      if (savedData) {
-        document.getElementById("title").textContent = savedData.title || "Daily Class Topic";
-        document.getElementById("subtitle").textContent = savedData.subtitle || "Update your class content from content.html";
-        document.getElementById("point1").textContent = savedData.point1 || "Add point 1";
-        document.getElementById("point2").textContent = savedData.point2 || "Add point 2";
-        document.getElementById("point3").textContent = savedData.point3 || "Add point 3";
-        document.getElementById("stat1").textContent = savedData.stat1 || "Add stat 1";
-        document.getElementById("stat2").textContent = savedData.stat2 || "Add stat 2";
-        document.getElementById("stat3").textContent = savedData.stat3 || "Add stat 3";
-        document.getElementById("footerNote").textContent = savedData.footerNote || "This slide is fully editable. Update today's class topic from the content page.";
+The most immediate proof that you are not the body is found in how you describe yourself.
+When you speak of your body parts, you say, "my hand," "my leg," or "my head"; you never say, "I hand" or "I leg".
 
-        if (savedData.imageUrl && savedData.imageUrl.trim() !== "") {
-          document.getElementById("topicImage").src = savedData.imageUrl;
-        }
+Just as you say, "this is my book" or "this is my shirt," implying you are the owner and distinct from the object, you are the owner or occupier of the body and not the body itself.
+
+Do this Activity:
+Ask them: What is this?
+Show your hand, head, etc...`,
+
+`Reference 1: (ARRIVAL ADDRESS July 20th 1971 New York)
+
+Lecture - Bhagavad-gītā 2.1, August 1st 1972, Glasgow
+
+https://vedabase.io/en/library/transcripts/720801bggla/#bb198142
+
+Verse:
+dehino 'smin yathā dehe
+kaumāraṁ yauvanaṁ jarā
+tathā dehāntaraṁ prāptir
+dhīras tatra na muhyati
+[Bg. 2.13]`,
+
+`Asmin dehe, in this body, there is a proprietor of this body. Just like I am proprietor of my body, you are proprietor of your body.
+
+I say "my hand." I don't say "I hand." It is my hand. So I am different from this hand.
+
+Just like say, "It is my book", so book is different from me. "It is my table."
+
+Similarly, "my hand," "my eyes," "my leg," "my this," "my that."
+But where I am? What I am?`,
+
+`Reference 2: Lecture, Bhagavad-gītā 13.1 - 2, December 29, 1972, Bombay
+
+https://vedabase.io/en/library/transcripts/721229bgbom/#bb217955
+
+Kṣetra-kṣetra-jñam. Just like we are living in this apartment and we know that I am not this apartment, but I am living in this apartment.
+
+That is being cleared by Kṛṣṇa Himself.
+Idaṁ śarīraṁ kaunteya kṣetram ity abhidhīyate [Bg 13.2].`,
+
+`So we should know this, that "I am not this body; it is my body."
+
+If we analyze the body, I say,
+"It is my hand."
+"It is my leg."
+"It is my head."
+
+Nobody says "I head" or "I hand."
+
+"I" is different from this body.
+
+Just as a person lives in an apartment but is different from it, the soul lives in the body but is never the body itself.`
+      ],
+      images: [
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Krishna_and_Arjuna_on_the_chariot%2C_18th-19th_century%2C_India.jpg/800px-Krishna_and_Arjuna_on_the_chariot%2C_18th-19th_century%2C_India.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Bhagavad_Gita_-_Krishna_and_Arjuna.jpg/800px-Bhagavad_Gita_-_Krishna_and_Arjuna.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Krishna-Arjuna.jpg/800px-Krishna-Arjuna.jpg"
+      ]
+    };
+
+    let appData = { ...defaultData };
+    let currentContentIndex = 0;
+    let currentImageIndex = 0;
+    let imageInterval;
+
+    function loadSavedData() {
+      const saved = JSON.parse(localStorage.getItem("dailyClassPresentation"));
+
+      if (saved) {
+        appData.title = saved.title || defaultData.title;
+        appData.subtitle = saved.subtitle || defaultData.subtitle;
+        appData.footerNote = saved.footerNote || defaultData.footerNote;
+
+        appData.contentPages = Array.isArray(saved.contentPages) && saved.contentPages.length
+          ? saved.contentPages
+          : defaultData.contentPages;
+
+        appData.images = Array.isArray(saved.images) && saved.images.length
+          ? saved.images
+          : defaultData.images;
       }
     }
 
-    window.onload = loadContent;
+    function renderHeader() {
+      document.getElementById("mainTitle").textContent = appData.title;
+      document.getElementById("mainSubtitle").textContent = appData.subtitle;
+      document.getElementById("footerNote").textContent = appData.footerNote;
+    }
+
+    function renderContentPage() {
+      const contentText = document.getElementById("contentText");
+      const indicator = document.getElementById("contentPageIndicator");
+
+      contentText.textContent = appData.contentPages[currentContentIndex];
+      indicator.textContent = `${currentContentIndex + 1} / ${appData.contentPages.length}`;
+    }
+
+    function renderImage() {
+      const img = document.getElementById("sliderImage");
+      const indicator = document.getElementById("imageIndicator");
+
+      img.style.opacity = "0.25";
+
+      setTimeout(() => {
+        img.src = appData.images[currentImageIndex];
+        img.onload = () => {
+          img.style.opacity = "1";
+        };
+        img.onerror = () => {
+          img.style.opacity = "1";
+        };
+      }, 180);
+
+      indicator.textContent = `Image ${currentImageIndex + 1} / ${appData.images.length}`;
+    }
+
+    function nextContent() {
+      currentContentIndex = (currentContentIndex + 1) % appData.contentPages.length;
+      renderContentPage();
+    }
+
+    function prevContent() {
+      currentContentIndex = (currentContentIndex - 1 + appData.contentPages.length) % appData.contentPages.length;
+      renderContentPage();
+    }
+
+    function nextImage() {
+      currentImageIndex = (currentImageIndex + 1) % appData.images.length;
+      renderImage();
+      restartImageAutoSlide();
+    }
+
+    function prevImage() {
+      currentImageIndex = (currentImageIndex - 1 + appData.images.length) % appData.images.length;
+      renderImage();
+      restartImageAutoSlide();
+    }
+
+    function startImageAutoSlide() {
+      imageInterval = setInterval(() => {
+        currentImageIndex = (currentImageIndex + 1) % appData.images.length;
+        renderImage();
+      }, 5000);
+    }
+
+    function restartImageAutoSlide() {
+      clearInterval(imageInterval);
+      startImageAutoSlide();
+    }
+
+    document.getElementById("nextContentBtn").addEventListener("click", nextContent);
+    document.getElementById("prevContentBtn").addEventListener("click", prevContent);
+    document.getElementById("nextImageBtn").addEventListener("click", nextImage);
+    document.getElementById("prevImageBtn").addEventListener("click", prevImage);
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadSavedData();
+      renderHeader();
+      renderContentPage();
+      renderImage();
+      startImageAutoSlide();
+    });
   </script>
 </body>
 </html>
