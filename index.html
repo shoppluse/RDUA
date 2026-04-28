@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daily Class Topic</title>
+  <title>sketch_apr28a | Arduino IDE 2.3.7</title>
   <style>
     * {
       margin: 0;
@@ -12,565 +12,431 @@
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    :root {
-      --bg: #05070d;
-      --panel: rgba(255, 255, 255, 0.04);
-      --panel-border: rgba(255, 255, 255, 0.08);
-      --text: #f5f7fa;
-      --muted: #b8c2cc;
-      --accent: #61f0e7;
-      --accent-soft: rgba(97, 240, 231, 0.15);
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-    }
-
     body {
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at top right, rgba(97, 240, 231, 0.08), transparent 35%),
-        radial-gradient(circle at bottom left, rgba(97, 240, 231, 0.05), transparent 30%),
-        linear-gradient(135deg, #04060a 0%, #0a0f18 50%, #05070d 100%);
-      color: var(--text);
-      overflow-x: hidden;
-    }
-
-    .page {
-      min-height: 100vh;
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-    }
-
-    .title-wrap {
-      max-width: 900px;
-    }
-
-    .title {
-      font-size: clamp(2.2rem, 5vw, 4.3rem);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -1px;
-      margin-bottom: 14px;
-    }
-
-    .subtitle {
-      font-size: clamp(1rem, 1.6vw, 1.25rem);
-      color: var(--muted);
-      line-height: 1.7;
-      max-width: 980px;
-    }
-
-    .header-buttons {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .top-btn {
-      text-decoration: none;
-      padding: 12px 18px;
-      border-radius: 999px;
-      font-weight: 700;
-      border: 1px solid var(--panel-border);
-      background: rgba(255,255,255,0.04);
-      color: var(--text);
-      transition: 0.25s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .top-btn:hover {
-      transform: translateY(-2px);
-      border-color: rgba(97, 240, 231, 0.35);
-      box-shadow: 0 8px 20px rgba(97, 240, 231, 0.08);
-    }
-
-    .top-btn.primary {
-      background: linear-gradient(135deg, #61f0e7, #4ad0c8);
-      color: #041014;
-      border: none;
-      box-shadow: 0 10px 25px rgba(97, 240, 231, 0.18);
-    }
-
-    .main {
-      display: grid;
-      grid-template-columns: 1.35fr 0.95fr;
-      gap: 26px;
-      align-items: stretch;
-      flex: 1;
-    }
-
-    /* LEFT CONTENT */
-    .content-side {
-      min-height: 560px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .content-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 12px 14px;
-      border-radius: 18px;
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow);
-    }
-
-    .content-nav-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .nav-label {
-      font-size: 0.95rem;
-      color: var(--muted);
-      font-weight: 600;
-    }
-
-    .page-indicator {
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: rgba(97, 240, 231, 0.08);
-      color: var(--accent);
-      font-weight: 700;
-      font-size: 0.9rem;
-      border: 1px solid rgba(97, 240, 231, 0.15);
-    }
-
-    .nav-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .arrow-btn {
-      width: 46px;
-      height: 46px;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.35rem;
-      font-weight: 900;
-      background: rgba(255,255,255,0.05);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: 0.25s ease;
-    }
-
-    .arrow-btn:hover {
-      background: rgba(97, 240, 231, 0.12);
-      border-color: rgba(97, 240, 231, 0.3);
-      color: var(--accent);
-      transform: translateY(-1px);
-    }
-
-    .content-stage {
-      flex: 1;
-      position: relative;
-      border-radius: 28px;
-      padding: 30px 28px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.025)),
-        rgba(255,255,255,0.02);
-      border: 1px solid var(--panel-border);
-      backdrop-filter: blur(18px);
-      box-shadow: var(--shadow);
       overflow: hidden;
+      background: #ffffff;
     }
 
-    .content-stage::before {
-      content: "";
+    /* WINDOW BAR */
+    .window-bar {
+      height: 30px;
+      background: #ece8df;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+      border-bottom: 1px solid #d4d1ca;
+      font-size: 13px;
+      color: #222;
+    }
+
+    .window-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .arduino-icon {
+      width: 16px;
+      height: 16px;
+      background: #0a8c8d;
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .arduino-icon::before {
+      content: "∞";
+      color: white;
+      font-size: 12px;
       position: absolute;
-      inset: 0;
-      border-radius: 28px;
-      padding: 1px;
-      background: linear-gradient(145deg, rgba(97, 240, 231, 0.22), rgba(255,255,255,0.03), rgba(97, 240, 231, 0.05));
-      -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
+      top: -1px;
+      left: 2px;
     }
 
-    .content-text {
-      position: relative;
-      z-index: 1;
-      white-space: pre-wrap; /* IMPORTANT: keeps exact line breaks */
-      line-height: 1.9;
-      font-size: clamp(1rem, 1.25vw, 1.28rem);
-      color: #f4f7fb;
-      max-height: 100%;
-      overflow-y: auto;
-      padding-right: 8px;
-    }
-
-    .content-text::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .content-text::-webkit-scrollbar-thumb {
-      background: rgba(97, 240, 231, 0.18);
-      border-radius: 999px;
-    }
-
-    /* RIGHT IMAGE */
-    .image-side {
+    .window-controls {
       display: flex;
-      flex-direction: column;
-      gap: 18px;
+      align-items: center;
+      gap: 16px;
+      font-size: 14px;
+      user-select: none;
     }
 
-    .image-nav {
+    /* MENU BAR */
+    .menu-bar {
+      height: 24px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 6px;
+      font-size: 13px;
+      color: #222;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .menu-item {
+      cursor: pointer;
+      padding: 2px 0;
+    }
+
+    .menu-item:hover {
+      color: #006d70;
+    }
+
+    /* TOOLBAR */
+    .toolbar {
+      height: 46px;
+      background: #006d70;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
-      padding: 12px 14px;
-      border-radius: 18px;
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow);
+      padding: 0 12px;
     }
 
-    .image-stage {
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .round-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #7fc9c7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0b5d5f;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .board-select {
+      width: 255px;
+      height: 32px;
+      background: #ffffff;
+      margin-left: 8px;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: #d9f7f7;
+      font-size: 20px;
+    }
+
+    /* MAIN */
+    .main {
+      display: flex;
+      height: calc(100vh - 100px);
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 52px;
+      background: #dde5e4;
+      border-right: 1px solid #cfd6d5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       position: relative;
-      flex: 1;
-      min-height: 560px;
-      border-radius: 28px;
-      overflow: hidden;
-      background: #0d1118;
-      border: 1px solid var(--panel-border);
-      box-shadow: var(--shadow);
     }
 
-    .image-stage img {
+    .side-btn {
+      width: 100%;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #9ca8a8;
+    }
+
+    .side-btn svg {
+      width: 28px;
+      height: 28px;
+      stroke: #a1adad;
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    .side-btn.active svg,
+    .side-btn:hover svg {
+      stroke: #8b9999;
+    }
+
+    .bottom-user {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+    }
+
+    /* CONTENT */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+    }
+
+    .tab-bar {
+      height: 28px;
+      display: flex;
+      align-items: center;
+      padding-left: 8px;
+      border-bottom: 1px solid #e6e6e6;
+      font-size: 13px;
+      color: #444;
+      background: #ffffff;
+    }
+
+    .editor-area {
+      flex: 1;
+      background: #ffffff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .editor-frame {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      border: none;
       display: block;
-      transition: opacity 0.35s ease;
     }
 
-    .image-stage::after {
-      content: "";
+    /* DEFAULT EDITOR SCREEN */
+    .default-editor {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .line-numbers {
+      width: 72px;
+      background: #ffffff;
+      color: #2f78b5;
+      text-align: right;
+      padding-right: 18px;
+      padding-top: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      user-select: none;
+    }
+
+    .code-panel {
+      flex: 1;
+      background: #f9f9f9;
+      padding-top: 8px;
+      position: relative;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #333;
+      white-space: pre;
+      border-left: 1px solid #efefef;
+    }
+
+    .cursor-line {
       position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to top, rgba(0,0,0,0.08), rgba(0,0,0,0.02)),
-        linear-gradient(to right, rgba(0,0,0,0.04), transparent);
-      pointer-events: none;
+      top: 8px;
+      left: 0;
+      width: 2px;
+      height: 20px;
+      background: #16a0a3;
     }
 
-    .footer-note {
-      padding: 16px 20px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      color: #d7e0e8;
-      font-size: 1rem;
-      line-height: 1.7;
-      text-align: center;
-      box-shadow: var(--shadow);
+    .code-content {
+      padding-left: 0;
     }
 
-    .small-indicator {
-      font-size: 0.88rem;
-      color: var(--muted);
-      font-weight: 600;
+    .kw {
+      color: #0b9db0;
     }
 
-    @media (max-width: 1100px) {
-      .main {
-        grid-template-columns: 1fr;
-      }
-
-      .content-side,
-      .image-stage {
-        min-height: auto;
-      }
-
-      .image-stage {
-        height: 420px;
-      }
+    .comment {
+      color: #95a2a6;
     }
 
-    @media (max-width: 768px) {
-      .page {
-        padding: 16px;
-      }
+    .orange {
+      color: #d68033;
+    }
 
-      .header {
-        flex-direction: column;
-      }
+    /* STATUS BAR */
+    .status-bar {
+      height: 28px;
+      background: #006d70;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 18px;
+      padding: 0 12px;
+      color: #ffffff;
+      font-size: 12px;
+    }
 
-      .content-stage {
-        padding: 22px 18px;
-      }
-
-      .image-stage {
-        height: 300px;
-      }
-
-      .arrow-btn {
-        width: 42px;
-        height: 42px;
-      }
+    .status-bar span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="header">
-      <div class="title-wrap">
-        <h1 class="title" id="mainTitle">I am not this body</h1>
-        <p class="subtitle" id="mainSubtitle">
-          The first lesson of spiritual life begins when we understand that the self is different from the temporary material body.
-        </p>
-      </div>
 
-      <div class="header-buttons">
-        <a href="content.html" class="top-btn primary">Edit Content</a>
-      </div>
+  <!-- WINDOW BAR -->
+  <div class="window-bar">
+    <div class="window-left">
+      <div class="arduino-icon"></div>
+      <div>sketch_apr28a | Arduino IDE 2.3.7</div>
     </div>
-
-    <div class="main">
-      <!-- LEFT: CONTENT SLIDER -->
-      <div class="content-side">
-        <div class="content-nav">
-          <div class="content-nav-left">
-            <span class="nav-label">Content Pages</span>
-            <span class="page-indicator" id="contentPageIndicator">1 / 3</span>
-          </div>
-
-          <div class="nav-controls">
-            <button class="arrow-btn" id="prevContentBtn" aria-label="Previous Content">&lt;</button>
-            <button class="arrow-btn" id="nextContentBtn" aria-label="Next Content">&gt;</button>
-          </div>
-        </div>
-
-        <div class="content-stage">
-          <div class="content-text" id="contentText">
-1. The Linguistic and Analytical Facet/Aspect
-
-The most immediate proof that you are not the body is found in how you describe yourself.
-When you speak of your body parts, you say, "my hand," "my leg," or "my head"; you never say, "I hand" or "I leg".
-
-Just as you say, "this is my book" or "this is my shirt," implying you are the owner and distinct from the object, you are the owner or occupier of the body and not the body itself.
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT: IMAGE SLIDER -->
-      <div class="image-side">
-        <div class="image-nav">
-          <span class="small-indicator" id="imageIndicator">Image 1 / 3</span>
-
-          <div class="nav-controls">
-            <button class="arrow-btn" id="prevImageBtn" aria-label="Previous Image">&lt;</button>
-            <button class="arrow-btn" id="nextImageBtn" aria-label="Next Image">&gt;</button>
-          </div>
-        </div>
-
-        <div class="image-stage">
-          <img
-            id="sliderImage"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Krishna_and_Arjuna_on_the_chariot%2C_18th-19th_century%2C_India.jpg/800px-Krishna_and_Arjuna_on_the_chariot%2C_18th-19th_century%2C_India.jpg"
-            alt="Topic Image"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-note" id="footerNote">
-      “I am not this body; I am the eternal soul” — the foundational truth of spiritual life.
+    <div class="window-controls">
+      <span>—</span>
+      <span>□</span>
+      <span>✕</span>
     </div>
   </div>
 
+  <!-- MENU -->
+  <div class="menu-bar">
+    <div class="menu-item" onclick="openFilePage()">File</div>
+    <div class="menu-item">Edit</div>
+    <div class="menu-item">Sketch</div>
+    <div class="menu-item">Tools</div>
+    <div class="menu-item">Help</div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <div class="round-btn">✓</div>
+      <div class="round-btn">➜</div>
+      <div class="round-btn">⟲</div>
+
+      <div class="board-select">
+        <span>Select Board</span>
+        <span>▼</span>
+      </div>
+    </div>
+
+    <div class="toolbar-right">
+      <span>∿</span>
+      <span>⚙</span>
+      <span>⋯</span>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <!-- FOLDER ICON -->
+      <div class="side-btn active" onclick="openFilePage()" title="Open File">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 6h6l2 2h10v10H3z"></path>
+        </svg>
+      </div>
+
+      <div class="side-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 5h12v14H6z"></path>
+          <path d="M9 9h6M9 13h6"></path>
+        </svg>
+      </div>
+
+      <div class="side-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M5 4h3v16H5zM10.5 8h3v12h-3zM16 2h3v18h-3z"></path>
+        </svg>
+      </div>
+
+      <div class="side-btn">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="8"></circle>
+          <path d="M8 16l8-8"></path>
+        </svg>
+      </div>
+
+      <div class="side-btn">
+        <svg viewBox="0 0 24 24">
+          <circle cx="10" cy="10" r="6"></circle>
+          <path d="M15 15l5 5"></path>
+        </svg>
+      </div>
+
+      <div class="bottom-user">
+        <div class="side-btn">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 20c2-4 14-4 16 0"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <div class="tab-bar" id="tabTitle">sketch_apr28a.ino</div>
+
+      <div class="editor-area" id="editorArea">
+        <!-- default view -->
+        <div class="default-editor" id="defaultEditor">
+          <div class="line-numbers">1
+2
+3
+4
+5
+6
+7
+8
+9
+10</div>
+
+          <div class="code-panel">
+            <div class="cursor-line"></div>
+            <div class="code-content"><span class="kw">void</span> setup() {
+  <span class="comment">// put your setup code here, to run once:</span>
+
+}
+
+<span class="kw">void</span> <span class="orange">loop</span>() {
+  <span class="comment">// put your main code here, to run repeatedly:</span>
+
+}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS -->
+  <div class="status-bar">
+    <span>Ln 1, Col 1</span>
+    <span>✕ No board selected</span>
+    <span>🔔</span>
+  </div>
+
   <script>
-    const defaultData = {
-      title: "I am not this body",
-      subtitle: "The first lesson of spiritual life begins when we understand that the self is different from the temporary material body.",
-      footerNote: "“I am not this body; I am the eternal soul” — the foundational truth of spiritual life.",
-      contentPages: [
-`1. The Linguistic and Analytical Facet/Aspect
+    function openFilePage() {
+      const editorArea = document.getElementById("editorArea");
+      const tabTitle = document.getElementById("tabTitle");
 
-The most immediate proof that you are not the body is found in how you describe yourself.
-When you speak of your body parts, you say, "my hand," "my leg," or "my head"; you never say, "I hand" or "I leg".
+      tabTitle.textContent = "file.html";
 
-Just as you say, "this is my book" or "this is my shirt," implying you are the owner and distinct from the object, you are the owner or occupier of the body and not the body itself.
-
-Do this Activity:
-Ask them: What is this?
-Show your hand, head, etc...`,
-
-`Reference 1: (ARRIVAL ADDRESS July 20th 1971 New York)
-
-Lecture - Bhagavad-gītā 2.1, August 1st 1972, Glasgow
-
-https://vedabase.io/en/library/transcripts/720801bggla/#bb198142
-
-Verse:
-dehino 'smin yathā dehe
-kaumāraṁ yauvanaṁ jarā
-tathā dehāntaraṁ prāptir
-dhīras tatra na muhyati
-[Bg. 2.13]`,
-
-`Asmin dehe, in this body, there is a proprietor of this body. Just like I am proprietor of my body, you are proprietor of your body.
-
-I say "my hand." I don't say "I hand." It is my hand. So I am different from this hand.
-
-Just like say, "It is my book", so book is different from me. "It is my table."
-
-Similarly, "my hand," "my eyes," "my leg," "my this," "my that."
-But where I am? What I am?`,
-
-`Reference 2: Lecture, Bhagavad-gītā 13.1 - 2, December 29, 1972, Bombay
-
-https://vedabase.io/en/library/transcripts/721229bgbom/#bb217955
-
-Kṣetra-kṣetra-jñam. Just like we are living in this apartment and we know that I am not this apartment, but I am living in this apartment.
-
-That is being cleared by Kṛṣṇa Himself.
-Idaṁ śarīraṁ kaunteya kṣetram ity abhidhīyate [Bg 13.2].`,
-
-`So we should know this, that "I am not this body; it is my body."
-
-If we analyze the body, I say,
-"It is my hand."
-"It is my leg."
-"It is my head."
-
-Nobody says "I head" or "I hand."
-
-"I" is different from this body.
-
-Just as a person lives in an apartment but is different from it, the soul lives in the body but is never the body itself.`
-      ],
-      images: [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Krishna_and_Arjuna_on_the_chariot%2C_18th-19th_century%2C_India.jpg/800px-Krishna_and_Arjuna_on_the_chariot%2C_18th-19th_century%2C_India.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Bhagavad_Gita_-_Krishna_and_Arjuna.jpg/800px-Bhagavad_Gita_-_Krishna_and_Arjuna.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Krishna-Arjuna.jpg/800px-Krishna-Arjuna.jpg"
-      ]
-    };
-
-    let appData = { ...defaultData };
-    let currentContentIndex = 0;
-    let currentImageIndex = 0;
-    let imageInterval;
-
-    function loadSavedData() {
-      const saved = JSON.parse(localStorage.getItem("dailyClassPresentation"));
-
-      if (saved) {
-        appData.title = saved.title || defaultData.title;
-        appData.subtitle = saved.subtitle || defaultData.subtitle;
-        appData.footerNote = saved.footerNote || defaultData.footerNote;
-
-        appData.contentPages = Array.isArray(saved.contentPages) && saved.contentPages.length
-          ? saved.contentPages
-          : defaultData.contentPages;
-
-        appData.images = Array.isArray(saved.images) && saved.images.length
-          ? saved.images
-          : defaultData.images;
-      }
+      editorArea.innerHTML = `
+        <iframe src="file.html" class="editor-frame"></iframe>
+      `;
     }
-
-    function renderHeader() {
-      document.getElementById("mainTitle").textContent = appData.title;
-      document.getElementById("mainSubtitle").textContent = appData.subtitle;
-      document.getElementById("footerNote").textContent = appData.footerNote;
-    }
-
-    function renderContentPage() {
-      const contentText = document.getElementById("contentText");
-      const indicator = document.getElementById("contentPageIndicator");
-
-      contentText.textContent = appData.contentPages[currentContentIndex];
-      indicator.textContent = `${currentContentIndex + 1} / ${appData.contentPages.length}`;
-    }
-
-    function renderImage() {
-      const img = document.getElementById("sliderImage");
-      const indicator = document.getElementById("imageIndicator");
-
-      img.style.opacity = "0.25";
-
-      setTimeout(() => {
-        img.src = appData.images[currentImageIndex];
-        img.onload = () => {
-          img.style.opacity = "1";
-        };
-        img.onerror = () => {
-          img.style.opacity = "1";
-        };
-      }, 180);
-
-      indicator.textContent = `Image ${currentImageIndex + 1} / ${appData.images.length}`;
-    }
-
-    function nextContent() {
-      currentContentIndex = (currentContentIndex + 1) % appData.contentPages.length;
-      renderContentPage();
-    }
-
-    function prevContent() {
-      currentContentIndex = (currentContentIndex - 1 + appData.contentPages.length) % appData.contentPages.length;
-      renderContentPage();
-    }
-
-    function nextImage() {
-      currentImageIndex = (currentImageIndex + 1) % appData.images.length;
-      renderImage();
-      restartImageAutoSlide();
-    }
-
-    function prevImage() {
-      currentImageIndex = (currentImageIndex - 1 + appData.images.length) % appData.images.length;
-      renderImage();
-      restartImageAutoSlide();
-    }
-
-    function startImageAutoSlide() {
-      imageInterval = setInterval(() => {
-        currentImageIndex = (currentImageIndex + 1) % appData.images.length;
-        renderImage();
-      }, 5000);
-    }
-
-    function restartImageAutoSlide() {
-      clearInterval(imageInterval);
-      startImageAutoSlide();
-    }
-
-    document.getElementById("nextContentBtn").addEventListener("click", nextContent);
-    document.getElementById("prevContentBtn").addEventListener("click", prevContent);
-    document.getElementById("nextImageBtn").addEventListener("click", nextImage);
-    document.getElementById("prevImageBtn").addEventListener("click", prevImage);
-
-    window.addEventListener("DOMContentLoaded", () => {
-      loadSavedData();
-      renderHeader();
-      renderContentPage();
-      renderImage();
-      startImageAutoSlide();
-    });
   </script>
+
 </body>
 </html>
