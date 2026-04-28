@@ -12,69 +12,90 @@
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    body {
+    html, body {
+      width: 100%;
+      height: 100%;
       overflow: hidden;
       background: #ffffff;
     }
 
-    /* WINDOW BAR */
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* =========================
+       WINDOW TITLE BAR
+    ========================= */
     .window-bar {
-      height: 28px;
-      background: #e8e3dc;
+      height: 30px;
+      background: #e8e2db;
+      border-bottom: 1px solid #d6d1ca;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 8px;
-      border-bottom: 1px solid #d4d1ca;
-      font-size: 13px;
-      color: #222;
+      padding: 0 8px 0 4px;
+      flex-shrink: 0;
     }
 
     .window-left {
       display: flex;
       align-items: center;
       gap: 8px;
+      color: #222;
+      font-size: 13px;
     }
 
-    .arduino-icon {
+    .app-icon {
       width: 16px;
       height: 16px;
-      background: #0a8c8d;
       border-radius: 4px;
+      background: #2aa6a6;
       position: relative;
+      flex-shrink: 0;
     }
 
-    .arduino-icon::before {
+    .app-icon::before {
       content: "∞";
-      color: white;
-      font-size: 12px;
       position: absolute;
       top: -1px;
       left: 2px;
+      font-size: 12px;
+      color: #fff;
+      font-weight: 600;
+      line-height: 16px;
     }
 
     .window-controls {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
+      color: #333;
       font-size: 14px;
       user-select: none;
     }
 
-    /* MENU BAR */
+    .window-controls span {
+      cursor: pointer;
+    }
+
+    /* =========================
+       MENU BAR
+    ========================= */
     .menu-bar {
-      height: 28px;
+      height: 24px;
       background: #ffffff;
+      border-bottom: 1px solid #e1e1e1;
       display: flex;
       align-items: center;
       gap: 16px;
       padding: 0 6px;
-      font-size: 13px;
-      color: #222;
-      border-bottom: 1px solid #e0e0e0;
+      flex-shrink: 0;
     }
 
     .menu-item {
+      font-size: 13px;
+      color: #1f1f1f;
       cursor: pointer;
       user-select: none;
     }
@@ -83,7 +104,9 @@
       color: #006d70;
     }
 
-    /* TOOLBAR */
+    /* =========================
+       TOP TOOLBAR
+    ========================= */
     .toolbar {
       height: 46px;
       background: #006d70;
@@ -91,6 +114,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 12px;
+      flex-shrink: 0;
     }
 
     .toolbar-left {
@@ -99,19 +123,23 @@
       gap: 8px;
     }
 
-    .round-btn {
+    .circle-btn {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: #7cc8c7;
+      background: #7cc9c8;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #0b5d5f;
+      color: #0c6466;
       font-size: 17px;
       font-weight: bold;
       cursor: pointer;
       user-select: none;
+    }
+
+    .circle-btn:hover {
+      background: #92d8d6;
     }
 
     .board-select {
@@ -124,27 +152,37 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 12px;
+      color: #5f5f5f;
       font-size: 14px;
-      color: #666;
       cursor: pointer;
+      user-select: none;
     }
 
     .toolbar-right {
       display: flex;
       align-items: center;
       gap: 18px;
-      color: #d9f7f7;
+      color: #dff6f5;
       font-size: 20px;
       user-select: none;
     }
 
-    /* MAIN */
-    .main {
-      display: flex;
-      height: calc(100vh - 130px);
+    .toolbar-right span {
+      cursor: pointer;
     }
 
-    /* SIDEBAR */
+    /* =========================
+       MAIN APP AREA
+    ========================= */
+    .app {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+    }
+
+    /* =========================
+       LEFT SIDEBAR
+    ========================= */
     .sidebar {
       width: 52px;
       background: #dfe5e4;
@@ -153,6 +191,7 @@
       flex-direction: column;
       align-items: center;
       position: relative;
+      flex-shrink: 0;
     }
 
     .side-btn {
@@ -168,13 +207,15 @@
     .side-btn svg {
       width: 28px;
       height: 28px;
-      stroke: #a4afaf;
+      stroke: #a0aaaa;
       fill: none;
       stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .side-btn:hover svg {
-      stroke: #7d8a8a;
+      stroke: #7f8b8b;
     }
 
     .bottom-user {
@@ -183,28 +224,45 @@
       width: 100%;
     }
 
-    /* CONTENT */
-    .content {
+    /* =========================
+       EDITOR SIDE
+    ========================= */
+    .editor-shell {
       flex: 1;
       display: flex;
       flex-direction: column;
+      min-width: 0;
+      min-height: 0;
       background: #ffffff;
     }
 
     .tab-bar {
       height: 34px;
+      background: #ffffff;
+      border-bottom: 1px solid #e6e6e6;
       display: flex;
       align-items: center;
-      padding-left: 8px;
-      border-bottom: 1px solid #e6e6e6;
-      font-size: 14px;
-      color: #444;
-      background: #ffffff;
+      justify-content: space-between;
+      padding: 0 8px;
+      flex-shrink: 0;
     }
 
-    .editor {
+    .tab-title {
+      font-size: 14px;
+      color: #444;
+    }
+
+    .tab-dots {
+      font-size: 22px;
+      color: #666;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .editor-area {
       flex: 1;
       display: flex;
+      min-height: 0;
       background: #ffffff;
     }
 
@@ -219,19 +277,21 @@
       line-height: 1.5;
       user-select: none;
       white-space: pre;
+      flex-shrink: 0;
     }
 
     .code-panel {
       flex: 1;
-      background: #f7f7f7;
-      padding-top: 8px;
+      background: #f8f8f8;
+      border-left: 1px solid #efefef;
       position: relative;
+      padding-top: 8px;
       font-family: Consolas, "Courier New", monospace;
       font-size: 14px;
       line-height: 1.5;
       color: #333;
       white-space: pre;
-      border-left: 1px solid #efefef;
+      overflow: auto;
     }
 
     .cursor-line {
@@ -240,7 +300,12 @@
       left: 0;
       width: 2px;
       height: 20px;
-      background: #16a0a3;
+      background: #18a4a7;
+    }
+
+    .code-content {
+      padding-left: 0;
+      min-width: max-content;
     }
 
     .kw {
@@ -255,101 +320,126 @@
       color: #d68033;
     }
 
-    /* STATUS BAR */
+    /* =========================
+       STATUS BAR
+    ========================= */
     .status-bar {
       height: 28px;
       background: #006d70;
+      color: #ffffff;
       display: flex;
-      justify-content: flex-end;
       align-items: center;
+      justify-content: flex-end;
       gap: 18px;
       padding: 0 12px;
-      color: #ffffff;
       font-size: 12px;
+      flex-shrink: 0;
     }
 
     .status-bar span {
       display: flex;
       align-items: center;
       gap: 5px;
+      user-select: none;
+    }
+
+    /* =========================
+       SIMPLE POPUP
+    ========================= */
+    .popup {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background: #ffffff;
+      border: 1px solid #cfd6d5;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.14);
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #333;
+      display: none;
+      z-index: 9999;
     }
   </style>
 </head>
 <body>
 
-  <!-- WINDOW BAR -->
+  <!-- WINDOW TITLE BAR -->
   <div class="window-bar">
     <div class="window-left">
-      <div class="arduino-icon"></div>
+      <div class="app-icon"></div>
       <div>sketch_apr28a | Arduino IDE 2.3.7</div>
     </div>
     <div class="window-controls">
-      <span>—</span>
-      <span>□</span>
-      <span>✕</span>
+      <span onclick="showPopup('Minimize clicked')">—</span>
+      <span onclick="showPopup('Maximize clicked')">□</span>
+      <span onclick="showPopup('Close clicked')">✕</span>
     </div>
   </div>
 
-  <!-- MENU -->
+  <!-- MENU BAR -->
   <div class="menu-bar">
     <div class="menu-item" onclick="location.href='file.html'">File</div>
-    <div class="menu-item">Edit</div>
-    <div class="menu-item">Sketch</div>
-    <div class="menu-item">Tools</div>
-    <div class="menu-item">Help</div>
+    <div class="menu-item" onclick="showPopup('Edit menu clicked')">Edit</div>
+    <div class="menu-item" onclick="showPopup('Sketch menu clicked')">Sketch</div>
+    <div class="menu-item" onclick="showPopup('Tools menu clicked')">Tools</div>
+    <div class="menu-item" onclick="showPopup('Help menu clicked')">Help</div>
   </div>
 
-  <!-- TOOLBAR -->
+  <!-- TOP TOOLBAR -->
   <div class="toolbar">
     <div class="toolbar-left">
-      <div class="round-btn">✓</div>
-      <div class="round-btn">➜</div>
-      <div class="round-btn">⟲</div>
+      <div class="circle-btn" onclick="showPopup('Verify clicked')">✓</div>
+      <div class="circle-btn" onclick="showPopup('Upload clicked')">➜</div>
+      <div class="circle-btn" onclick="showPopup('New sketch clicked')">⟲</div>
 
-      <div class="board-select">
+      <div class="board-select" onclick="showPopup('Board select clicked')">
         <span>Select Board</span>
         <span>▼</span>
       </div>
     </div>
 
     <div class="toolbar-right">
-      <span>∿</span>
-      <span>⚙</span>
-      <span>⋯</span>
+      <span onclick="showPopup('Serial Plotter clicked')">∿</span>
+      <span onclick="showPopup('Settings clicked')">⚙</span>
+      <span onclick="showPopup('More clicked')">⋯</span>
     </div>
   </div>
 
-  <!-- MAIN -->
-  <div class="main">
+  <!-- MAIN APP -->
+  <div class="app">
     <!-- SIDEBAR -->
     <div class="sidebar">
+      <!-- Folder icon goes to file.html -->
       <div class="side-btn" onclick="location.href='file.html'" title="Open File">
         <svg viewBox="0 0 24 24">
           <path d="M3 6h6l2 2h10v10H3z"></path>
         </svg>
       </div>
 
-      <div class="side-btn">
+      <div class="side-btn" onclick="showPopup('Output clicked')">
         <svg viewBox="0 0 24 24">
           <path d="M6 5h12v14H6z"></path>
           <path d="M9 9h6M9 13h6"></path>
         </svg>
       </div>
 
-      <div class="side-btn">
+      <div class="side-btn" onclick="showPopup('Library clicked')">
         <svg viewBox="0 0 24 24">
-          <path d="M5 4h3v16H5zM10.5 8h3v12h-3zM16 2h3v18h-3z"></path>
+          <path d="M5 4h3v16H5"></path>
+          <path d="M10.5 8h3v12h-3"></path>
+          <path d="M16 2h3v18h-3"></path>
         </svg>
       </div>
 
-      <div class="side-btn">
+      <div class="side-btn" onclick="showPopup('Debug clicked')">
         <svg viewBox="0 0 24 24">
           <circle cx="12" cy="12" r="8"></circle>
           <path d="M8 16l8-8"></path>
         </svg>
       </div>
 
-      <div class="side-btn">
+      <div class="side-btn" onclick="showPopup('Search clicked')">
         <svg viewBox="0 0 24 24">
           <circle cx="10" cy="10" r="6"></circle>
           <path d="M15 15l5 5"></path>
@@ -357,7 +447,7 @@
       </div>
 
       <div class="bottom-user">
-        <div class="side-btn">
+        <div class="side-btn" onclick="showPopup('Profile clicked')">
           <svg viewBox="0 0 24 24">
             <circle cx="12" cy="8" r="4"></circle>
             <path d="M4 20c2-4 14-4 16 0"></path>
@@ -366,11 +456,14 @@
       </div>
     </div>
 
-    <!-- CONTENT -->
-    <div class="content">
-      <div class="tab-bar">sketch_apr28a.ino</div>
+    <!-- EDITOR -->
+    <div class="editor-shell">
+      <div class="tab-bar">
+        <div class="tab-title">sketch_apr28a.ino</div>
+        <div class="tab-dots">···</div>
+      </div>
 
-      <div class="editor">
+      <div class="editor-area">
         <div class="line-numbers">1
 2
 3
@@ -384,7 +477,7 @@
 
         <div class="code-panel">
           <div class="cursor-line"></div>
-<span class="kw">void</span> setup() {
+          <div class="code-content"><span class="kw">void</span> setup() {
   <span class="comment">// put your setup code here, to run once:</span>
 
 }
@@ -392,18 +485,34 @@
 <span class="kw">void</span> <span class="orange">loop</span>() {
   <span class="comment">// put your main code here, to run repeatedly:</span>
 
-}
+}</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- STATUS -->
+  <!-- STATUS BAR -->
   <div class="status-bar">
     <span>Ln 1, Col 1</span>
     <span>✕ No board selected</span>
     <span>🔔</span>
   </div>
+
+  <!-- POPUP -->
+  <div class="popup" id="popup"></div>
+
+  <script>
+    function showPopup(message) {
+      const popup = document.getElementById("popup");
+      popup.textContent = message;
+      popup.style.display = "block";
+
+      clearTimeout(window.popupTimer);
+      window.popupTimer = setTimeout(() => {
+        popup.style.display = "none";
+      }, 1500);
+    }
+  </script>
 
 </body>
 </html>
