@@ -847,7 +847,7 @@
     <main class="dashboard">
       <section class="reading-panel">
         <div class="reading-area" id="readingContainer">
-          <!-- Paragraphs rendered dynamically from para.json -->
+          <!-- Paragraphs rendered dynamically from para.json or embedded data -->
         </div>
       </section>
 
@@ -971,6 +971,42 @@
     const sessionStartMinute = 0;
     const sessionDurationMinutes = 30;
 
+    // EMBEDDED DATA FALLBACK (Allows running locally via file:// without CORS issues)
+    const embeddedReadingData = {
+      "bookName": "On the Way to Kṛṣṇa",
+      "chapterName": "C1: Throughway to Happiness",
+      "paragraphs": [
+        {
+          "paragraph": "Every one of us is searching after happiness, but we do not know what real happiness is. We see so much advertised about happiness, but practically speaking we see so few happy people. This is because so few people know that the platform of real happiness is beyond temporary things. It is this real happiness that is described in Bhagavad-gītā by Lord Kṛṣṇa to Arjuna. Happiness is generally perceived through our senses. A stone, for instance, has no senses and cannot perceive happiness and distress. Developed consciousness can perceive happiness and distress more intensely than undeveloped consciousness. Trees have consciousness, but it is not developed. Trees may stand for a long time in all kinds of weather, but they have no way of perceiving miseries. If a human being were asked to stand like a tree for only three days or even less, he would not be able to tolerate it. The conclusion is that every living being feels happiness or distress according to the degree of development of his consciousness. The happiness that we are experiencing in the material world is not real happiness. If one asks a tree, \"Are you feeling happy?\" the tree, if it could, might say, \"Yes, I am happy, standing here all year. I'm enjoying the wind and snowfall very much, etc.\" This may be enjoyed by the tree, but for the human being it is a very low standard of enjoyment. There are different kinds and grades of living entities, and their conceptions and perceptions of happiness are also of all different types and grades. Although one animal may see that another animal is being slaughtered, he will go right on chewing grass, for he has no knowledge to understand that he may be next. He is thinking that he is happy, but at the next moment he may be slaughtered. In this way there are different degrees of happiness. Yet of all of them, what is the highest happiness? Śrī Kṛṣṇa tells Arjuna: sukham ātyantikam yat tadbuddhi-grāhyam atīndriyamvetti yatra na caivāyamsthitaś calati tattvataḥ \"In that joyous state (samādhi), one is situated in boundless transcendental happiness and enjoys himself through transcendental senses. Established thus, one never departs from the truth.\" (Bg. 6.21) Buddhi means intelligence; one has to be intelligent if he wants to enjoy. Animals do not have really developed intelligence and so cannot enjoy life as a human being can. The hands, the nose, the eyes, the other sense organs and all the bodily parts may be present on a dead man, but he cannot enjoy. Why not? The enjoying energy, the spiritual spark, has left, and therefore the body has no power. If one looks further into the matter with a little intelligence, he can understand that it was not the body that was enjoying at all but the small spiritual spark that was within. Although one may think that he is enjoying by the bodily sense organs, the real enjoyer is that spiritual spark. That spark always has the potency of enjoyment, but it is not always manifest due to being covered by the material tabernacle. Although we may not be aware of it, it is not possible for the body to experience enjoyment without the presence of this spiritual spark. If a man is offered the dead body of a beautiful woman, will he accept it? No, because the spiritual spark has moved out of the body. Not only was it enjoying within the body, but it was maintaining the body. When that spark leaves, the body simply deteriorates. It follows that if the spirit is enjoying, it must have its senses also, otherwise how can it enjoy? The Vedas confirm that the spirit soul, although atomic in size, is the actual enjoying agent. It is not possible to measure the soul, but that is not to say that it is without measurement. An object may seem to us to be no bigger than a point and may seem to have no length or width, but when we perceive it under a microscope we can see that it has both length and width. Similarly, the soul also has its dimensions, but we cannot perceive them. When we buy a suit or dress, it is made to fit the body. The spiritual spark must have form, otherwise how is it the material body has grown to accommodate it? The conclusion is that the spiritual spark is not impersonal. It is an actual person. God is an actual person, and the spiritual spark, being a fragmental part of Him, is also a person. If the father has personality and individuality, the son also has them; and if the son has them, we can conclude that the father has them. So how can we, as sons of God, assert our personality and individuality and at the same time deny them to our Father, the Supreme Lord?",
+          "images": [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUH0L0TcL2OXYZWuEQzDPmGUzDgaqUwj2iSK6sRLveZQ&s=10",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Tz0sVuaSUkK3WSEXQu9-xjcony9qZKdZVSldUYyIlKMCuAEEu2pgFhY&s=10",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbJwG_wP3jiWnzBTP9SXJw_aLwgL7oG0VYf_I0D6NLDXx2rVcpIuKDpno&s=10"
+          ]
+        },
+        {
+          "paragraph": "Hare Krishna Hare Krishna Krishna Krishna Hare Hare Hare Rama Hare Rama Rama Rama Hare Hare",
+          "images": [
+            "https://upload.wikimedia.org/wikipedia/commons/d/d3/Hare_Krishna.png",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYHfpTqNkgSgf9P6nzcDvULCjy9a-XHEuoxZS7AoiAPw&s=10",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTH2a7rZfzoTY_eWZDgB_vkqkv7YmkUtjYooAXmDBL94kqOC4UHeAVTQWg&s=10"
+          ]
+        },
+        {
+          "paragraph": "That very ancient science of the relationship with the Supreme is today told by Me to you because you are My devotee as well as My friend and can therefore understand the transcendental mystery of this science.",
+          "image": "images/para3.jpg"
+        },
+        {
+          "paragraph": "Arjuna said: The sun-god Vivasvān is senior by birth to You. How am I to understand that in the beginning You instructed this science to him?",
+          "image": "images/para4.jpg"
+        },
+        {
+          "paragraph": "The Personality of Godhead said: Many, many births both you and I have passed. I can remember all of them, but you cannot, O subduer of the enemy!",
+          "image": "images/para5.jpg"
+        }
+      ]
+    };
+
     let readingData = [];
     let currentActiveIndex = -1;
     let currentParaImages = [];
@@ -1021,9 +1057,20 @@
     // ==========================================================================
     async function fetchReadingData() {
       try {
-        const response = await fetch('para.json');
-        if (!response.ok) throw new Error("Failed to load para.json");
-        const jsonContent = await response.json();
+        let jsonContent;
+        // Try to fetch para.json first (Works on live web server or Live Server extension)
+        try {
+          const response = await fetch('para.json');
+          if (response.ok) {
+            jsonContent = await response.json();
+          } else {
+            throw new Error("Local fetch failed");
+          }
+        } catch (e) {
+          // Fallback to embedded JS object if CORS/file:// blocks fetching
+          console.log("Using embedded data fallback");
+          jsonContent = embeddedReadingData;
+        }
 
         displayBookName.textContent = jsonContent.bookName || "On the Way to Kṛṣṇa";
         displayChapterName.textContent = jsonContent.chapterName || "Chapter";
@@ -1033,8 +1080,7 @@
         renderContinuousReading();
         if (readingData.length > 0) activateParagraph(0);
       } catch (error) {
-        console.error("Error fetching para.json:", error);
-        readingContainer.innerHTML = `<div style="padding: 20px; color: #ef4444; font-weight: bold; text-align: center;">Could not load para.json file. Please ensure para.json is located in the root folder.</div>`;
+        console.error("Error fetching data:", error);
       }
     }
 
