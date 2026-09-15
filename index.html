@@ -20,7 +20,8 @@
       --border-color: #292524;
       --highlight-bg: #fde047;
       --highlight-text: #000000;
-      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Georgia, serif;
+      --font-serif: "Times New Roman", Times, Georgia, serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     * {
@@ -36,7 +37,7 @@
     }
 
     body {
-      font-family: var(--font-family);
+      font-family: var(--font-serif);
       background: var(--bg-gradient);
       color: var(--text-main);
       display: flex;
@@ -59,59 +60,100 @@
     }
 
     /* ==========================================================================
-       2. TOP HEADER
+       2. TOP HEADER (Logo | Book Name | Chapter Name | Time | Date | Fullscreen | 3-Dots)
        ========================================================================== */
     header {
       display: grid;
-      grid-template-columns: 140px 2fr 1.1fr 1fr auto auto;
+      grid-template-columns: 150px 1.5fr 1.5fr 1.1fr 1fr auto auto;
       border: 3px solid var(--border-color);
       background: #ffffff;
+      height: 60px;
     }
 
     .header-box {
-      padding: 10px 14px;
+      padding: 6px 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       color: var(--text-main);
       position: relative;
       overflow: hidden;
+      text-align: center;
     }
 
     .header-box:not(:last-child) {
       border-right: 3px solid var(--border-color);
     }
 
+    /* Block 1: Perfect Fit Logo Container */
     .logo-box {
       background: #000000;
-      padding: 4px 8px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
 
     .logo-box img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
     }
 
+    /* ISKCON Badge Fallback Styling */
     .logo-fallback {
       color: #ffffff;
-      font-size: 0.75rem;
-      font-weight: 800;
+      font-family: var(--font-sans);
       text-align: center;
-      line-height: 1.1;
+      width: 100%;
+      line-height: 1.15;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
+    .logo-fallback .line-1 {
+      font-size: 0.55rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      display: block;
+    }
+
+    .logo-fallback .line-2 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      display: block;
+      margin: 1px 0;
+    }
+
+    .logo-fallback .line-3 {
+      font-size: 0.65rem;
+      font-weight: 800;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 2px;
+    }
+
+    /* Block 2: Centered Book Title */
     .book-title {
       font-size: 1.3rem;
       color: var(--accent-saffron);
-      justify-content: flex-start;
+      justify-content: center;
       letter-spacing: -0.3px;
     }
 
+    /* Block 3: Centered Chapter Name */
+    .chapter-title {
+      font-size: 1.15rem;
+      color: var(--text-main);
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    /* Block 4: Time Box with Live Color Fill */
     .time-box {
       position: relative;
     }
@@ -135,6 +177,7 @@
       letter-spacing: 0.5px;
     }
 
+    /* Block 6: Fullscreen Button */
     .fullscreen-btn {
       background: #ffffff;
       border: none;
@@ -146,6 +189,7 @@
       align-items: center;
       justify-content: center;
       font-size: 0.85rem;
+      font-family: var(--font-sans);
       transition: all 0.2s ease;
       gap: 4px;
     }
@@ -155,6 +199,7 @@
       color: var(--accent-saffron);
     }
 
+    /* Block 7: 3-Dot Vertical Menu Button */
     .menu-dots-btn {
       background: #ffffff;
       border: none;
@@ -179,15 +224,16 @@
     .menu-popup {
       display: none;
       position: absolute;
-      top: 65px;
+      top: 68px;
       right: 14px;
       background: #ffffff;
       border: 3px solid var(--border-color);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
       border-radius: 6px;
       z-index: 200;
-      min-width: 180px;
+      min-width: 190px;
       overflow: hidden;
+      font-family: var(--font-sans);
     }
 
     .menu-popup.open {
@@ -211,22 +257,28 @@
       color: var(--accent-saffron);
     }
 
-    /* ENLARGED VIDEO MODAL */
-    .video-modal-overlay {
+    .menu-item:not(:last-child) {
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    /* ==========================================================================
+       3. MODAL OVERLAYS (MANTRA VIDEO & CHANTING COUNTER)
+       ========================================================================== */
+    .modal-overlay {
       display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.82);
       z-index: 500;
       align-items: center;
       justify-content: center;
       padding: 20px;
     }
 
-    .video-modal-overlay.open {
+    .modal-overlay.open {
       display: flex;
     }
 
@@ -243,7 +295,7 @@
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     }
 
-    .video-modal-header {
+    .modal-header {
       background: #18181b;
       color: #ffffff;
       padding: 12px 20px;
@@ -251,9 +303,10 @@
       justify-content: space-between;
       align-items: center;
       border-bottom: 2px solid #27272a;
+      font-family: var(--font-sans);
     }
 
-    .video-modal-title {
+    .modal-title {
       font-size: 1.1rem;
       font-weight: 700;
       color: #fef08a;
@@ -262,7 +315,7 @@
       gap: 8px;
     }
 
-    .video-close-btn {
+    .modal-close-btn {
       background: #ea580c;
       border: none;
       color: #ffffff;
@@ -273,7 +326,7 @@
       cursor: pointer;
     }
 
-    .video-close-btn:hover {
+    .modal-close-btn:hover {
       background: #c2410c;
     }
 
@@ -289,8 +342,192 @@
       border: none;
     }
 
+    .chant-modal-container {
+      background: linear-gradient(to right, #fff8e1, #ffe0b2);
+      border: 4px solid var(--border-color);
+      border-radius: 16px;
+      width: 95%;
+      max-width: 1400px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .chant-page-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .mantra-side {
+      flex: 1;
+      max-width: 380px;
+      min-width: 200px;
+      text-align: center;
+      color: #d35400;
+      font-weight: bold;
+      font-size: 26px;
+      line-height: 1.6;
+      user-select: none;
+      word-break: break-word;
+      padding: 10px;
+      font-family: var(--font-serif);
+    }
+
+    .chant-counter-card {
+      background-color: #ffffff;
+      padding: 24px;
+      border-radius: 16px;
+      border: 3px solid var(--border-color);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      width: 420px;
+      max-width: 100%;
+      flex-shrink: 0;
+      font-family: var(--font-sans);
+    }
+
+    .chant-counter-card h1 {
+      color: #d35400;
+      margin-bottom: 6px;
+      font-size: 1.8rem;
+    }
+
+    .chant-counter-card p {
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    .main-count {
+      font-size: 48px;
+      color: #2c3e50;
+      font-weight: bold;
+      margin: 14px 0 10px;
+    }
+
+    .sub-info {
+      display: flex;
+      justify-content: space-between;
+      margin: 16px 0;
+      gap: 10px;
+    }
+
+    .info-box {
+      background-color: #f8f9fa;
+      padding: 12px;
+      border-radius: 10px;
+      flex: 1;
+      border: 1px solid #e2e8f0;
+    }
+
+    .info-box h3 {
+      margin: 0;
+      font-size: 14px;
+      color: #7f8c8d;
+    }
+
+    .info-box .value {
+      margin-top: 6px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    .target {
+      margin-top: 8px;
+      font-size: 16px;
+      color: #8e44ad;
+      font-weight: bold;
+    }
+
+    .message {
+      font-size: 15px;
+      color: green;
+      margin: 12px 0;
+      min-height: 20px;
+      font-weight: bold;
+    }
+
+    .timer-section {
+      margin-top: 16px;
+      padding: 14px;
+      background-color: #fdfaf2;
+      border-radius: 10px;
+      border: 1px solid #f0d9a7;
+    }
+
+    .input-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .input-group label {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 4px;
+    }
+
+    .input-group input {
+      width: 70px;
+      padding: 6px;
+      font-size: 15px;
+      text-align: center;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .interval-box {
+      margin-top: 12px;
+      background-color: #eef7ff;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 14px;
+      color: #2c3e50;
+      font-weight: bold;
+    }
+
+    .status-box {
+      margin-top: 8px;
+      font-size: 15px;
+      color: #2980b9;
+      font-weight: bold;
+    }
+
+    .chant-btn-styled {
+      padding: 10px 18px;
+      margin: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-green { background-color: #27ae60; color: white; }
+    .btn-green:hover { background-color: #219150; }
+    .btn-red { background-color: #e74c3c; color: white; }
+    .btn-red:hover { background-color: #c0392b; }
+    .btn-blue { background-color: #3498db; color: white; }
+    .btn-blue:hover { background-color: #2c80b4; }
+    .btn-orange { background-color: #f39c12; color: white; }
+    .btn-orange:hover { background-color: #d68910; }
+
     /* ==========================================================================
-       3. MAIN DASHBOARD LAYOUT
+       4. MAIN DASHBOARD LAYOUT
        ========================================================================== */
     .dashboard {
       flex: 1;
@@ -310,13 +547,13 @@
 
     .reading-area {
       flex: 1;
-      padding: 32px 36px;
+      padding: 36px 40px;
       overflow-y: auto;
       background: #ffffff;
     }
 
     .paragraph-block {
-      font-size: 1.7rem;
+      font-size: 1.75rem;
       line-height: 1.9;
       color: #1c1917;
       margin-bottom: 28px;
@@ -371,6 +608,20 @@
       transition: opacity 0.25s ease;
     }
 
+    /* ==========================================================================
+       5. RESPONSIVE LAYOUT
+       ========================================================================== */
+    @media (max-width: 1100px) {
+      .chant-page-wrapper {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .mantra-side {
+        font-size: 20px;
+        max-width: 100%;
+      }
+    }
+
     @media (max-width: 900px) {
       body, html {
         overflow: auto;
@@ -378,6 +629,7 @@
       }
       header {
         grid-template-columns: 1fr 1fr;
+        height: auto;
       }
       .dashboard {
         grid-template-columns: 1fr;
@@ -391,36 +643,57 @@
 <body>
 
   <div class="app-frame">
+    <!-- TOP HEADER -->
     <header>
+      <!-- Block 1: ISKCON Logo Container -->
       <div class="header-box logo-box">
-        <img id="logoImg" src="images/logo.png" alt="ISKCON Logo" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';" />
-        <div id="logoFallback" class="logo-fallback" style="display:none;">SRILA PRABHUPADA<br><strong>ISKCON</strong><br>MYSORE</div>
+        <img id="logoImg" src="https://res.cloudinary.com/dfmlvblds/image/upload/v1787912352/HKMCHENNAI/assets/sp_logo.png" alt="ISKCON Logo" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';" />
+        <div id="logoFallback" class="logo-fallback" style="display:none;">
+          <span class="line-1">Srila Prabhupada's</span>
+          <span class="line-2">ISKCON</span>
+          <span class="line-3">
+            <span>M</span><span>Y</span><span>S</span><span>O</span><span>R</span><span>E</span>
+          </span>
+        </div>
       </div>
 
+      <!-- Block 2: Centered Book Title -->
       <div class="header-box book-title" id="displayBookName">Book Name</div>
       
+      <!-- Block 3: Centered Chapter Name -->
+      <div class="header-box chapter-title" id="displayChapterName">Chapter Name</div>
+      
+      <!-- Block 4: Live Time Box with Green Fill -->
       <div class="header-box time-box">
         <div class="time-progress-fill" id="timeProgressFill"></div>
         <span class="time-text" id="displayClock">00:00:00 PM</span>
       </div>
       
+      <!-- Block 5: Date -->
       <div class="header-box" id="displayDate">Date</div>
 
+      <!-- Block 6: Fullscreen Button -->
       <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">
         ⛶ Fullscreen
       </button>
 
+      <!-- Block 7: 3-Dot Vertical Menu Button -->
       <button class="menu-dots-btn" onclick="toggleMenuPopup(event)" title="Options">
         ⋮
       </button>
     </header>
 
+    <!-- 3-DOT POPUP TAB -->
     <div class="menu-popup" id="menuPopup">
       <div class="menu-item" onclick="openMantraVideo()">
         <span>🧘‍♂️</span> Daily Mantra
       </div>
+      <div class="menu-item" onclick="openChantingCounter()">
+        <span>📿</span> Chanting Counter
+      </div>
     </div>
 
+    <!-- MAIN DASHBOARD -->
     <main class="dashboard">
       <section class="reading-panel">
         <div class="reading-area" id="readingContainer">
@@ -436,13 +709,14 @@
     </main>
   </div>
 
-  <div class="video-modal-overlay" id="videoModal">
+  <!-- MODAL 1: ENLARGED DAILY MANTRA VIDEO -->
+  <div class="modal-overlay" id="videoModal">
     <div class="video-modal-container">
-      <div class="video-modal-header">
-        <div class="video-modal-title">
+      <div class="modal-header">
+        <div class="modal-title">
           <span>🎵</span> Daily Mantra — ISKCON Mysore
         </div>
-        <button class="video-close-btn" onclick="closeMantraVideo()">✕ Close</button>
+        <button class="modal-close-btn" onclick="closeMantraVideo()">✕ Close</button>
       </div>
       <div class="video-modal-body">
         <iframe id="mantraIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -450,8 +724,91 @@
     </div>
   </div>
 
+  <!-- MODAL 2: AUTO TIME-BASED JAPA YAJNA COUNTER -->
+  <div class="modal-overlay" id="chantingModal">
+    <div class="chant-modal-container">
+      <div class="modal-header" style="background: transparent; border: none; padding: 0 0 10px 0;">
+        <div class="modal-title" style="color: #d35400; font-size: 1.3rem;">
+          📿 Japa Yajna Counter
+        </div>
+        <button class="modal-close-btn" onclick="closeChantingCounter()">✕ Close</button>
+      </div>
+
+      <div class="chant-page-wrapper">
+        <div class="mantra-side">
+          Jaya Śrī-Kṛṣṇa-Caitanya<br>
+          Prabhu Nityānanda<br>
+          Śrī-Advaita Gadādhara<br>
+          Śrīvāsādi-Gaura-Bhakta-Vṛnda
+        </div>
+
+        <div class="chant-counter-card">
+          <h1>📿 Japa Yajna</h1>
+          <p>1 Round = 108 Beads | Daily Goal = 16 Rounds</p>
+
+          <div class="main-count" id="beadCount">0 / 108</div>
+
+          <div class="sub-info">
+            <div class="info-box">
+              <h3>Total Beads</h3>
+              <div class="value" id="totalBeads">0</div>
+            </div>
+
+            <div class="info-box">
+              <h3>Rounds</h3>
+              <div class="value" id="roundCount">0</div>
+            </div>
+          </div>
+
+          <div class="target" id="targetStatus">Target: 16 Rounds Remaining</div>
+          <div class="message" id="message"></div>
+
+          <button class="chant-btn-styled btn-green" onclick="increaseCount()">Chant +1</button>
+          <button class="chant-btn-styled btn-red" onclick="resetCount()">Reset All</button>
+
+          <div class="timer-section">
+            <h3 style="margin-top: 0; color: #d35400;">⏱ Auto Japa Counter</h3>
+            <p style="margin-bottom: 10px;">Set your 1 round chanting time</p>
+
+            <div class="input-row">
+              <div class="input-group">
+                <label>Minutes</label>
+                <input type="number" id="minutesInput" value="5" min="0">
+              </div>
+
+              <div class="input-group">
+                <label>Seconds</label>
+                <input type="number" id="secondsInput" value="50" min="0" max="59">
+              </div>
+            </div>
+
+            <div class="interval-box" id="intervalDisplay">
+              1 Bead = 3.241 seconds
+            </div>
+
+            <div class="status-box" id="autoStatus">
+              Auto Counter: Stopped
+            </div>
+
+            <button class="chant-btn-styled btn-blue" onclick="startAutoCount()">▶️ Start Auto Count</button>
+            <button class="chant-btn-styled btn-orange" onclick="stopAutoCount()">⏹ Stop Auto Count</button>
+          </div>
+        </div>
+
+        <div class="mantra-side">
+          Hare Krishna, Hare Krishna,<br>
+          Krishna Krishna, Hare Hare<br>
+          Hare Rama, Hare Rama,<br>
+          Rama Rama, Hare Hare
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const bookName = "Bhagavad-gita As It Is";
+    // ==========================================================================
+    // CONFIGURATION & GLOBAL STATE
+    // ==========================================================================
     const mantraPlaylistEmbedUrl = "https://www.youtube.com/embed/videoseries?list=PL0olZhEpCi6dodNRfIbtT4-2Xe4yqtXUX&autoplay=1";
 
     const sessionStartHour = 21;
@@ -463,7 +820,9 @@
 
     const fallbackImage = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='400' viewBox='0 0 600 400'><rect width='600' height='400' fill='%230f172a'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%2364748b' font-size='18' font-family='sans-serif'>No image for this passage</text></svg>";
 
+    // DOM References
     const displayBookName = document.getElementById('displayBookName');
+    const displayChapterName = document.getElementById('displayChapterName');
     const displayClock = document.getElementById('displayClock');
     const displayDate = document.getElementById('displayDate');
     const timeProgressFill = document.getElementById('timeProgressFill');
@@ -472,7 +831,11 @@
     const menuPopup = document.getElementById('menuPopup');
     const videoModal = document.getElementById('videoModal');
     const mantraIframe = document.getElementById('mantraIframe');
+    const chantingModal = document.getElementById('chantingModal');
 
+    // ==========================================================================
+    // 1. CLOCK & GREEN PROGRESS FILL
+    // ==========================================================================
     function updateClockAndDate() {
       const now = new Date();
       displayClock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
@@ -491,12 +854,22 @@
       timeProgressFill.style.width = `${fillPercentage.toFixed(2)}%`;
     }
 
-    // Fetch paragraphs from para.json
+    // ==========================================================================
+    // 2. PARAGRAPH & WORD RENDERING ENGINE
+    // ==========================================================================
     async function fetchReadingData() {
       try {
         const response = await fetch('para.json');
         if (!response.ok) throw new Error("Failed to load para.json");
-        readingData = await response.json();
+        const jsonContent = await response.json();
+
+        // Populate header fields dynamically from JSON
+        displayBookName.textContent = jsonContent.bookName || "Bhagavad-gita As It Is";
+        displayChapterName.textContent = jsonContent.chapterName || "Chapter";
+
+        // Extract paragraphs list
+        readingData = jsonContent.paragraphs || [];
+
         renderContinuousReading();
         if (readingData.length > 0) activateParagraph(0);
       } catch (error) {
@@ -567,6 +940,9 @@
       }
     }
 
+    // ==========================================================================
+    // 3. 3-DOT POPUP MENU & MODAL CONTROLLERS
+    // ==========================================================================
     function toggleMenuPopup(event) {
       event.stopPropagation();
       menuPopup.classList.toggle('open');
@@ -589,6 +965,17 @@
       mantraIframe.src = "";
     }
 
+    function openChantingCounter() {
+      menuPopup.classList.remove('open');
+      chantingModal.classList.add('open');
+      calculateBeadInterval();
+    }
+
+    function closeChantingCounter() {
+      stopAutoCount();
+      chantingModal.classList.remove('open');
+    }
+
     function toggleFullscreen() {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen();
@@ -597,8 +984,113 @@
       }
     }
 
+    // ==========================================================================
+    // 4. JAPA YAJNA CHANTING COUNTER LOGIC
+    // ==========================================================================
+    let currentBeads = 0;
+    let totalBeads = 0;
+    let rounds = 0;
+    const targetRounds = 16;
+    let autoCounterInterval = null;
+    let beadIntervalMs = 3240.74;
+
+    function increaseCount() {
+      if (rounds < targetRounds) {
+        currentBeads++;
+        totalBeads++;
+
+        document.getElementById("beadCount").innerText = currentBeads + " / 108";
+        document.getElementById("totalBeads").innerText = totalBeads;
+
+        if (currentBeads === 108) {
+          rounds++;
+          currentBeads = 0;
+
+          document.getElementById("roundCount").innerText = rounds;
+          document.getElementById("beadCount").innerText = currentBeads + " / 108";
+          document.getElementById("message").innerText = "🎉 Round " + rounds + " completed! Hare Krishna!";
+
+          if (navigator.vibrate) {
+            navigator.vibrate([200, 100, 200, 100, 400]);
+          }
+
+          let remainingRounds = targetRounds - rounds;
+
+          if (remainingRounds > 0) {
+            document.getElementById("targetStatus").innerText = "Target: " + remainingRounds + " Rounds Remaining";
+          } else {
+            document.getElementById("targetStatus").innerText = "🎉 16 Rounds Completed Today! Haribol!";
+            document.getElementById("message").innerText = "🌸 All 16 rounds completed! Wonderful seva!";
+            stopAutoCount();
+          }
+        }
+      }
+    }
+
+    function resetCount() {
+      currentBeads = 0;
+      totalBeads = 0;
+      rounds = 0;
+
+      stopAutoCount();
+
+      document.getElementById("beadCount").innerText = "0 / 108";
+      document.getElementById("totalBeads").innerText = "0";
+      document.getElementById("roundCount").innerText = "0";
+      document.getElementById("targetStatus").innerText = "Target: 16 Rounds Remaining";
+      document.getElementById("message").innerText = "";
+    }
+
+    function calculateBeadInterval() {
+      let minutes = parseInt(document.getElementById("minutesInput").value) || 0;
+      let seconds = parseInt(document.getElementById("secondsInput").value) || 0;
+
+      let totalSeconds = (minutes * 60) + seconds;
+
+      if (totalSeconds <= 0) {
+        totalSeconds = 350;
+        document.getElementById("minutesInput").value = 5;
+        document.getElementById("secondsInput").value = 50;
+      }
+
+      let secondsPerBead = totalSeconds / 108;
+      beadIntervalMs = secondsPerBead * 1000;
+
+      document.getElementById("intervalDisplay").innerText =
+        "1 Bead = " + secondsPerBead.toFixed(3) + " seconds";
+    }
+
+    function startAutoCount() {
+      if (autoCounterInterval !== null) return;
+
+      if (rounds >= targetRounds) {
+        document.getElementById("message").innerText = "🌸 All 16 rounds already completed today!";
+        return;
+      }
+
+      calculateBeadInterval();
+      document.getElementById("autoStatus").innerText = "Auto Counter: Running ▶️";
+
+      autoCounterInterval = setInterval(function () {
+        increaseCount();
+      }, beadIntervalMs);
+    }
+
+    function stopAutoCount() {
+      if (autoCounterInterval !== null) {
+        clearInterval(autoCounterInterval);
+        autoCounterInterval = null;
+      }
+      document.getElementById("autoStatus").innerText = "Auto Counter: Stopped";
+    }
+
+    document.getElementById("minutesInput").addEventListener("input", calculateBeadInterval);
+    document.getElementById("secondsInput").addEventListener("input", calculateBeadInterval);
+
+    // ==========================================================================
+    // 5. INITIALIZATION
+    // ==========================================================================
     function init() {
-      displayBookName.textContent = bookName;
       updateClockAndDate();
       setInterval(updateClockAndDate, 1000);
       fetchReadingData();
