@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Reading Session</title>
+  <style>
+    /* ==========================================================================
+       1. GLOBAL THEME & BASE STYLES
+       ========================================================================== */
+    :root {
+      --bg-gradient: linear-gradient(135deg, #fdfbf7 0%, #f4eae0 100%);
+      --header-bg: #ffffff;
+      --card-bg: #ffffff;
+      --accent-gold: #d97706;
+      --accent-saffron: #ea580c;
+      --accent-saffron-light: #fff7ed;
+      --text-main: #1c1917;
+      --text-muted: #78716c;
+      --border-color: #292524;
+      --highlight-bg: #fde047;
+      --highlight-text: #000000;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Georgia, serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      -webkit-user-select: none;
+      padding: 12px;
+    }
+
+    .app-frame {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      border: 4px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.4);
+      padding: 12px;
+      gap: 12px;
+      position: relative;
+    }
+
+    /* ==========================================================================
+       2. TOP HEADER
+       ========================================================================== */
+    header {
+      display: grid;
+      grid-template-columns: 140px 2fr 1.1fr 1fr auto auto;
+      border: 3px solid var(--border-color);
+      background: #ffffff;
+    }
+
+    .header-box {
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-box:not(:last-child) {
+      border-right: 3px solid var(--border-color);
+    }
+
+    .logo-box {
+      background: #000000;
+      padding: 4px 8px;
+    }
+
+    .logo-box img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .logo-fallback {
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .book-title {
+      font-size: 1.3rem;
+      color: var(--accent-saffron);
+      justify-content: flex-start;
+      letter-spacing: -0.3px;
+    }
+
+    .time-box {
+      position: relative;
+    }
+
+    .time-progress-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, rgba(74, 222, 128, 0.35) 0%, rgba(34, 197, 94, 0.75) 100%);
+      transition: width 0.5s linear;
+      z-index: 1;
+    }
+
+    .time-text {
+      position: relative;
+      z-index: 2;
+      font-family: monospace;
+      font-size: 1.15rem;
+      letter-spacing: 0.5px;
+    }
+
+    .fullscreen-btn {
+      background: #ffffff;
+      border: none;
+      color: var(--text-main);
+      font-weight: 700;
+      padding: 0 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+      gap: 4px;
+    }
+
+    .fullscreen-btn:hover {
+      background: var(--accent-saffron-light);
+      color: var(--accent-saffron);
+    }
+
+    .menu-dots-btn {
+      background: #ffffff;
+      border: none;
+      border-left: 3px solid var(--border-color);
+      font-size: 1.4rem;
+      font-weight: 900;
+      padding: 0 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      transition: background 0.2s ease;
+    }
+
+    .menu-dots-btn:hover {
+      background: var(--accent-saffron-light);
+      color: var(--accent-saffron);
+    }
+
+    /* 3-DOT POPUP TAB */
+    .menu-popup {
+      display: none;
+      position: absolute;
+      top: 65px;
+      right: 14px;
+      background: #ffffff;
+      border: 3px solid var(--border-color);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      border-radius: 6px;
+      z-index: 200;
+      min-width: 180px;
+      overflow: hidden;
+    }
+
+    .menu-popup.open {
+      display: block;
+    }
+
+    .menu-item {
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.15s ease;
+    }
+
+    .menu-item:hover {
+      background: var(--accent-saffron-light);
+      color: var(--accent-saffron);
+    }
+
+    /* ENLARGED VIDEO MODAL */
+    .video-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .video-modal-overlay.open {
+      display: flex;
+    }
+
+    .video-modal-container {
+      background: #000000;
+      border: 3px solid var(--accent-gold);
+      border-radius: 12px;
+      width: 90%;
+      max-width: 1100px;
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .video-modal-header {
+      background: #18181b;
+      color: #ffffff;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #27272a;
+    }
+
+    .video-modal-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fef08a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .video-close-btn {
+      background: #ea580c;
+      border: none;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .video-close-btn:hover {
+      background: #c2410c;
+    }
+
+    .video-modal-body {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    .video-modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* ==========================================================================
+       3. MAIN DASHBOARD LAYOUT
+       ========================================================================== */
+    .dashboard {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.45fr 1fr;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .reading-panel {
+      display: flex;
+      flex-direction: column;
+      border: 3px solid var(--border-color);
+      background: #ffffff;
+      min-height: 0;
+    }
+
+    .reading-area {
+      flex: 1;
+      padding: 32px 36px;
+      overflow-y: auto;
+      background: #ffffff;
+    }
+
+    .paragraph-block {
+      font-size: 1.7rem;
+      line-height: 1.9;
+      color: #1c1917;
+      margin-bottom: 28px;
+      padding: 10px 14px;
+      border-left: 4px solid transparent;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .paragraph-block.active-para {
+      border-left-color: var(--accent-saffron);
+      background-color: #fffcf8;
+    }
+
+    .word {
+      display: inline;
+      padding: 2px 4px;
+      margin: 0 1px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.1s ease;
+    }
+
+    .word:hover, .word.highlighted {
+      background-color: var(--highlight-bg);
+      color: var(--highlight-text);
+      font-weight: 700;
+    }
+
+    .media-panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .image-card {
+      flex: 1;
+      border: 3px solid var(--border-color);
+      background: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 16px;
+      min-height: 0;
+    }
+
+    .image-card img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: opacity 0.25s ease;
+    }
+
+    @media (max-width: 900px) {
+      body, html {
+        overflow: auto;
+        height: auto;
+      }
+      header {
+        grid-template-columns: 1fr 1fr;
+      }
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      .image-card {
+        min-height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-frame">
+    <header>
+      <div class="header-box logo-box">
+        <img id="logoImg" src="images/logo.png" alt="ISKCON Logo" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';" />
+        <div id="logoFallback" class="logo-fallback" style="display:none;">SRILA PRABHUPADA<br><strong>ISKCON</strong><br>MYSORE</div>
+      </div>
+
+      <div class="header-box book-title" id="displayBookName">Book Name</div>
+      
+      <div class="header-box time-box">
+        <div class="time-progress-fill" id="timeProgressFill"></div>
+        <span class="time-text" id="displayClock">00:00:00 PM</span>
+      </div>
+      
+      <div class="header-box" id="displayDate">Date</div>
+
+      <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">
+        ⛶ Fullscreen
+      </button>
+
+      <button class="menu-dots-btn" onclick="toggleMenuPopup(event)" title="Options">
+        ⋮
+      </button>
+    </header>
+
+    <div class="menu-popup" id="menuPopup">
+      <div class="menu-item" onclick="openMantraVideo()">
+        <span>🧘‍♂️</span> Daily Mantra
+      </div>
+    </div>
+
+    <main class="dashboard">
+      <section class="reading-panel">
+        <div class="reading-area" id="readingContainer">
+          <!-- Paragraphs rendered dynamically from para.json -->
+        </div>
+      </section>
+
+      <section class="media-panel">
+        <div class="image-card">
+          <img id="paragraphImage" src="" alt="Paragraph Visual Illustration" />
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="video-modal-overlay" id="videoModal">
+    <div class="video-modal-container">
+      <div class="video-modal-header">
+        <div class="video-modal-title">
+          <span>🎵</span> Daily Mantra — ISKCON Mysore
+        </div>
+        <button class="video-close-btn" onclick="closeMantraVideo()">✕ Close</button>
+      </div>
+      <div class="video-modal-body">
+        <iframe id="mantraIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const bookName = "Bhagavad-gita As It Is";
+    const mantraPlaylistEmbedUrl = "https://www.youtube.com/embed/videoseries?list=PL0olZhEpCi6dodNRfIbtT4-2Xe4yqtXUX&autoplay=1";
+
+    const sessionStartHour = 21;
+    const sessionStartMinute = 0;
+    const sessionDurationMinutes = 30;
+
+    let readingData = [];
+    let currentActiveIndex = -1;
+
+    const fallbackImage = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='400' viewBox='0 0 600 400'><rect width='600' height='400' fill='%230f172a'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%2364748b' font-size='18' font-family='sans-serif'>No image for this passage</text></svg>";
+
+    const displayBookName = document.getElementById('displayBookName');
+    const displayClock = document.getElementById('displayClock');
+    const displayDate = document.getElementById('displayDate');
+    const timeProgressFill = document.getElementById('timeProgressFill');
+    const readingContainer = document.getElementById('readingContainer');
+    const paragraphImage = document.getElementById('paragraphImage');
+    const menuPopup = document.getElementById('menuPopup');
+    const videoModal = document.getElementById('videoModal');
+    const mantraIframe = document.getElementById('mantraIframe');
+
+    function updateClockAndDate() {
+      const now = new Date();
+      displayClock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+      displayDate.textContent = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+      const startMs = new Date(now.getFullYear(), now.getMonth(), now.getDate(), sessionStartHour, sessionStartMinute, 0).getTime();
+      const endMs = startMs + (sessionDurationMinutes * 60 * 1000);
+      const currentMs = now.getTime();
+
+      let fillPercentage = 0;
+      if (currentMs >= endMs) {
+        fillPercentage = 100;
+      } else if (currentMs > startMs) {
+        fillPercentage = ((currentMs - startMs) / (endMs - startMs)) * 100;
+      }
+      timeProgressFill.style.width = `${fillPercentage.toFixed(2)}%`;
+    }
+
+    // Fetch paragraphs from para.json
+    async function fetchReadingData() {
+      try {
+        const response = await fetch('para.json');
+        if (!response.ok) throw new Error("Failed to load para.json");
+        readingData = await response.json();
+        renderContinuousReading();
+        if (readingData.length > 0) activateParagraph(0);
+      } catch (error) {
+        console.error("Error fetching para.json:", error);
+        readingContainer.innerHTML = `<div style="padding: 20px; color: #ef4444; font-weight: bold;">Could not load para.json file. Please ensure para.json is located in the root folder.</div>`;
+      }
+    }
+
+    function renderContinuousReading() {
+      readingContainer.innerHTML = '';
+
+      readingData.forEach((item, index) => {
+        const paraEl = document.createElement('div');
+        paraEl.className = 'paragraph-block';
+        paraEl.dataset.index = index;
+
+        const tokens = item.paragraph.split(/(\s+)/);
+        tokens.forEach(token => {
+          if (token.trim().length === 0) {
+            paraEl.appendChild(document.createTextNode(token));
+          } else {
+            const wordSpan = document.createElement('span');
+            wordSpan.className = 'word';
+            wordSpan.textContent = token;
+
+            wordSpan.addEventListener('mouseenter', function() {
+              clearWordHighlights();
+              this.classList.add('highlighted');
+            });
+
+            paraEl.appendChild(wordSpan);
+          }
+        });
+
+        paraEl.addEventListener('mouseenter', function() {
+          activateParagraph(index);
+        });
+
+        readingContainer.appendChild(paraEl);
+      });
+    }
+
+    function clearWordHighlights() {
+      const currentHighlighted = readingContainer.querySelectorAll('.word.highlighted');
+      currentHighlighted.forEach(el => el.classList.remove('highlighted'));
+    }
+
+    function activateParagraph(index) {
+      if (currentActiveIndex === index) return;
+      currentActiveIndex = index;
+
+      const blocks = readingContainer.querySelectorAll('.paragraph-block');
+      blocks.forEach((block, idx) => {
+        block.classList.toggle('active-para', idx === index);
+      });
+
+      const item = readingData[index];
+      if (item) {
+        paragraphImage.style.opacity = '0';
+        setTimeout(() => {
+          paragraphImage.src = item.image;
+          paragraphImage.onerror = function() {
+            this.onerror = null;
+            this.src = fallbackImage;
+          };
+          paragraphImage.style.opacity = '1';
+        }, 150);
+      }
+    }
+
+    function toggleMenuPopup(event) {
+      event.stopPropagation();
+      menuPopup.classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+      if (!menuPopup.contains(e.target)) {
+        menuPopup.classList.remove('open');
+      }
+    });
+
+    function openMantraVideo() {
+      menuPopup.classList.remove('open');
+      mantraIframe.src = mantraPlaylistEmbedUrl;
+      videoModal.classList.add('open');
+    }
+
+    function closeMantraVideo() {
+      videoModal.classList.remove('open');
+      mantraIframe.src = "";
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    function init() {
+      displayBookName.textContent = bookName;
+      updateClockAndDate();
+      setInterval(updateClockAndDate, 1000);
+      fetchReadingData();
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
