@@ -3,33 +3,33 @@
   "activeChapterIndex": 0,
   "books": [
     {
-      "bookId": "on-the-way-to-krishna",
+      "bookId": "On the Way to Krishna",
       "bookName": "On the Way to Kṛṣṇa",
       "chapters": [
         {
           "chapterId": "c1",
           "chapterName": "C1: Throughway to Happiness",
-          "txtFile": "Book/On%20the%20Way%20to%20Krishna/C1_Throughway_to_Happiness.txt"
+          "txtFile": "Book/On the Way to Krishna/C1_Throughway_to_Happiness.txt"
         },
         {
           "chapterId": "c2",
           "chapterName": "C2: The Way of Chanting and Knowing Kṛṣṇa",
-          "txtFile": "Book/On%20the%20Way%20to%20Krishna/C2_The Way of Chanting and Knowing Krishna.txt"
+          "txtFile": "Book/On the Way to Krishna/C2_The Way of Chanting and Knowing Krishna.txt"
         },
         {
           "chapterId": "c3",
           "chapterName": "C3: Seeing Kṛṣṇa Everywhere and Always",
-          "txtFile": "Book/On%20the%20Way%20to%20Krishna/C3_Seeing Krishna Everywhere and Always.txt"
+          "txtFile": "Book/On the Way to Krishna/C3_Seeing Krishna Everywhere and Always.txt"
         },
         {
           "chapterId": "c4",
           "chapterName": "C4: The Roads of the Foolish and the Wise",
-          "txtFile": "Book/On%20the%20Way%20to%20Krishna/C4_The%20Roads%20of%20the%20Foolish%20and%20the%20Wise.txt"
+          "txtFile": "Book/On the Way to Krishna/C4_The Roads of the Foolish and the Wise.txt"
         },
         {
           "chapterId": "c5",
           "chapterName": "C5: Steering Toward the Supreme",
-          "txtFile": "Book/On%20the%20Way%20to%20Krishna/C5_Steering%20Toward%20the%20Supreme.txt"
+          "txtFile": "Book/On the Way to Krishna/C5_Steering Toward the Supreme.txt"
         }
       ]
     }
