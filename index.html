@@ -624,24 +624,18 @@
     }
 
     /* ==========================================================================
-       4. MAIN DASHBOARD LAYOUT & ANIMATED DYNAMIC EXPANSION
+       4. MAIN DASHBOARD LAYOUT & SMOOTH FLUID TRANSITION ENGINE
        ========================================================================== */
     .dashboard {
       flex: 1;
-      display: grid;
-      grid-template-columns: 1.45fr 1fr;
+      display: flex;
       gap: 12px;
       min-height: 0;
-      transition: grid-template-columns 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* FULL WIDTH MODE WHEN NO IMAGE IS PRESENT */
-    .dashboard.full-width {
-      grid-template-columns: 1fr 0fr;
-      gap: 0px;
+      width: 100%;
     }
 
     .reading-panel {
+      flex: 1;
       display: flex;
       flex-direction: column;
       border: 3px solid var(--border-color);
@@ -649,7 +643,7 @@
       min-height: 0;
       border-radius: 12px;
       overflow: hidden;
-      width: 100%;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* CLEAN WHITE BACKGROUND READER AREA */
@@ -719,9 +713,10 @@
     }
 
     /* ==========================================================================
-       5. MEDIA PANEL & DYNAMIC SLIDE ANIMATION
+       5. MEDIA PANEL & ULTRA-SMOOTH EXPANSION/COLLAPSE ANIMATION
        ========================================================================== */
     .media-panel {
+      width: 40%;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -729,15 +724,19 @@
       opacity: 1;
       transform: scale(1);
       transform-origin: right center;
-      transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease;
-      visibility: visible;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.4s ease-in-out,
+                  transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  margin 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       overflow: hidden;
     }
 
+    /* COLLAPSED STATE (When no image is present) */
     .media-panel.hidden-panel {
+      width: 0px !important;
       opacity: 0;
-      transform: scale(0.95) translateX(30px);
-      visibility: hidden;
+      transform: scale(0.95) translateX(20px);
+      margin-left: -12px;
       pointer-events: none;
     }
 
@@ -870,8 +869,11 @@
         grid-template-columns: 1fr 1fr;
         height: auto;
       }
-      .dashboard, .dashboard.full-width {
-        grid-template-columns: 1fr;
+      .dashboard {
+        flex-direction: column;
+      }
+      .media-panel {
+        width: 100% !important;
       }
       .image-card {
         min-height: 320px;
@@ -1380,14 +1382,12 @@
 
       currentParaImages = validImages;
 
-      // ANIMATE OPEN / CLOSE DEPENDING ON IMAGE EXISTENCE
+      // SMOOTH ANIMATED OPEN / CLOSE
       if (validImages.length > 0) {
-        dashboardGrid.classList.remove('full-width');
         mediaPanel.classList.remove('hidden-panel');
         currentImageSubIndex = 0;
         updateMediaGallery();
       } else {
-        dashboardGrid.classList.add('full-width');
         mediaPanel.classList.add('hidden-panel');
       }
     }
