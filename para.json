@@ -12,17 +12,19 @@
         {
           "chapterName": "C2: The Way of Chanting and Knowing Kṛṣṇa",
           "txtFile": "Book/On the Way to Krishna/C2_The Way of Chanting and Knowing Kṛṣṇa.txt"
-        }
-      ]
-    },
-    {
-      "bookName": "Beyond Birth and Death",
-      "chapters": [
+        },
         {
-          "chapterName": "C1: We Are Not This Body",
-          "txtFile": "Book/Beyond Birth and Death/C1_We_Are_Not_This_Body.txt"
+          "chapterName": "C3: Seeing Kṛṣṇa Everywhere and Always",
+          "txtFile": "Book/On the Way to Krishna/C3_Seeing Kṛṣṇa Everywhere and Always.txt"
+        },
+        {
+          "chapterName": "C4: The Roads of the Foolish and the Wise",
+          "txtFile": "Book/On the Way to Krishna/C4_The Roads of the Foolish and the Wise.txt"
+        },
+        {
+          "chapterName": "C5: Steering Toward the Supreme",
+          "txtFile": "Book/On the Way to Krishna/C5_Steering Toward the Supreme.txt"
         }
       ]
     }
-  ]
-}
+    
