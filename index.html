@@ -691,6 +691,12 @@
       color: #2c1a0e;
     }
 
+    .sanskrit-verse-line {
+      text-align: center;
+      display: block;
+      margin-bottom: 4px;
+    }
+
     /* AUTO-BOLD FOR DOUBLE QUOTED TEXT */
     .quoted-text {
       font-weight: 700;
@@ -1161,7 +1167,7 @@
       }
     }
 
-    // UPDATED PARSER: Detects multi-line verses and preserves line breaks
+    // PARSER: Keeps multi-line line-breaks intact so verses render in centered lines
     function parseTxtContent(rawText) {
       const rawBlocks = rawText.split(/\n\s*\n/);
       const parsedParagraphs = [];
@@ -1252,7 +1258,7 @@
     }
 
     // ==========================================================================
-    // 4. PARAGRAPH & WORD RENDERING ENGINE (CENTERED VERSES & QUOTE BOLDING)
+    // 4. PARAGRAPH & WORD RENDERING ENGINE (MULTI-LINE CENTERED VERSES & QUOTE BOLDING)
     // ==========================================================================
     function renderContinuousReading() {
       readingContainer.innerHTML = '';
@@ -1272,7 +1278,7 @@
           const lines = text.split('\n');
           lines.forEach(line => {
             const lineDiv = document.createElement('div');
-            lineDiv.style.textAlign = 'center';
+            lineDiv.className = 'sanskrit-verse-line';
 
             const tokens = line.split(/(\s+)/);
             tokens.forEach(token => {
