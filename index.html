@@ -624,7 +624,7 @@
     }
 
     /* ==========================================================================
-       4. MAIN DASHBOARD LAYOUT & CLEAN WHITE READER
+       4. MAIN DASHBOARD LAYOUT & ANIMATED DYNAMIC EXPANSION
        ========================================================================== */
     .dashboard {
       flex: 1;
@@ -632,6 +632,13 @@
       grid-template-columns: 1.45fr 1fr;
       gap: 12px;
       min-height: 0;
+      transition: grid-template-columns 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* FULL WIDTH MODE WHEN NO IMAGE IS PRESENT */
+    .dashboard.full-width {
+      grid-template-columns: 1fr 0fr;
+      gap: 0px;
     }
 
     .reading-panel {
@@ -642,6 +649,7 @@
       min-height: 0;
       border-radius: 12px;
       overflow: hidden;
+      width: 100%;
     }
 
     /* CLEAN WHITE BACKGROUND READER AREA */
@@ -695,7 +703,7 @@
       color: #000000;
     }
 
-    /* STABLE WORD HOVER (No background change on paragraph, only word highlights) */
+    /* STABLE WORD HOVER */
     .word {
       display: inline;
       padding: 1px 2px;
@@ -711,13 +719,26 @@
     }
 
     /* ==========================================================================
-       5. MEDIA PANEL & CAROUSEL
+       5. MEDIA PANEL & DYNAMIC SLIDE ANIMATION
        ========================================================================== */
     .media-panel {
       display: flex;
       flex-direction: column;
       gap: 10px;
       min-height: 0;
+      opacity: 1;
+      transform: scale(1);
+      transform-origin: right center;
+      transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease;
+      visibility: visible;
+      overflow: hidden;
+    }
+
+    .media-panel.hidden-panel {
+      opacity: 0;
+      transform: scale(0.95) translateX(30px);
+      visibility: hidden;
+      pointer-events: none;
     }
 
     .image-card {
@@ -849,7 +870,7 @@
         grid-template-columns: 1fr 1fr;
         height: auto;
       }
-      .dashboard {
+      .dashboard, .dashboard.full-width {
         grid-template-columns: 1fr;
       }
       .image-card {
@@ -918,14 +939,14 @@
     </div>
 
     <!-- MAIN DASHBOARD -->
-    <main class="dashboard">
+    <main class="dashboard" id="dashboardGrid">
       <section class="reading-panel">
         <div class="reading-area" id="readingContainer">
           <!-- Paragraphs rendered dynamically from active .txt file -->
         </div>
       </section>
 
-      <section class="media-panel">
+      <section class="media-panel" id="mediaPanel">
         <div class="image-card">
           <div class="image-count-badge" id="imageCountBadge">1 / 1</div>
           <button class="img-nav-btn img-nav-prev" id="imgPrevBtn" onclick="navigateImage(-1)">❮</button>
@@ -1076,8 +1097,6 @@
     let currentParaImages = [];
     let currentImageSubIndex = 0;
 
-    const fallbackImage = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='400' viewBox='0 0 600 400'><rect width='600' height='400' fill='%230f172a'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%2364748b' font-size='18' font-family='sans-serif'>No image for this passage</text></svg>";
-
     // DOM References
     const displayBookName = document.getElementById('displayBookName');
     const displayChapterName = document.getElementById('displayChapterName');
@@ -1085,6 +1104,8 @@
     const displayDate = document.getElementById('displayDate');
     const timeProgressFill = document.getElementById('timeProgressFill');
     const readingContainer = document.getElementById('readingContainer');
+    const dashboardGrid = document.getElementById('dashboardGrid');
+    const mediaPanel = document.getElementById('mediaPanel');
     const paragraphImage = document.getElementById('paragraphImage');
     const thumbnailGallery = document.getElementById('thumbnailGallery');
     const imageCountBadge = document.getElementById('imageCountBadge');
@@ -1145,7 +1166,8 @@
         displayChapterName.textContent = currentChapter.chapterName + " ▾";
 
         if (currentChapter.txtFile) {
-          const txtResponse = await fetch(currentChapter.txtFile);
+          const safePath = encodeURI(currentChapter.txtFile);
+          const txtResponse = await fetch(safePath);
           const rawText = await txtResponse.text();
           readingData = parseTxtContent(rawText);
         } else {
@@ -1159,7 +1181,7 @@
       }
     }
 
-    // PARSER: Preserves multi-line verses so slokas remain centered line-by-line
+    // PARSER: Scans for explicit [IMAGE: ...] tags
     function parseTxtContent(rawText) {
       const rawBlocks = rawText.split(/\n\s*\n/);
       const parsedParagraphs = [];
@@ -1168,7 +1190,6 @@
         let cleanText = block.trim();
         let extractedImages = [];
 
-        // Scans the .txt block for [IMAGE: path1, path2]
         const imageMatch = cleanText.match(/\[IMAGE:\s*(.*?)\]/i);
         if (imageMatch) {
           extractedImages = imageMatch[1].split(',').map(url => url.trim());
@@ -1183,13 +1204,13 @@
             parsedParagraphs.push({
               paragraph: lines.join('\n'),
               isVerse: true,
-              images: extractedImages.length > 0 ? extractedImages : [fallbackImage]
+              images: extractedImages
             });
           } else {
             parsedParagraphs.push({
               paragraph: cleanText.replace(/\n+/g, ' '),
               isVerse: false,
-              images: extractedImages.length > 0 ? extractedImages : [fallbackImage]
+              images: extractedImages
             });
           }
         }
@@ -1250,7 +1271,7 @@
     }
 
     // ==========================================================================
-    // 4. PARAGRAPH & WORD RENDERING ENGINE (MULTI-LINE CENTERED VERSES & QUOTE BOLDING)
+    // 4. PARAGRAPH & WORD RENDERING ENGINE
     // ==========================================================================
     function renderContinuousReading() {
       readingContainer.innerHTML = '';
@@ -1340,29 +1361,40 @@
     }
 
     // ==========================================================================
-    // 5. MULTI-IMAGE CAROUSEL ENGINE
+    // 5. ANIMATED DYNAMIC MEDIA PANEL ENGINE
     // ==========================================================================
     function activateParagraph(index) {
       if (currentActiveIndex === index) return;
       currentActiveIndex = index;
 
       const item = readingData[index];
+      let validImages = [];
+
       if (item) {
         if (Array.isArray(item.images) && item.images.length > 0) {
-          currentParaImages = item.images;
-        } else if (item.image) {
-          currentParaImages = [item.image];
-        } else {
-          currentParaImages = [fallbackImage];
+          validImages = item.images.filter(img => img && !img.includes('data:image/svg+xml'));
+        } else if (item.image && !item.image.includes('data:image/svg+xml')) {
+          validImages = [item.image];
         }
+      }
 
+      currentParaImages = validImages;
+
+      // ANIMATE OPEN / CLOSE DEPENDING ON IMAGE EXISTENCE
+      if (validImages.length > 0) {
+        dashboardGrid.classList.remove('full-width');
+        mediaPanel.classList.remove('hidden-panel');
         currentImageSubIndex = 0;
         updateMediaGallery();
+      } else {
+        dashboardGrid.classList.add('full-width');
+        mediaPanel.classList.add('hidden-panel');
       }
     }
 
     function updateMediaGallery() {
       const totalImgs = currentParaImages.length;
+      if (totalImgs === 0) return;
 
       if (totalImgs > 1) {
         imageCountBadge.style.display = 'block';
@@ -1378,13 +1410,9 @@
       }
 
       paragraphImage.style.opacity = '0';
-      paragraphImage.style.transform = 'scale(0.98)';
+      paragraphImage.style.transform = 'scale(0.96)';
       setTimeout(() => {
         paragraphImage.src = currentParaImages[currentImageSubIndex];
-        paragraphImage.onerror = function() {
-          this.onerror = null;
-          this.src = fallbackImage;
-        };
         paragraphImage.style.opacity = '1';
         paragraphImage.style.transform = 'scale(1)';
       }, 150);
@@ -1394,7 +1422,7 @@
         currentParaImages.forEach((imgUrl, idx) => {
           const thumb = document.createElement('div');
           thumb.className = `thumbnail-item ${idx === currentImageSubIndex ? 'active' : ''}`;
-          thumb.innerHTML = `<img src="${imgUrl}" onerror="this.src='${fallbackImage}'" />`;
+          thumb.innerHTML = `<img src="${imgUrl}" />`;
           thumb.onclick = () => {
             currentImageSubIndex = idx;
             updateMediaGallery();
