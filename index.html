@@ -646,7 +646,7 @@
     }
 
     /* ==========================================================================
-       4. MAIN DASHBOARD LAYOUT & SMOOTH FLUID TRANSITION ENGINE
+       4. MAIN DASHBOARD LAYOUT & INSTANT RESPONSIVE TRANSITIONS
        ========================================================================== */
     .dashboard {
       flex: 1;
@@ -665,7 +665,7 @@
       min-height: 0;
       border-radius: 12px;
       overflow: hidden;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.1s cubic-bezier(0, 0, 0.2, 1);
     }
 
     /* PURE WHITE BACKGROUND READER AREA */
@@ -737,7 +737,7 @@
     }
 
     /* ==========================================================================
-       5. MEDIA PANEL & ULTRA-SMOOTH EXPANSION/COLLAPSE ANIMATION
+       5. MEDIA PANEL & ZERO-DELAY INSTANT EXPANSION/COLLAPSE
        ========================================================================== */
     .media-panel {
       width: 40%;
@@ -748,18 +748,17 @@
       opacity: 1;
       transform: scale(1);
       transform-origin: right center;
-      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-                  opacity 0.4s ease-in-out,
-                  transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                  margin 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: width 0.1s cubic-bezier(0, 0, 0.2, 1),
+                  opacity 0.1s linear,
+                  margin 0.1s cubic-bezier(0, 0, 0.2, 1);
       overflow: hidden;
     }
 
-    /* COLLAPSED STATE (When no image is present) */
+    /* COLLAPSED STATE (Instant hide when no image is present) */
     .media-panel.hidden-panel {
       width: 0px !important;
       opacity: 0;
-      transform: scale(0.95) translateX(20px);
+      transform: scale(1) translateX(0px);
       margin-left: -12px;
       pointer-events: none;
     }
@@ -784,7 +783,7 @@
       max-height: 100%;
       object-fit: contain;
       border-radius: 6px;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition: none;
     }
 
     .image-count-badge {
@@ -974,7 +973,7 @@
         </div>
       </section>
 
-      <section class="media-panel" id="mediaPanel">
+      <section class="media-panel hidden-panel" id="mediaPanel">
         <div class="image-card">
           <div class="image-count-badge" id="imageCountBadge">1 / 1</div>
           <button class="img-nav-btn img-nav-prev" id="imgPrevBtn" onclick="navigateImage(-1)">❮</button>
@@ -1395,7 +1394,7 @@
     }
 
     // ==========================================================================
-    // 5. ANIMATED DYNAMIC MEDIA PANEL ENGINE
+    // 5. ZERO-DELAY INSTANT MEDIA PANEL ENGINE
     // ==========================================================================
     function activateParagraph(index) {
       if (currentActiveIndex === index) return;
@@ -1414,13 +1413,13 @@
 
       currentParaImages = validImages;
 
-      // SMOOTH ANIMATED OPEN / CLOSE
       if (validImages.length > 0) {
-        mediaPanel.classList.remove('hidden-panel');
         currentImageSubIndex = 0;
         updateMediaGallery();
+        mediaPanel.classList.remove('hidden-panel');
       } else {
         mediaPanel.classList.add('hidden-panel');
+        paragraphImage.src = "";
       }
     }
 
@@ -1441,13 +1440,8 @@
         thumbnailGallery.style.display = 'none';
       }
 
-      paragraphImage.style.opacity = '0';
-      paragraphImage.style.transform = 'scale(0.96)';
-      setTimeout(() => {
-        paragraphImage.src = currentParaImages[currentImageSubIndex];
-        paragraphImage.style.opacity = '1';
-        paragraphImage.style.transform = 'scale(1)';
-      }, 150);
+      // INSTANT IMAGE SWAP WITH ZERO TIMEOUT DELAY
+      paragraphImage.src = currentParaImages[currentImageSubIndex];
 
       thumbnailGallery.innerHTML = '';
       if (totalImgs > 1) {
