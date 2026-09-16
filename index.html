@@ -649,7 +649,7 @@
       flex: 1;
       padding: 40px 48px;
       overflow-y: auto;
-      background: #ffffff; /* Preserved White Background */
+      background: #ffffff;
       color: #1c1917;
     }
 
@@ -681,7 +681,7 @@
       box-shadow: 0 4px 15px rgba(234, 88, 12, 0.04);
     }
 
-    /* SANSKRIT VERSE BLOCK STYLING (Centered & Italicized) */
+    /* SANSKRIT VERSE BLOCK STYLING (Centered & Italicized Multi-line) */
     .sanskrit-verse-block {
       text-align: center;
       font-style: italic;
@@ -697,7 +697,7 @@
       color: #000000;
     }
 
-    /* STABLE WORD HOVER (Yellow highlight without font expansion/jitter) */
+    /* STABLE WORD HOVER (No font expansion or size shift) */
     .word {
       display: inline;
       padding: 1px 2px;
@@ -1161,6 +1161,7 @@
       }
     }
 
+    // UPDATED PARSER: Detects multi-line verses and preserves line breaks
     function parseTxtContent(rawText) {
       const rawBlocks = rawText.split(/\n\s*\n/);
       const parsedParagraphs = [];
@@ -1177,10 +1178,22 @@
         }
 
         if (cleanText.length > 0) {
-          parsedParagraphs.push({
-            paragraph: cleanText,
-            images: extractedImages.length > 0 ? extractedImages : [fallbackImage]
-          });
+          const lines = cleanText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+          const isMultiLineVerse = lines.length > 1 && !cleanText.includes('“') && !cleanText.includes('"');
+
+          if (isMultiLineVerse) {
+            parsedParagraphs.push({
+              paragraph: lines.join('\n'),
+              isVerse: true,
+              images: extractedImages.length > 0 ? extractedImages : [fallbackImage]
+            });
+          } else {
+            parsedParagraphs.push({
+              paragraph: cleanText.replace(/\n+/g, ' '),
+              isVerse: false,
+              images: extractedImages.length > 0 ? extractedImages : [fallbackImage]
+            });
+          }
         }
       });
 
@@ -1239,7 +1252,7 @@
     }
 
     // ==========================================================================
-    // 4. PARAGRAPH & WORD RENDERING ENGINE WITH AUTO-QUOTE BOLDING & SANSKRIT STYLING
+    // 4. PARAGRAPH & WORD RENDERING ENGINE (CENTERED VERSES & QUOTE BOLDING)
     // ==========================================================================
     function renderContinuousReading() {
       readingContainer.innerHTML = '';
@@ -1251,46 +1264,69 @@
 
         let text = item.paragraph;
 
-        // Auto-detect multiline Sanskrit verse blocks (non-quoted slokas)
-        const isSanskritBlock = /^(sukham|buddhi-grāhyam|vetti|sthitaś|sa niścayena|saṅkalpa|manasaivendriya|śanaiḥ|ātma-saṁsthaṁ|yato yato|praśānta|yuñjann|taṁ vidyād)/i.test(text) && !text.includes('“');
+        const isSanskrit = item.isVerse || (/^(sukham|buddhi-grāhyam|vetti|sthitaś|sa niścayena|saṅkalpa|manasaivendriya|śanaiḥ|ātma-saṁsthaṁ|yato yato|praśānta|yuñjann|taṁ vidyād|yaṁ labdhvā)/i.test(text) && !text.includes('“'));
 
-        if (isSanskritBlock) {
+        if (isSanskrit) {
           paraEl.classList.add('sanskrit-verse-block');
-        }
 
-        // Tokenize text and track quote states for bolding ("...")
-        let isInsideQuotes = false;
-        const tokens = text.split(/(\s+)/);
+          const lines = text.split('\n');
+          lines.forEach(line => {
+            const lineDiv = document.createElement('div');
+            lineDiv.style.textAlign = 'center';
 
-        tokens.forEach(token => {
-          if (token.trim().length === 0) {
-            paraEl.appendChild(document.createTextNode(token));
-          } else {
-            const wordSpan = document.createElement('span');
-            wordSpan.className = 'word';
-            wordSpan.textContent = token;
+            const tokens = line.split(/(\s+)/);
+            tokens.forEach(token => {
+              if (token.trim().length === 0) {
+                lineDiv.appendChild(document.createTextNode(token));
+              } else {
+                const wordSpan = document.createElement('span');
+                wordSpan.className = 'word';
+                wordSpan.textContent = token;
 
-            // Quote state toggle logic
-            if (token.includes('“') || token.includes('"')) {
-              isInsideQuotes = true;
-            }
+                wordSpan.addEventListener('mouseenter', function() {
+                  clearWordHighlights();
+                  this.classList.add('highlighted');
+                });
 
-            if (isInsideQuotes) {
-              wordSpan.classList.add('quoted-text');
-            }
-
-            if (token.includes('”') || (isInsideQuotes && token.endsWith('"'))) {
-              isInsideQuotes = false;
-            }
-
-            wordSpan.addEventListener('mouseenter', function() {
-              clearWordHighlights();
-              this.classList.add('highlighted');
+                lineDiv.appendChild(wordSpan);
+              }
             });
 
-            paraEl.appendChild(wordSpan);
-          }
-        });
+            paraEl.appendChild(lineDiv);
+          });
+        } else {
+          let isInsideQuotes = false;
+          const tokens = text.split(/(\s+)/);
+
+          tokens.forEach(token => {
+            if (token.trim().length === 0) {
+              paraEl.appendChild(document.createTextNode(token));
+            } else {
+              const wordSpan = document.createElement('span');
+              wordSpan.className = 'word';
+              wordSpan.textContent = token;
+
+              if (token.includes('“') || token.includes('"')) {
+                isInsideQuotes = true;
+              }
+
+              if (isInsideQuotes) {
+                wordSpan.classList.add('quoted-text');
+              }
+
+              if (token.includes('”') || (isInsideQuotes && token.endsWith('"'))) {
+                isInsideQuotes = false;
+              }
+
+              wordSpan.addEventListener('mouseenter', function() {
+                clearWordHighlights();
+                this.classList.add('highlighted');
+              });
+
+              paraEl.appendChild(wordSpan);
+            }
+          });
+        }
 
         paraEl.addEventListener('mouseenter', function() {
           activateParagraph(index);
