@@ -11,7 +11,7 @@
 
   <style>
     /* ==========================================================================
-       1. GLOBAL THEME & BASE STYLES (DEVOTIONAL ELEGANCE)
+       1. GLOBAL THEME & BASE STYLES
        ========================================================================== */
     :root {
       --bg-gradient: radial-gradient(circle at 50% -20%, #1a102f 0%, #090514 85%);
@@ -293,7 +293,7 @@
     }
 
     /* ==========================================================================
-       3. FULL-SCREEN EXTENDED MODALS
+       3. MODAL OVERLAYS
        ========================================================================== */
     .modal-overlay {
       display: none;
@@ -314,7 +314,6 @@
       display: flex;
     }
 
-    /* DAILY MANTRA FULL SCREEN CONTAINER */
     .video-modal-container {
       background: #000000;
       border: 3px solid var(--accent-gold);
@@ -377,7 +376,6 @@
       border: none;
     }
 
-    /* FULL-VIEWPORT PRO FIT JAPA YAJNA COUNTER CONTAINER */
     .chant-modal-container {
       background: linear-gradient(145deg, #fffdf8 0%, #fef3c7 100%);
       border: 3px solid var(--accent-gold);
@@ -646,7 +644,7 @@
     }
 
     /* ==========================================================================
-       4. MAIN DASHBOARD LAYOUT & INSTANT RESPONSIVE TRANSITIONS
+       4. MAIN DASHBOARD LAYOUT & READ PANEL
        ========================================================================== */
     .dashboard {
       flex: 1;
@@ -668,7 +666,6 @@
       transition: all 0.1s cubic-bezier(0, 0, 0.2, 1);
     }
 
-    /* PURE WHITE BACKGROUND READER AREA */
     .reading-area {
       flex: 1;
       padding: 40px 48px;
@@ -688,7 +685,6 @@
       border-radius: 4px;
     }
 
-    /* PARAGRAPH BLOCK WITH PURE WHITE BACKGROUND */
     .paragraph-block {
       font-size: 1.68rem;
       line-height: 1.9;
@@ -698,7 +694,6 @@
       background-color: transparent !important;
     }
 
-    /* SANSKRIT VERSE BLOCK STYLING (Centered & Italicized Multi-line) */
     .sanskrit-verse-block {
       text-align: center;
       font-style: italic;
@@ -715,13 +710,11 @@
       margin-bottom: 4px;
     }
 
-    /* AUTO-BOLD FOR DOUBLE QUOTED TEXT */
     .quoted-text {
       font-weight: 700;
       color: #000000;
     }
 
-    /* STABLE WORD HOVER */
     .word {
       display: inline;
       padding: 1px 2px;
@@ -737,7 +730,7 @@
     }
 
     /* ==========================================================================
-       5. MEDIA PANEL & ZERO-DELAY INSTANT EXPANSION/COLLAPSE
+       5. MEDIA PANEL (DUAL IMAGE & VIDEO FILE SUPPORT)
        ========================================================================== */
     .media-panel {
       width: 40%;
@@ -754,13 +747,41 @@
       overflow: hidden;
     }
 
-    /* COLLAPSED STATE (Instant hide when no image is present) */
     .media-panel.hidden-panel {
       width: 0px !important;
       opacity: 0;
       transform: scale(1) translateX(0px);
       margin-left: -12px;
       pointer-events: none;
+    }
+
+    /* MEDIA MODE SWITCHER BAR */
+    .media-toggle-bar {
+      display: flex;
+      gap: 6px;
+      background: #ffffff;
+      border: 3px solid var(--border-color);
+      border-radius: 10px;
+      padding: 4px;
+      font-family: var(--font-sans);
+    }
+
+    .media-tab-btn {
+      flex: 1;
+      padding: 6px;
+      border: none;
+      background: transparent;
+      font-weight: 700;
+      font-size: 0.85rem;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.15s ease;
+    }
+
+    .media-tab-btn.active {
+      background: var(--accent-saffron);
+      color: #ffffff;
     }
 
     .image-card {
@@ -771,19 +792,21 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      padding: 20px;
+      padding: 12px;
       border-radius: 12px;
       position: relative;
       min-height: 0;
       box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.7);
     }
 
-    .image-card img {
+    .image-card img, .image-card video, .image-card iframe {
       max-width: 100%;
       max-height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
       border-radius: 6px;
-      transition: none;
+      border: none;
     }
 
     .image-count-badge {
@@ -852,9 +875,7 @@
       transition: all 0.2s ease;
     }
 
-    .thumbnail-item:hover {
-      opacity: 0.9;
-    }
+    .thumbnail-item:hover { opacity: 0.9; }
 
     .thumbnail-item.active {
       opacity: 1;
@@ -911,7 +932,6 @@
   <div class="app-frame">
     <!-- TOP HEADER -->
     <header>
-      <!-- Block 1: Logo Container -->
       <div class="header-box logo-box">
         <img id="logoImg" src="https://res.cloudinary.com/dfmlvblds/image/upload/v1787912352/HKMCHENNAI/assets/sp_logo.png" alt="ISKCON Logo" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';" />
         <div id="logoFallback" class="logo-fallback" style="display:none;">
@@ -923,27 +943,20 @@
         </div>
       </div>
 
-      <!-- Block 2: Interactive Book Title -->
       <div class="header-box book-title" id="displayBookName" onclick="openBookSelector()">Book Name ▾</div>
-      
-      <!-- Block 3: Interactive Chapter Name -->
       <div class="header-box chapter-title" id="displayChapterName" onclick="openChapterSelector()">Chapter Name ▾</div>
       
-      <!-- Block 4: Live Time Box with Green Fill -->
       <div class="header-box time-box">
         <div class="time-progress-fill" id="timeProgressFill"></div>
         <span class="time-text" id="displayClock">00:00:00 PM</span>
       </div>
       
-      <!-- Block 5: Date -->
       <div class="header-box" id="displayDate">Date</div>
 
-      <!-- Block 6: Fullscreen Button -->
       <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">
         ⛶ Fullscreen
       </button>
 
-      <!-- Block 7: 3-Dot Vertical Menu Button -->
       <button class="menu-dots-btn" onclick="toggleMenuPopup(event)" title="Options">
         ⋮
       </button>
@@ -968,20 +981,26 @@
     <!-- MAIN DASHBOARD -->
     <main class="dashboard" id="dashboardGrid">
       <section class="reading-panel">
-        <div class="reading-area" id="readingContainer">
-          <!-- Paragraphs rendered dynamically from active .txt file -->
-        </div>
+        <div class="reading-area" id="readingContainer"></div>
       </section>
 
       <section class="media-panel hidden-panel" id="mediaPanel">
-        <div class="image-card">
+        <!-- MEDIA MODE TOGGLE TAB -->
+        <div class="media-toggle-bar" id="mediaToggleBar" style="display: none;">
+          <button class="media-tab-btn active" id="showImgTabBtn" onclick="setMediaMode('image')">📷 Image</button>
+          <button class="media-tab-btn" id="showVideoTabBtn" onclick="setMediaMode('video')">🎥 Video</button>
+        </div>
+
+        <div class="image-card" id="mediaCard">
           <div class="image-count-badge" id="imageCountBadge">1 / 1</div>
           <button class="img-nav-btn img-nav-prev" id="imgPrevBtn" onclick="navigateImage(-1)">❮</button>
-          <img id="paragraphImage" src="" alt="Paragraph Visual Illustration" />
+          
+          <img id="paragraphImage" src="" alt="Paragraph Visual Illustration" style="display: none;" />
+          <div id="videoContainer" style="display: none; width: 100%; height: 100%;"></div>
+          
           <button class="img-nav-btn img-nav-next" id="imgNextBtn" onclick="navigateImage(1)">❯</button>
         </div>
         
-        <!-- Multi-Image Gallery Thumbnail Selector -->
         <div class="thumbnail-gallery-strip" id="thumbnailGallery"></div>
       </section>
     </main>
@@ -1126,9 +1145,12 @@
     let selectedChapterIndex = 0;
 
     let readingData = [];
+    let chapterVideoFile = null; // Global video assigned at chapter level
     let currentActiveIndex = -1;
     let currentParaImages = [];
+    let currentParaVideos = [];
     let currentImageSubIndex = 0;
+    let currentActiveMode = 'image'; // 'image' or 'video'
 
     // DOM References
     const displayBookName = document.getElementById('displayBookName');
@@ -1140,6 +1162,10 @@
     const dashboardGrid = document.getElementById('dashboardGrid');
     const mediaPanel = document.getElementById('mediaPanel');
     const paragraphImage = document.getElementById('paragraphImage');
+    const videoContainer = document.getElementById('videoContainer');
+    const mediaToggleBar = document.getElementById('mediaToggleBar');
+    const showImgTabBtn = document.getElementById('showImgTabBtn');
+    const showVideoTabBtn = document.getElementById('showVideoTabBtn');
     const thumbnailGallery = document.getElementById('thumbnailGallery');
     const imageCountBadge = document.getElementById('imageCountBadge');
     const imgPrevBtn = document.getElementById('imgPrevBtn');
@@ -1171,7 +1197,7 @@
     }
 
     // ==========================================================================
-    // 2. LIBRARY & DYNAMIC TEXT LOADER ENGINE
+    // 2. LIBRARY & DYNAMIC MEDIA LOADER ENGINE
     // ==========================================================================
     async function fetchReadingData() {
       try {
@@ -1198,6 +1224,9 @@
         displayBookName.textContent = currentBook.bookName + " ▾";
         displayChapterName.textContent = currentChapter.chapterName + " ▾";
 
+        // Store chapter level dedicated video file if present
+        chapterVideoFile = currentChapter.videoFile || null;
+
         if (currentChapter.txtFile) {
           const safePath = encodeURI(currentChapter.txtFile);
           const txtResponse = await fetch(safePath);
@@ -1214,7 +1243,7 @@
       }
     }
 
-    // PARSER: Scans for explicit [IMAGE: ...] tags
+    // PARSER: Scans for explicit [IMAGE: ...] and [VIDEO: ...] tags
     function parseTxtContent(rawText) {
       const rawBlocks = rawText.split(/\n\s*\n/);
       const parsedParagraphs = [];
@@ -1222,6 +1251,7 @@
       rawBlocks.forEach(block => {
         let cleanText = block.trim();
         let extractedImages = [];
+        let extractedVideos = [];
 
         const imageMatch = cleanText.match(/\[IMAGE:\s*(.*?)\]/i);
         if (imageMatch) {
@@ -1229,23 +1259,22 @@
           cleanText = cleanText.replace(/\[IMAGE:\s*.*?\]/gi, '').trim();
         }
 
+        const videoMatch = cleanText.match(/\[VIDEO:\s*(.*?)\]/i);
+        if (videoMatch) {
+          extractedVideos = videoMatch[1].split(',').map(url => url.trim());
+          cleanText = cleanText.replace(/\[VIDEO:\s*.*?\]/gi, '').trim();
+        }
+
         if (cleanText.length > 0) {
           const lines = cleanText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
           const isMultiLineVerse = lines.length > 1 && !cleanText.includes('“') && !cleanText.includes('"');
 
-          if (isMultiLineVerse) {
-            parsedParagraphs.push({
-              paragraph: lines.join('\n'),
-              isVerse: true,
-              images: extractedImages
-            });
-          } else {
-            parsedParagraphs.push({
-              paragraph: cleanText.replace(/\n+/g, ' '),
-              isVerse: false,
-              images: extractedImages
-            });
-          }
+          parsedParagraphs.push({
+            paragraph: isMultiLineVerse ? lines.join('\n') : cleanText.replace(/\n+/g, ' '),
+            isVerse: isMultiLineVerse,
+            images: extractedImages,
+            videos: extractedVideos
+          });
         }
       });
 
@@ -1315,7 +1344,6 @@
         paraEl.dataset.index = index;
 
         let text = item.paragraph;
-
         const isSanskrit = item.isVerse || (/^(sukham|buddhi-grāhyam|vetti|sthitaś|sa niścayena|saṅkalpa|manasaivendriya|śanaiḥ|ātma-saṁsthaṁ|yato yato|praśānta|yuñjann|taṁ vidyād|yaṁ labdhvā)/i.test(text) && !text.includes('“'));
 
         if (isSanskrit) {
@@ -1394,7 +1422,7 @@
     }
 
     // ==========================================================================
-    // 5. ZERO-DELAY INSTANT MEDIA PANEL ENGINE
+    // 5. MEDIA ENGINE (SUPPORTING DEDICATED VIDEO FILES AND INLINE MEDIA)
     // ==========================================================================
     function activateParagraph(index) {
       if (currentActiveIndex === index) return;
@@ -1402,66 +1430,119 @@
 
       const item = readingData[index];
       let validImages = [];
+      let validVideos = [];
 
       if (item) {
-        if (Array.isArray(item.images) && item.images.length > 0) {
-          validImages = item.images.filter(img => img && !img.includes('data:image/svg+xml'));
-        } else if (item.image && !item.image.includes('data:image/svg+xml')) {
-          validImages = [item.image];
+        if (Array.isArray(item.images)) validImages = item.images.filter(img => img);
+        else if (item.image) validImages = [item.image];
+
+        if (Array.isArray(item.videos) && item.videos.length > 0) {
+          validVideos = item.videos.filter(v => v);
+        } else if (item.video) {
+          validVideos = [item.video];
+        } else if (chapterVideoFile) {
+          // Use chapter-level video file if available
+          validVideos = [chapterVideoFile];
         }
       }
 
       currentParaImages = validImages;
+      currentParaVideos = validVideos;
 
-      if (validImages.length > 0) {
+      if (validImages.length > 0 || validVideos.length > 0) {
+        if (validImages.length > 0 && validVideos.length > 0) {
+          mediaToggleBar.style.display = 'flex';
+          currentActiveMode = 'image';
+          showImgTabBtn.classList.add('active');
+          showVideoTabBtn.classList.remove('active');
+        } else if (validVideos.length > 0) {
+          mediaToggleBar.style.display = 'none';
+          currentActiveMode = 'video';
+        } else {
+          mediaToggleBar.style.display = 'none';
+          currentActiveMode = 'image';
+        }
+
         currentImageSubIndex = 0;
         updateMediaGallery();
         mediaPanel.classList.remove('hidden-panel');
       } else {
         mediaPanel.classList.add('hidden-panel');
         paragraphImage.src = "";
+        videoContainer.innerHTML = "";
       }
     }
 
-    function updateMediaGallery() {
-      const totalImgs = currentParaImages.length;
-      if (totalImgs === 0) return;
-
-      if (totalImgs > 1) {
-        imageCountBadge.style.display = 'block';
-        imageCountBadge.textContent = `${currentImageSubIndex + 1} / ${totalImgs}`;
-        imgPrevBtn.style.display = 'flex';
-        imgNextBtn.style.display = 'flex';
-        thumbnailGallery.style.display = 'flex';
+    function setMediaMode(mode) {
+      currentActiveMode = mode;
+      if (mode === 'image') {
+        showImgTabBtn.classList.add('active');
+        showVideoTabBtn.classList.remove('active');
       } else {
+        showVideoTabBtn.classList.add('active');
+        showImgTabBtn.classList.remove('active');
+      }
+      updateMediaGallery();
+    }
+
+    function updateMediaGallery() {
+      if (currentActiveMode === 'image' && currentParaImages.length > 0) {
+        paragraphImage.style.display = 'block';
+        videoContainer.style.display = 'none';
+        videoContainer.innerHTML = ""; // Stop playing video when switched to image
+
+        const totalImgs = currentParaImages.length;
+        if (totalImgs > 1) {
+          imageCountBadge.style.display = 'block';
+          imageCountBadge.textContent = `${currentImageSubIndex + 1} / ${totalImgs}`;
+          imgPrevBtn.style.display = 'flex';
+          imgNextBtn.style.display = 'flex';
+          thumbnailGallery.style.display = 'flex';
+        } else {
+          imageCountBadge.style.display = 'none';
+          imgPrevBtn.style.display = 'none';
+          imgNextBtn.style.display = 'none';
+          thumbnailGallery.style.display = 'none';
+        }
+
+        paragraphImage.src = currentParaImages[currentImageSubIndex];
+
+        thumbnailGallery.innerHTML = '';
+        if (totalImgs > 1) {
+          currentParaImages.forEach((imgUrl, idx) => {
+            const thumb = document.createElement('div');
+            thumb.className = `thumbnail-item ${idx === currentImageSubIndex ? 'active' : ''}`;
+            thumb.innerHTML = `<img src="${imgUrl}" />`;
+            thumb.onclick = () => {
+              currentImageSubIndex = idx;
+              updateMediaGallery();
+            };
+            thumbnailGallery.appendChild(thumb);
+          });
+        }
+      } else if (currentActiveMode === 'video' && currentParaVideos.length > 0) {
+        paragraphImage.style.display = 'none';
+        videoContainer.style.display = 'block';
         imageCountBadge.style.display = 'none';
         imgPrevBtn.style.display = 'none';
         imgNextBtn.style.display = 'none';
         thumbnailGallery.style.display = 'none';
-      }
 
-      // INSTANT IMAGE SWAP WITH ZERO TIMEOUT DELAY
-      paragraphImage.src = currentParaImages[currentImageSubIndex];
-
-      thumbnailGallery.innerHTML = '';
-      if (totalImgs > 1) {
-        currentParaImages.forEach((imgUrl, idx) => {
-          const thumb = document.createElement('div');
-          thumb.className = `thumbnail-item ${idx === currentImageSubIndex ? 'active' : ''}`;
-          thumb.innerHTML = `<img src="${imgUrl}" />`;
-          thumb.onclick = () => {
-            currentImageSubIndex = idx;
-            updateMediaGallery();
-          };
-          thumbnailGallery.appendChild(thumb);
-        });
+        const videoUrl = currentParaVideos[0];
+        if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+          const embedUrl = videoUrl.replace('watch?v=', 'embed/');
+          videoContainer.innerHTML = `<iframe src="${embedUrl}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen style="width:100%; height:100%;"></iframe>`;
+        } else {
+          videoContainer.innerHTML = `<video src="${encodeURI(videoUrl)}" controls autoplay style="width:100%; height:100%; object-fit:contain;"></video>`;
+        }
       }
     }
 
     function navigateImage(direction) {
-      if (currentParaImages.length <= 1) return;
-      currentImageSubIndex = (currentImageSubIndex + direction + currentParaImages.length) % currentParaImages.length;
-      updateMediaGallery();
+      if (currentActiveMode === 'image' && currentParaImages.length > 1) {
+        currentImageSubIndex = (currentImageSubIndex + direction + currentParaImages.length) % currentParaImages.length;
+        updateMediaGallery();
+      }
     }
 
     // ==========================================================================
