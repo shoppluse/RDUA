@@ -669,16 +669,8 @@
       line-height: 1.9;
       color: #1c1917;
       margin-bottom: 28px;
-      padding: 8px 12px;
-      border-left: 5px solid transparent;
-      border-radius: 6px;
-      transition: border-color 0.2s ease, background-color 0.2s ease;
-    }
-
-    .paragraph-block.active-para {
-      border-left-color: var(--accent-saffron);
-      background-color: #fffcf8;
-      box-shadow: 0 4px 15px rgba(234, 88, 12, 0.04);
+      padding: 4px 8px;
+      background-color: transparent;
     }
 
     /* SANSKRIT VERSE BLOCK STYLING (Centered & Italicized Multi-line) */
@@ -703,7 +695,7 @@
       color: #000000;
     }
 
-    /* STABLE WORD HOVER (No font expansion or size shift) */
+    /* STABLE WORD HOVER (No background change on paragraph, only word highlights) */
     .word {
       display: inline;
       padding: 1px 2px;
@@ -1167,7 +1159,7 @@
       }
     }
 
-    // PARSER: Keeps multi-line line-breaks intact so verses render in centered lines
+    // PARSER: Preserves multi-line verses so slokas remain centered line-by-line
     function parseTxtContent(rawText) {
       const rawBlocks = rawText.split(/\n\s*\n/);
       const parsedParagraphs = [];
@@ -1353,11 +1345,6 @@
     function activateParagraph(index) {
       if (currentActiveIndex === index) return;
       currentActiveIndex = index;
-
-      const blocks = readingContainer.querySelectorAll('.paragraph-block');
-      blocks.forEach((block, idx) => {
-        block.classList.toggle('active-para', idx === index);
-      });
 
       const item = readingData[index];
       if (item) {
