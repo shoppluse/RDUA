@@ -74,7 +74,7 @@
     }
 
     /* ==========================================================================
-       2. TOP HEADER
+       2. TOP HEADER & MARQUEE ANIMATION
        ========================================================================== */
     header {
       display: grid;
@@ -152,32 +152,67 @@
       padding: 0 2px;
     }
 
+    /* CONTINUOUS HORIZONTAL SCROLLING MARQUEE STYLING */
     .book-title, .chapter-title {
       cursor: pointer;
+      position: relative;
+      padding: 0 10px;
+      justify-content: space-between;
       transition: background 0.2s ease, color 0.2s ease;
     }
 
-    .book-title {
-      font-family: var(--font-heading);
-      font-size: 1.25rem;
-      color: var(--accent-saffron);
-      justify-content: center;
-      letter-spacing: 0.5px;
-    }
-    .book-title:hover {
+    .book-title:hover, .chapter-title:hover {
       background: var(--accent-saffron-light);
     }
 
-    .chapter-title {
+    .marquee-container {
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .marquee-content {
+      display: inline-block;
+      white-space: nowrap;
+      will-change: transform;
+    }
+
+    /* Active Marquee Animation Keyframes */
+    .marquee-active {
+      animation: marqueeScroll var(--scroll-duration, 12s) linear infinite;
+    }
+
+    @keyframes marqueeScroll {
+      0%, 15% {
+        transform: translateX(0%);
+      }
+      85%, 100% {
+        transform: translateX(var(--scroll-distance, -50%));
+      }
+    }
+
+    .dropdown-arrow {
+      flex-shrink: 0;
+      margin-left: 6px;
+      font-size: 0.9rem;
+      color: var(--accent-saffron);
+    }
+
+    .book-title .marquee-content {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      color: var(--accent-saffron);
+      letter-spacing: 0.5px;
+    }
+
+    .chapter-title .marquee-content {
       font-family: var(--font-sans);
       font-size: 1.05rem;
       color: var(--text-main);
-      justify-content: center;
       font-weight: 600;
-    }
-    .chapter-title:hover {
-      background: var(--accent-saffron-light);
-      color: var(--accent-saffron);
     }
 
     .time-box {
@@ -293,7 +328,7 @@
     }
 
     /* ==========================================================================
-       3. WELCOME SCREEN BANNER (LOCAL MAIN.PNG SOURCE)
+       3. WELCOME SCREEN BANNER
        ========================================================================== */
     .welcome-container {
       width: 100%;
@@ -754,7 +789,7 @@
     }
 
     /* ==========================================================================
-       6. MEDIA PANEL (DUAL IMAGE & VIDEO FILE SUPPORT)
+       6. MEDIA PANEL
        ========================================================================== */
     .media-panel {
       width: 40%;
@@ -779,7 +814,6 @@
       pointer-events: none;
     }
 
-    /* MEDIA MODE SWITCHER BAR */
     .media-toggle-bar {
       display: flex;
       gap: 6px;
@@ -967,8 +1001,21 @@
         </div>
       </div>
 
-      <div class="header-box book-title" id="displayBookName" onclick="openBookSelector()">Select Book ▾</div>
-      <div class="header-box chapter-title" id="displayChapterName" onclick="openChapterSelector()">Select Chapter ▾</div>
+      <!-- BOOK TITLE HEADER BLOCK WITH AUTO-MARQUEE -->
+      <div class="header-box book-title" id="displayBookName" onclick="openBookSelector()">
+        <div class="marquee-container">
+          <span class="marquee-content" id="bookTitleText">Select Book</span>
+        </div>
+        <span class="dropdown-arrow">▾</span>
+      </div>
+
+      <!-- CHAPTER TITLE HEADER BLOCK WITH AUTO-MARQUEE -->
+      <div class="header-box chapter-title" id="displayChapterName" onclick="openChapterSelector()">
+        <div class="marquee-container">
+          <span class="marquee-content" id="chapterTitleText">Select Chapter</span>
+        </div>
+        <span class="dropdown-arrow">▾</span>
+      </div>
       
       <div class="header-box time-box">
         <div class="time-progress-fill" id="timeProgressFill"></div>
@@ -1003,7 +1050,7 @@
     </div>
 
     <!-- MAIN DASHBOARD AREA -->
-    <!-- 1. WELCOME SCREEN LANDING BANNER (CALLS IMAGES/MAIN.PNG DIRECTLY) -->
+    <!-- 1. WELCOME SCREEN LANDING BANNER -->
     <div class="welcome-container" id="welcomeContainer" onclick="openBookSelector()">
       <img src="images/main.png" alt="Srila Prabhupada Reading Books" />
     </div>
@@ -1183,8 +1230,8 @@
     let currentActiveMode = 'image'; 
 
     // DOM References
-    const displayBookName = document.getElementById('displayBookName');
-    const displayChapterName = document.getElementById('displayChapterName');
+    const bookTitleText = document.getElementById('bookTitleText');
+    const chapterTitleText = document.getElementById('chapterTitleText');
     const displayClock = document.getElementById('displayClock');
     const displayDate = document.getElementById('displayDate');
     const timeProgressFill = document.getElementById('timeProgressFill');
@@ -1205,6 +1252,36 @@
     const videoModal = document.getElementById('videoModal');
     const mantraIframe = document.getElementById('mantraIframe');
     const chantingModal = document.getElementById('chantingModal');
+
+    // ==========================================================================
+    // MARQUEE DYNAMIC SCROLL CALCULATOR
+    // ==========================================================================
+    function updateHeaderMarquee(element, text) {
+      element.textContent = text;
+      element.classList.remove('marquee-active');
+      element.style.transform = 'translateX(0%)';
+
+      // Allow DOM to compute bounding box
+      requestAnimationFrame(() => {
+        const container = element.parentElement;
+        if (!container) return;
+
+        const containerWidth = container.clientWidth;
+        const textWidth = element.scrollWidth;
+
+        if (textWidth > containerWidth) {
+          const overflowDistance = textWidth - containerWidth + 15; // 15px safety margin
+          const scrollPercentage = (overflowDistance / textWidth) * 100;
+          
+          // Calculate speed: 30px per second for smooth reading
+          const duration = Math.max(6, Math.round(overflowDistance / 25));
+
+          element.style.setProperty('--scroll-distance', `-${scrollPercentage}%`);
+          element.style.setProperty('--scroll-duration', `${duration}s`);
+          element.classList.add('marquee-active');
+        }
+      });
+    }
 
     // ==========================================================================
     // 1. CLOCK & GREEN PROGRESS FILL
@@ -1249,8 +1326,8 @@
         const currentChapter = currentBook.chapters[selectedChapterIndex];
         if (!currentChapter) return;
 
-        displayBookName.textContent = currentBook.bookName + " ▾";
-        displayChapterName.textContent = currentChapter.chapterName + " ▾";
+        updateHeaderMarquee(bookTitleText, currentBook.bookName);
+        updateHeaderMarquee(chapterTitleText, currentChapter.chapterName);
 
         chapterVideoFile = currentChapter.videoFile || null;
 
@@ -1728,6 +1805,16 @@
 
     document.getElementById("minutesInput").addEventListener("input", calculateBeadInterval);
     document.getElementById("secondsInput").addEventListener("input", calculateBeadInterval);
+
+    // Re-check marquee width when screen resizes
+    window.addEventListener('resize', () => {
+      if (selectedBookIndex !== -1) {
+        const currentBook = libraryData.books[selectedBookIndex];
+        const currentChapter = currentBook.chapters[selectedChapterIndex];
+        if (currentBook) updateHeaderMarquee(bookTitleText, currentBook.bookName);
+        if (currentChapter) updateHeaderMarquee(chapterTitleText, currentChapter.chapterName);
+      }
+    });
 
     // ==========================================================================
     // 8. INITIALIZATION
