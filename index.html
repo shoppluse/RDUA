@@ -293,7 +293,53 @@
     }
 
     /* ==========================================================================
-       3. MODAL OVERLAYS
+       3. WELCOME SCREEN BANNER (SCREEN FIT)
+       ========================================================================== */
+    .welcome-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #090d16;
+      border: 3px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .welcome-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .welcome-overlay-badge {
+      position: absolute;
+      bottom: 20px;
+      background: rgba(13, 11, 18, 0.85);
+      border: 2px solid var(--accent-gold);
+      color: #fef08a;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      letter-spacing: 1px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .welcome-container:hover .welcome-overlay-badge {
+      transform: scale(1.05);
+      background: var(--accent-saffron);
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       4. MODAL OVERLAYS
        ========================================================================== */
     .modal-overlay {
       display: none;
@@ -644,7 +690,7 @@
     }
 
     /* ==========================================================================
-       4. MAIN DASHBOARD LAYOUT & READ PANEL
+       5. MAIN DASHBOARD LAYOUT & READ PANEL
        ========================================================================== */
     .dashboard {
       flex: 1;
@@ -730,7 +776,7 @@
     }
 
     /* ==========================================================================
-       5. MEDIA PANEL (DUAL IMAGE & VIDEO FILE SUPPORT)
+       6. MEDIA PANEL (DUAL IMAGE & VIDEO FILE SUPPORT)
        ========================================================================== */
     .media-panel {
       width: 40%;
@@ -891,7 +937,7 @@
     }
 
     /* ==========================================================================
-       6. RESPONSIVE LAYOUT
+       7. RESPONSIVE LAYOUT
        ========================================================================== */
     @media (max-width: 1100px) {
       .chant-page-wrapper {
@@ -943,8 +989,8 @@
         </div>
       </div>
 
-      <div class="header-box book-title" id="displayBookName" onclick="openBookSelector()">Book Name ▾</div>
-      <div class="header-box chapter-title" id="displayChapterName" onclick="openChapterSelector()">Chapter Name ▾</div>
+      <div class="header-box book-title" id="displayBookName" onclick="openBookSelector()">Select Book ▾</div>
+      <div class="header-box chapter-title" id="displayChapterName" onclick="openChapterSelector()">Select Chapter ▾</div>
       
       <div class="header-box time-box">
         <div class="time-progress-fill" id="timeProgressFill"></div>
@@ -978,8 +1024,15 @@
       </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
-    <main class="dashboard" id="dashboardGrid">
+    <!-- MAIN DASHBOARD AREA -->
+    <!-- 1. WELCOME SCREEN LANDING BANNER (DEFAULT VIEW) -->
+    <div class="welcome-container" id="welcomeContainer" onclick="openBookSelector()">
+      <img src="https://res.cloudinary.com/dfmlvblds/image/upload/v1788000000/sp_reading_books.jpg" alt="Srila Prabhupada Reading Books" onerror="this.src='https://i.postimg.cc/85zK2h8L/sp-reading.jpg';" />
+      <div class="welcome-overlay-badge">📖 Click to Select a Book to Begin Reading</div>
+    </div>
+
+    <!-- 2. READING DASHBOARD (HIDDEN UNTIL BOOK IS SELECTED) -->
+    <main class="dashboard" id="dashboardGrid" style="display: none;">
       <section class="reading-panel">
         <div class="reading-area" id="readingContainer"></div>
       </section>
@@ -1141,16 +1194,16 @@
     const sessionDurationMinutes = 30;
 
     let libraryData = { books: [] };
-    let selectedBookIndex = 0;
-    let selectedChapterIndex = 0;
+    let selectedBookIndex = -1;
+    let selectedChapterIndex = -1;
 
     let readingData = [];
-    let chapterVideoFile = null; // Global video assigned at chapter level
+    let chapterVideoFile = null; 
     let currentActiveIndex = -1;
     let currentParaImages = [];
     let currentParaVideos = [];
     let currentImageSubIndex = 0;
-    let currentActiveMode = 'image'; // 'image' or 'video'
+    let currentActiveMode = 'image'; 
 
     // DOM References
     const displayBookName = document.getElementById('displayBookName');
@@ -1159,6 +1212,7 @@
     const displayDate = document.getElementById('displayDate');
     const timeProgressFill = document.getElementById('timeProgressFill');
     const readingContainer = document.getElementById('readingContainer');
+    const welcomeContainer = document.getElementById('welcomeContainer');
     const dashboardGrid = document.getElementById('dashboardGrid');
     const mediaPanel = document.getElementById('mediaPanel');
     const paragraphImage = document.getElementById('paragraphImage');
@@ -1203,11 +1257,6 @@
       try {
         const response = await fetch('para.json');
         libraryData = await response.json();
-
-        selectedBookIndex = libraryData.activeBookIndex || 0;
-        selectedChapterIndex = libraryData.activeChapterIndex || 0;
-
-        await loadCurrentChapter();
       } catch (error) {
         console.error("Error loading library json:", error);
       }
@@ -1215,6 +1264,8 @@
 
     async function loadCurrentChapter() {
       try {
+        if (selectedBookIndex === -1 || selectedChapterIndex === -1) return;
+
         const currentBook = libraryData.books[selectedBookIndex];
         if (!currentBook) return;
 
@@ -1224,7 +1275,6 @@
         displayBookName.textContent = currentBook.bookName + " ▾";
         displayChapterName.textContent = currentChapter.chapterName + " ▾";
 
-        // Store chapter level dedicated video file if present
         chapterVideoFile = currentChapter.videoFile || null;
 
         if (currentChapter.txtFile) {
@@ -1235,6 +1285,9 @@
         } else {
           readingData = currentChapter.paragraphs || [];
         }
+
+        welcomeContainer.style.display = 'none';
+        dashboardGrid.style.display = 'flex';
 
         renderContinuousReading();
         if (readingData.length > 0) activateParagraph(0);
@@ -1289,6 +1342,8 @@
       const container = document.getElementById('bookListContainer');
       container.innerHTML = '';
 
+      if (!libraryData.books || libraryData.books.length === 0) return;
+
       libraryData.books.forEach((book, bIndex) => {
         const card = document.createElement('div');
         card.className = 'picker-card';
@@ -1307,6 +1362,12 @@
 
     function openChapterSelector() {
       menuPopup.classList.remove('open');
+      
+      if (selectedBookIndex === -1) {
+        openBookSelector();
+        return;
+      }
+
       const container = document.getElementById('chapterListContainer');
       container.innerHTML = '';
 
@@ -1422,7 +1483,7 @@
     }
 
     // ==========================================================================
-    // 5. MEDIA ENGINE (SUPPORTING DEDICATED VIDEO FILES AND INLINE MEDIA)
+    // 5. MEDIA ENGINE
     // ==========================================================================
     function activateParagraph(index) {
       if (currentActiveIndex === index) return;
@@ -1441,7 +1502,6 @@
         } else if (item.video) {
           validVideos = [item.video];
         } else if (chapterVideoFile) {
-          // Use chapter-level video file if available
           validVideos = [chapterVideoFile];
         }
       }
@@ -1489,7 +1549,7 @@
       if (currentActiveMode === 'image' && currentParaImages.length > 0) {
         paragraphImage.style.display = 'block';
         videoContainer.style.display = 'none';
-        videoContainer.innerHTML = ""; // Stop playing video when switched to image
+        videoContainer.innerHTML = ""; 
 
         const totalImgs = currentParaImages.length;
         if (totalImgs > 1) {
