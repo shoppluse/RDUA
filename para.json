@@ -32,6 +32,27 @@
           "txtFile": "Book/On the Way to Krishna/C5_Steering Toward the Supreme.txt"
         }
       ]
+    },
+    {
+      "bookId": "Krishna the Supreme Personality of Godhead",
+      "bookName": "Kṛṣṇa, the Supreme Personality of Godhead",
+      "chapters": [
+        {
+          "chapterId": "c7",
+          "chapterName": "C7: Pūtanā Killed",
+          "txtFile": "Book/Krishna the Supreme Personality of Godhead/C7_Putana Killed.txt"
+        },
+        {
+          "chapterId": "c9",
+          "chapterName": "C9: Mother Yaśodā Binding Lord Kṛṣṇa",
+          "txtFile": "Book/Krishna the Supreme Personality of Godhead/C9_Mother Yasoda Binding Lord Krsna.txt"
+        },
+        {
+          "chapterId": "c16",
+          "chapterName": "C16: Subduing Kāliya",
+          "txtFile": "Book/Krishna the Supreme Personality of Godhead/C16_Subduing Kaliya.txt"
+        }
+      ]
     }
   ]
 }
