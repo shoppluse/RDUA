@@ -4,10 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Live Reading Session - Multi-Book Library Edition</title>
+  
   <!-- Google Fonts for High-End Spiritual & Editorial Design -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+
+  <!-- Jitsi Meet External API for In-App Audio & Video Meetings -->
+  <script src="https://meet.jit.si/external_api.js"></script>
 
   <style>
     /* ==========================================================================
@@ -78,7 +82,7 @@
        ========================================================================== */
     header {
       display: grid;
-      grid-template-columns: 160px 1.5fr 1.5fr 1.2fr 1fr auto auto;
+      grid-template-columns: 160px 1.4fr 1.4fr 1.2fr 1fr auto auto auto;
       border: 3px solid var(--border-color);
       background: #ffffff;
       height: 64px;
@@ -237,6 +241,26 @@
       font-size: 1.15rem;
       letter-spacing: 0.5px;
       font-weight: 700;
+    }
+
+    .meet-btn {
+      background: var(--accent-saffron);
+      color: #ffffff;
+      border: none;
+      font-weight: 700;
+      padding: 0 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-family: var(--font-sans);
+      transition: all 0.2s ease;
+      gap: 6px;
+    }
+
+    .meet-btn:hover {
+      background: #c2410c;
     }
 
     .fullscreen-btn {
@@ -1024,6 +1048,10 @@
       
       <div class="header-box" id="displayDate">Date</div>
 
+      <button class="meet-btn" onclick="toggleLiveMeeting()" title="Start Live Interaction">
+        🎥 Meeting
+      </button>
+
       <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">
         ⛶ Fullscreen
       </button>
@@ -1041,6 +1069,9 @@
       <div class="menu-item" onclick="openChapterSelector()">
         <span>📖</span> Chapter Selector
       </div>
+      <div class="menu-item" onclick="toggleLiveMeeting()">
+        <span>🎙️</span> Live Meeting Room
+      </div>
       <div class="menu-item" onclick="openMantraVideo()">
         <span>🧘‍♂️</span> Daily Mantra
       </div>
@@ -1055,7 +1086,7 @@
       <img src="images/main.png" alt="Srila Prabhupada Reading Books" />
     </div>
 
-    <!-- 2. READING DASHBOARD (HIDDEN UNTIL BOOK IS SELECTED) -->
+    <!-- 2. READING DASHBOARD -->
     <main class="dashboard" id="dashboardGrid" style="display: none;">
       <section class="reading-panel">
         <div class="reading-area" id="readingContainer"></div>
@@ -1207,6 +1238,19 @@
     </div>
   </div>
 
+  <!-- MODAL 3: IN-APP LIVE WEBRTC MEETING MODAL -->
+  <div class="modal-overlay" id="meetModal">
+    <div class="video-modal-container" style="border-color: var(--accent-saffron);">
+      <div class="modal-header">
+        <div class="modal-title" style="color: #ea580c;">
+          <span>🎙️</span> Live Presentation & Interactive Meeting
+        </div>
+        <button class="modal-close-btn" onclick="closeLiveMeeting()">✕ Exit Meeting</button>
+      </div>
+      <div class="video-modal-body" id="jitsiContainer"></div>
+    </div>
+  </div>
+
   <script>
     // ==========================================================================
     // CONFIGURATION & GLOBAL STATE
@@ -1228,6 +1272,7 @@
     let currentParaVideos = [];
     let currentImageSubIndex = 0;
     let currentActiveMode = 'image'; 
+    let jitsiApi = null;
 
     // DOM References
     const bookTitleText = document.getElementById('bookTitleText');
@@ -1252,6 +1297,7 @@
     const videoModal = document.getElementById('videoModal');
     const mantraIframe = document.getElementById('mantraIframe');
     const chantingModal = document.getElementById('chantingModal');
+    const meetModal = document.getElementById('meetModal');
 
     // ==========================================================================
     // MARQUEE DYNAMIC SCROLL CALCULATOR
@@ -1261,7 +1307,6 @@
       element.classList.remove('marquee-active');
       element.style.transform = 'translateX(0%)';
 
-      // Allow DOM to compute bounding box
       requestAnimationFrame(() => {
         const container = element.parentElement;
         if (!container) return;
@@ -1270,10 +1315,8 @@
         const textWidth = element.scrollWidth;
 
         if (textWidth > containerWidth) {
-          const overflowDistance = textWidth - containerWidth + 15; // 15px safety margin
+          const overflowDistance = textWidth - containerWidth + 15;
           const scrollPercentage = (overflowDistance / textWidth) * 100;
-          
-          // Calculate speed: 30px per second for smooth reading
           const duration = Math.max(6, Math.round(overflowDistance / 25));
 
           element.style.setProperty('--scroll-distance', `-${scrollPercentage}%`);
@@ -1305,7 +1348,7 @@
     }
 
     // ==========================================================================
-    // 2. LIBRARY & DYNAMIC MEDIA LOADER ENGINE
+    // 2. LIBRARY & ENHANCED MEDIA LOADER PARSER ENGINE
     // ==========================================================================
     async function fetchReadingData() {
       try {
@@ -1350,7 +1393,7 @@
       }
     }
 
-    // PARSER: Scans for explicit [IMAGE: ...] and [VIDEO: ...] tags
+    // ENHANCED PARSER: Handles case-insensitive [IMAGE: ...] and [VIDEO: ...]
     function parseTxtContent(rawText) {
       const rawBlocks = rawText.split(/\n\s*\n/);
       const parsedParagraphs = [];
@@ -1360,17 +1403,21 @@
         let extractedImages = [];
         let extractedVideos = [];
 
-        const imageMatch = cleanText.match(/\[IMAGE:\s*(.*?)\]/i);
-        if (imageMatch) {
-          extractedImages = imageMatch[1].split(',').map(url => url.trim());
-          cleanText = cleanText.replace(/\[IMAGE:\s*.*?\]/gi, '').trim();
-        }
+        // Global case-insensitive matches
+        const imageMatches = [...cleanText.matchAll(/\[IMAGE:\s*(.*?)\]/gi)];
+        imageMatches.forEach(match => {
+          const urls = match[1].split(',').map(url => url.trim());
+          extractedImages.push(...urls);
+        });
 
-        const videoMatch = cleanText.match(/\[VIDEO:\s*(.*?)\]/i);
-        if (videoMatch) {
-          extractedVideos = videoMatch[1].split(',').map(url => url.trim());
-          cleanText = cleanText.replace(/\[VIDEO:\s*.*?\]/gi, '').trim();
-        }
+        const videoMatches = [...cleanText.matchAll(/\[VIDEO:\s*(.*?)\]/gi)];
+        videoMatches.forEach(match => {
+          const urls = match[1].split(',').map(url => url.trim());
+          extractedVideos.push(...urls);
+        });
+
+        // Strip out media tags
+        cleanText = cleanText.replace(/\[(IMAGE\vert{}VIDEO):\s*.*?\]/gi, '').trim();
 
         if (cleanText.length > 0) {
           const lines = cleanText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
@@ -1660,7 +1707,41 @@
     }
 
     // ==========================================================================
-    // 6. 3-DOT POPUP MENU & MODAL CONTROLLERS
+    // 6. IN-APP REALTIME WEBRTC MEETING CONTROLLER
+    // ==========================================================================
+    function toggleLiveMeeting() {
+      menuPopup.classList.remove('open');
+      meetModal.classList.add('open');
+
+      if (!jitsiApi) {
+        const domain = 'meet.jit.si';
+        const options = {
+          roomName: 'ISKCON_Mysore_Live_Study_Session_9921',
+          width: '100%',
+          height: '100%',
+          parentNode: document.querySelector('#jitsiContainer'),
+          configOverwrite: {
+            startWithAudioMuted: false,
+            startWithVideoMuted: false,
+            disableDeepLinking: true
+          },
+          interfaceConfigOverwrite: {
+            TOOLBAR_BUTTONS: [
+              'microphone', 'camera', 'desktop', 'fullscreen',
+              'fittotowidth', 'hangup', 'chat', 'raisehand', 'tileview'
+            ]
+          }
+        };
+        jitsiApi = new JitsiMeetExternalAPI(domain, options);
+      }
+    }
+
+    function closeLiveMeeting() {
+      meetModal.classList.remove('open');
+    }
+
+    // ==========================================================================
+    // 7. 3-DOT POPUP MENU & MODAL CONTROLLERS
     // ==========================================================================
     function toggleMenuPopup(event) {
       event.stopPropagation();
@@ -1704,7 +1785,7 @@
     }
 
     // ==========================================================================
-    // 7. JAPA YAJNA CHANTING COUNTER LOGIC
+    // 8. JAPA YAJNA CHANTING COUNTER LOGIC
     // ==========================================================================
     let currentBeads = 0;
     let totalBeads = 0;
@@ -1806,7 +1887,6 @@
     document.getElementById("minutesInput").addEventListener("input", calculateBeadInterval);
     document.getElementById("secondsInput").addEventListener("input", calculateBeadInterval);
 
-    // Re-check marquee width when screen resizes
     window.addEventListener('resize', () => {
       if (selectedBookIndex !== -1) {
         const currentBook = libraryData.books[selectedBookIndex];
@@ -1817,7 +1897,7 @@
     });
 
     // ==========================================================================
-    // 8. INITIALIZATION
+    // 9. INITIALIZATION
     // ==========================================================================
     function init() {
       updateClockAndDate();
