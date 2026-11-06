@@ -54,41 +54,41 @@
         }
       ]
     },
-        {
+    {
       "bookId": "Elevation to Krishna Consciousness",
       "bookName": "Elevation to Krishna Consciousness",
       "chapters": [
         {
-          "chapterId": "c1",
+          "chapterId": "ekc-c1",
           "chapterName": "C1: Choosing Human and Animal Lives",
           "txtFile": "Book/Elevation to Krishna Consciousness/C1_Choosing Human and Animal Lives.txt"
         },
         {
-          "chapterId": "c2",
+          "chapterId": "ekc-c2",
           "chapterName": "C2: Hard Struggle for Happiness",
           "txtFile": "Book/Elevation to Krishna Consciousness/C2_Hard Struggle for Happiness.txt"
         },
         {
-          "chapterId": "c3",
+          "chapterId": "ekc-c3",
           "chapterName": "C3: Toward a Peaceful Society",
           "txtFile": "Book/Elevation to Krishna Consciousness/C3_Toward a Peaceful Society.txt"
         },
         {
-          "chapterId": "c4",
+          "chapterId": "ekc-c4",
           "chapterName": "C4: Knowing Krsna as He Is",
           "txtFile": "Book/Elevation to Krishna Consciousness/C4_Knowing Krsna as He Is.txt"
         },
         {
-          "chapterId": "c5",
+          "chapterId": "ekc-c5",
           "chapterName": "C5: Knowing Krsna's Energies",
           "txtFile": "Book/Elevation to Krishna Consciousness/C5_Knowing Krsna's Energies.txt"
         },
         {
-          "chapterId": "c6",
+          "chapterId": "ekc-c6",
           "chapterName": "C6: Taking to Krsna Consciousness",
-          "txtFile": "Book/Elevation to Krishna Consciousness/C6_Taking to Krsna Consciousness.txt" 
+          "txtFile": "Book/Elevation to Krishna Consciousness/C6_Taking to Krsna Consciousness.txt"
         }
       ]
-    } 
+    }
   ]
 }
