@@ -53,6 +53,42 @@
           "txtFile": "Book/Krishna the Supreme Personality of Godhead/C16_Subduing Kaliya.txt"
         }
       ]
-    }
+    },
+        {
+      "bookId": "Elevation to Krishna Consciousness",
+      "bookName": "Elevation to Krishna Consciousness",
+      "chapters": [
+        {
+          "chapterId": "c1",
+          "chapterName": "C1: Choosing Human and Animal Lives",
+          "txtFile": ""
+        },
+        {
+          "chapterId": "c2",
+          "chapterName": "C2: Hard Struggle for Happiness",
+          "txtFile": ""
+        },
+        {
+          "chapterId": "c3",
+          "chapterName": "C3: Toward a Peaceful Society",
+          "txtFile": ""
+        },
+        {
+          "chapterId": "c4",
+          "chapterName": "C4: Knowing Krsna as He Is",
+          "txtFile": ""
+        },
+        {
+          "chapterId": "c5",
+          "chapterName": "C5: Knowing Krsna's Energies",
+          "txtFile": ""
+        },
+        {
+          "chapterId": "c6",
+          "chapterName": "C6: Taking to Krsna Consciousness",
+          "txtFile": ""
+        }
+      ]
+    } 
   ]
 }
