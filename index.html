@@ -3,36 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Live Reading Session - Multi-Book Library Edition</title>
+  <title>Live Reading Session — ISKCON Mysore Digital Library</title>
+  
   <!-- Google Fonts for High-End Spiritual & Editorial Design -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
     /* ==========================================================================
-       1. GLOBAL THEME & BASE STYLES
+       1. DESIGN TOKENS & GLOBAL THEME
        ========================================================================== */
     :root {
-      --bg-gradient: radial-gradient(circle at 50% -20%, #1a102f 0%, #090514 85%);
-      --header-bg: rgba(255, 255, 255, 0.98);
-      --card-bg: #ffffff;
-      --accent-gold: #f59e0b;
-      --accent-gold-metallic: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #92400e 100%);
-      --accent-saffron: #ea580c;
-      --accent-saffron-light: #fff7ed;
-      --accent-glow: rgba(245, 158, 11, 0.35);
-      --text-main: #1c1917;
-      --text-muted: #78716c;
-      --border-color: #292524;
-      --highlight-bg: #fde047;
-      --highlight-text: #000000;
-      --font-serif: "Playfair Display", Georgia, serif;
-      --font-sans: "Inter", -apple-system, sans-serif;
-      --font-heading: "Cinzel", serif;
-      --radius-lg: 16px;
-      --shadow-soft: 0 20px 50px rgba(0, 0, 0, 0.6);
-      --shadow-gold: 0 0 25px rgba(245, 158, 11, 0.2);
+      /* Deep Cosmic Indigo & Temple Gold Palette */
+      --bg-canvas: #07050e;
+      --bg-ambient: radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.08) 0%, transparent 45%),
+                    radial-gradient(circle at 85% 85%, rgba(234, 88, 12, 0.08) 0%, transparent 45%),
+                    radial-gradient(circle at 50% 0%, #170f2e 0%, #07050e 90%);
+      
+      /* Glassmorphism Surfaces */
+      --glass-surface: rgba(18, 14, 30, 0.72);
+      --glass-elevated: rgba(26, 21, 44, 0.85);
+      --glass-border: rgba(245, 158, 11, 0.22);
+      --glass-border-strong: rgba(245, 158, 11, 0.45);
+      
+      /* Warm Editorial Parchment for Eye-Comfort Reading */
+      --parchment-bg: #fcf9f2;
+      --parchment-card: #fffdf9;
+      --parchment-border: rgba(180, 83, 9, 0.16);
+      --ink-primary: #1c1917;
+      --ink-secondary: #57534e;
+      --ink-sanskrit: #431407;
+      
+      /* Sacred Accents */
+      --gold-primary: #f59e0b;
+      --gold-light: #fde68a;
+      --gold-glow: rgba(245, 158, 11, 0.25);
+      --saffron-primary: #ea580c;
+      --saffron-deep: #c2410c;
+      --emerald-progress: rgba(16, 185, 129, 0.25);
+      --emerald-border: #10b981;
+      
+      /* Word Highlighting */
+      --word-highlight-bg: #fde047;
+      --word-highlight-text: #090514;
+      
+      /* Typography */
+      --font-heading: "Cinzel", Georgia, serif;
+      --font-reading: "Cormorant Garamond", Georgia, serif;
+      --font-ui: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+      
+      /* Radii & Shadows */
+      --radius-xl: 20px;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --shadow-ambient: 0 24px 60px rgba(0, 0, 0, 0.65);
+      --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.06);
     }
 
     * {
@@ -45,124 +72,144 @@
       height: 100%;
       width: 100%;
       overflow: hidden;
+      background-color: var(--bg-canvas);
+      color: #f8fafc;
+      font-family: var(--font-ui);
+      -webkit-font-smoothing: antialiased;
     }
 
     body {
-      font-family: var(--font-serif);
-      background: var(--bg-gradient);
-      color: var(--text-main);
+      background: var(--bg-ambient);
       display: flex;
       flex-direction: column;
+      padding: 14px;
       user-select: none;
       -webkit-user-select: none;
-      padding: 12px;
     }
 
+    /* Main Glass Container */
     .app-frame {
       display: flex;
       flex-direction: column;
       height: 100%;
       width: 100%;
-      border: 2px solid rgba(245, 158, 11, 0.4);
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(20px);
-      border-radius: var(--radius-lg);
-      padding: 12px;
-      gap: 12px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-surface);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: var(--radius-xl);
+      padding: 14px;
+      gap: 14px;
       position: relative;
-      box-shadow: var(--shadow-soft), var(--shadow-gold);
+      box-shadow: var(--shadow-ambient), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
     /* ==========================================================================
-       2. TOP HEADER & MARQUEE ANIMATION
+       2. TOP GLASS HEADER & MARQUEE ANIMATION
        ========================================================================== */
     header {
       display: grid;
-      grid-template-columns: 160px 1.5fr 1.5fr 1.2fr 1fr auto auto;
-      border: 3px solid var(--border-color);
-      background: #ffffff;
-      height: 64px;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      grid-template-columns: 165px 1.4fr 1.4fr 190px 145px auto auto;
+      gap: 10px;
+      height: 62px;
+      align-items: stretch;
+      z-index: 20;
     }
 
-    .header-box {
-      padding: 6px 14px;
+    .header-pill {
+      background: var(--glass-elevated);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 0 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--text-main);
       position: relative;
       overflow: hidden;
-      text-align: center;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
     }
 
-    .header-box:not(:last-child) {
-      border-right: 3px solid var(--border-color);
-    }
-
-    .logo-box {
-      background: #0d0b12;
+    /* Brand / Logo Pill */
+    .logo-pill {
       padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+      background: linear-gradient(135deg, #130e24 0%, #090612 100%);
+      border-color: var(--glass-border-strong);
+      cursor: pointer;
     }
 
-    .logo-box img {
+    .logo-pill:hover {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+
+    .logo-pill img {
       width: 100%;
       height: 100%;
-      object-fit: fill;
+      object-fit: cover;
     }
 
     .logo-fallback {
       color: #ffffff;
-      font-family: var(--font-sans);
       text-align: center;
       width: 100%;
+      padding: 4px 10px;
       line-height: 1.15;
       text-transform: uppercase;
     }
 
     .logo-fallback .line-1 {
-      font-size: 0.55rem;
+      font-size: 0.52rem;
       font-weight: 600;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
+      color: var(--gold-light);
       display: block;
     }
 
     .logo-fallback .line-2 {
+      font-family: var(--font-heading);
       font-size: 1.15rem;
-      font-weight: 900;
-      letter-spacing: 1px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      background: linear-gradient(to right, #fde68a, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       display: block;
       margin: 1px 0;
     }
 
     .logo-fallback .line-3 {
-      font-size: 0.65rem;
-      font-weight: 800;
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #cbd5e1;
       display: flex;
       justify-content: space-between;
-      width: 100%;
-      padding: 0 2px;
+      width: 85%;
+      margin: 0 auto;
     }
 
-    /* CONTINUOUS HORIZONTAL SCROLLING MARQUEE STYLING */
-    .book-title, .chapter-title {
+    /* Interactive Selector Pills (Book & Chapter) */
+    .selector-pill {
       cursor: pointer;
-      position: relative;
-      padding: 0 10px;
       justify-content: space-between;
-      transition: background 0.2s ease, color 0.2s ease;
+      gap: 10px;
     }
 
-    .book-title:hover, .chapter-title:hover {
-      background: var(--accent-saffron-light);
+    .selector-pill:hover {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: var(--gold-primary);
+      transform: translateY(-1px);
+    }
+
+    .selector-pill:active {
+      transform: translateY(0);
+    }
+
+    .selector-icon {
+      color: var(--gold-primary);
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
     }
 
     .marquee-container {
@@ -172,6 +219,8 @@
       position: relative;
       display: flex;
       align-items: center;
+      mask-image: linear-gradient(to right, black 90%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
     }
 
     .marquee-content {
@@ -180,43 +229,46 @@
       will-change: transform;
     }
 
-    /* Active Marquee Animation Keyframes */
     .marquee-active {
       animation: marqueeScroll var(--scroll-duration, 12s) linear infinite;
     }
 
     @keyframes marqueeScroll {
-      0%, 15% {
-        transform: translateX(0%);
-      }
-      85%, 100% {
-        transform: translateX(var(--scroll-distance, -50%));
-      }
+      0%, 15% { transform: translateX(0%); }
+      85%, 100% { transform: translateX(var(--scroll-distance, -50%)); }
     }
 
-    .dropdown-arrow {
+    .dropdown-chevron {
       flex-shrink: 0;
-      margin-left: 6px;
-      font-size: 0.9rem;
-      color: var(--accent-saffron);
+      color: var(--gold-light);
+      opacity: 0.75;
+      transition: transform 0.2s ease;
     }
 
-    .book-title .marquee-content {
+    .selector-pill:hover .dropdown-chevron {
+      transform: translateY(2px);
+      opacity: 1;
+    }
+
+    .book-pill .marquee-content {
       font-family: var(--font-heading);
-      font-size: 1.15rem;
-      color: var(--accent-saffron);
-      letter-spacing: 0.5px;
-    }
-
-    .chapter-title .marquee-content {
-      font-family: var(--font-sans);
       font-size: 1.05rem;
-      color: var(--text-main);
-      font-weight: 600;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.4px;
     }
 
-    .time-box {
+    .chapter-pill .marquee-content {
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+
+    /* Live Clock & Session Progress Pill */
+    .time-pill {
       position: relative;
+      background: rgba(12, 10, 22, 0.9);
     }
 
     .time-progress-fill {
@@ -225,81 +277,83 @@
       left: 0;
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, rgba(74, 222, 128, 0.4) 0%, rgba(34, 197, 94, 0.85) 100%);
-      transition: width 0.5s linear;
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.35) 100%);
+      border-right: 2px solid var(--emerald-border);
+      transition: width 0.6s linear;
       z-index: 1;
     }
 
     .time-text {
       position: relative;
       z-index: 2;
-      font-family: monospace;
-      font-size: 1.15rem;
-      letter-spacing: 0.5px;
+      font-family: var(--font-mono);
+      font-size: 1rem;
       font-weight: 700;
+      color: #ecfdf5;
+      letter-spacing: 0.5px;
     }
 
-    .fullscreen-btn {
-      background: #ffffff;
-      border: none;
-      color: var(--text-main);
-      font-weight: 700;
+    /* Date Pill */
+    .date-pill {
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      letter-spacing: 0.3px;
+    }
+
+    /* Action Buttons (Fullscreen & Menu) */
+    .action-pill-btn {
+      background: var(--glass-elevated);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      color: #f8fafc;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 0.88rem;
       padding: 0 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.85rem;
-      font-family: var(--font-sans);
+      gap: 8px;
       transition: all 0.2s ease;
-      gap: 6px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
     }
 
-    .fullscreen-btn:hover {
-      background: var(--accent-saffron-light);
-      color: var(--accent-saffron);
+    .action-pill-btn:hover {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
     }
 
     .menu-dots-btn {
-      background: #ffffff;
-      border: none;
-      border-left: 3px solid var(--border-color);
-      font-size: 1.4rem;
-      font-weight: 900;
       padding: 0 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-main);
-      transition: background 0.2s ease;
     }
 
-    .menu-dots-btn:hover {
-      background: var(--accent-saffron-light);
-      color: var(--accent-saffron);
-    }
-
-    /* 3-DOT POPUP TAB */
+    /* ==========================================================================
+       3. 3-DOT GLASS POPUP MENU
+       ========================================================================== */
     .menu-popup {
       display: none;
       position: absolute;
-      top: 76px;
+      top: 84px;
       right: 14px;
-      background: #ffffff;
-      border: 3px solid var(--border-color);
-      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.25);
-      border-radius: 12px;
+      background: rgba(20, 16, 36, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border-strong);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 25px var(--gold-glow);
+      border-radius: var(--radius-lg);
       z-index: 200;
-      min-width: 210px;
-      overflow: hidden;
-      font-family: var(--font-sans);
-      animation: popupSlide 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      min-width: 230px;
+      padding: 6px;
+      animation: popupSlide 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes popupSlide {
-      from { opacity: 0; transform: translateY(-8px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(-10px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .menu-popup.open {
@@ -307,41 +361,57 @@
     }
 
     .menu-item {
-      padding: 14px 18px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--text-main);
+      padding: 12px 14px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      border-radius: var(--radius-md);
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 12px;
-      transition: background 0.15s ease;
+      transition: all 0.15s ease;
     }
 
     .menu-item:hover {
-      background: var(--accent-saffron-light);
-      color: var(--accent-saffron);
+      background: rgba(245, 158, 11, 0.16);
+      color: var(--gold-light);
+      transform: translateX(3px);
     }
 
-    .menu-item:not(:last-child) {
-      border-bottom: 1px solid #e7e5e4;
+    .menu-item-icon {
+      font-size: 1.15rem;
+      width: 24px;
+      text-align: center;
+    }
+
+    .menu-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.08);
+      margin: 4px 8px;
     }
 
     /* ==========================================================================
-       3. WELCOME SCREEN BANNER
+       4. WELCOME SCREEN LANDING BANNER
        ========================================================================== */
     .welcome-container {
+      flex: 1;
       width: 100%;
-      height: 100%;
+      min-height: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #090d16;
-      border: 3px solid var(--border-color);
-      border-radius: 12px;
+      background: radial-gradient(circle at center, #18112b 0%, #080610 100%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
       overflow: hidden;
       cursor: pointer;
       position: relative;
+      transition: border-color 0.3s ease;
+    }
+
+    .welcome-container:hover {
+      border-color: var(--gold-primary);
     }
 
     .welcome-container img {
@@ -349,57 +419,466 @@
       height: 100%;
       object-fit: contain;
       display: block;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .welcome-container:hover img {
+      transform: scale(1.015);
+    }
+
+    .welcome-cta-badge {
+      position: absolute;
+      bottom: 24px;
+      background: rgba(15, 11, 28, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-light);
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px var(--gold-glow);
+      pointer-events: none;
+      animation: pulseBadge 2.5s infinite ease-in-out;
+    }
+
+    @keyframes pulseBadge {
+      0%, 100% { transform: translateY(0); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px var(--gold-glow); }
+      50% { transform: translateY(-3px); box-shadow: 0 14px 35px rgba(0, 0, 0, 0.7), 0 0 28px rgba(245, 158, 11, 0.45); }
     }
 
     /* ==========================================================================
-       4. MODAL OVERLAYS
+       5. MAIN DASHBOARD & WARM EDITORIAL READING PANEL
+       ========================================================================== */
+    .dashboard {
+      flex: 1;
+      display: flex;
+      gap: 14px;
+      min-height: 0;
+      width: 100%;
+    }
+
+    .reading-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--parchment-border);
+      background: var(--parchment-bg);
+      min-height: 0;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: inset 0 0 60px rgba(217, 119, 6, 0.04), 0 12px 35px rgba(0, 0, 0, 0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reading-area {
+      flex: 1;
+      padding: 44px 56px;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      color: var(--ink-primary);
+    }
+
+    /* Custom Warm Scrollbar */
+    .reading-area::-webkit-scrollbar {
+      width: 8px;
+    }
+    .reading-area::-webkit-scrollbar-track {
+      background: rgba(217, 119, 6, 0.05);
+    }
+    .reading-area::-webkit-scrollbar-thumb {
+      background: rgba(180, 83, 9, 0.25);
+      border-radius: 99px;
+    }
+    .reading-area::-webkit-scrollbar-thumb:hover {
+      background: rgba(180, 83, 9, 0.45);
+    }
+
+    .paragraph-block {
+      font-family: var(--font-reading);
+      font-size: 1.85rem;
+      font-weight: 500;
+      line-height: 1.85;
+      color: var(--ink-primary);
+      margin-bottom: 24px;
+      padding: 14px 22px;
+      border-radius: 12px;
+      border-left: 4px solid transparent;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    /* Subtle visual anchor for the active paragraph */
+    .paragraph-block.active-para {
+      background: rgba(245, 158, 11, 0.07);
+      border-left-color: var(--saffron-primary);
+      box-shadow: 0 4px 20px rgba(180, 83, 9, 0.05);
+    }
+
+    .sanskrit-verse-block {
+      text-align: center;
+      font-family: var(--font-reading);
+      font-style: italic;
+      font-weight: 600;
+      font-size: 1.8rem;
+      line-height: 2.05;
+      margin: 30px auto;
+      padding: 20px 28px;
+      max-width: 90%;
+      color: var(--ink-sanskrit);
+      background: rgba(254, 243, 199, 0.45);
+      border: 1px solid rgba(217, 119, 6, 0.18);
+      border-left: 4px solid rgba(217, 119, 6, 0.4);
+      border-radius: 14px;
+    }
+
+    .sanskrit-verse-block.active-para {
+      background: rgba(254, 243, 199, 0.85);
+      border-color: var(--gold-primary);
+      border-left-color: var(--saffron-primary);
+    }
+
+    .sanskrit-verse-line {
+      text-align: center;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .quoted-text {
+      font-weight: 700;
+      color: #0c0a09;
+    }
+
+    .word {
+      display: inline;
+      padding: 1px 3px;
+      margin: 0;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.12s ease, color 0.12s ease;
+    }
+
+    .word:hover, .word.highlighted {
+      background-color: var(--word-highlight-bg);
+      color: var(--word-highlight-text);
+      box-shadow: 0 2px 8px rgba(250, 204, 21, 0.45);
+    }
+
+    /* ==========================================================================
+       6. MEDIA PANEL (IMAGES & EMBEDDED VIDEOS)
+       ========================================================================== */
+    .media-panel {
+      width: 41%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 0;
+      opacity: 1;
+      transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.2s ease,
+                  margin 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .media-panel.hidden-panel {
+      width: 0px !important;
+      opacity: 0;
+      margin-left: -14px;
+      pointer-events: none;
+    }
+
+    .media-toggle-bar {
+      display: flex;
+      gap: 6px;
+      background: var(--glass-elevated);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 5px;
+    }
+
+    .media-tab-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      font-weight: 600;
+      font-size: 0.85rem;
+      border-radius: 7px;
+      cursor: pointer;
+      color: #94a3b8;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .media-tab-btn:hover {
+      color: #f8fafc;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .media-tab-btn.active {
+      background: linear-gradient(135deg, var(--saffron-primary), #d97706);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.35);
+    }
+
+    .image-card {
+      flex: 1;
+      border: 1px solid var(--glass-border);
+      background: radial-gradient(circle at center, #141024 0%, #07050e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 14px;
+      border-radius: var(--radius-lg);
+      position: relative;
+      min-height: 0;
+      box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.85), 0 12px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .image-card img, .image-card video, .image-card iframe {
+      max-width: 100%;
+      max-height: 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+      border: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .image-count-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(12, 10, 22, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-light);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      display: none;
+      z-index: 10;
+    }
+
+    .img-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(15, 11, 28, 0.75);
+      backdrop-filter: blur(8px);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      z-index: 10;
+      transition: all 0.2s ease;
+    }
+
+    .img-nav-btn:hover {
+      background: var(--saffron-primary);
+      border-color: var(--gold-light);
+      transform: translateY(-50%) scale(1.08);
+    }
+
+    .img-nav-prev { left: 16px; }
+    .img-nav-next { right: 16px; }
+
+    .thumbnail-gallery-strip {
+      display: none;
+      gap: 10px;
+      background: var(--glass-elevated);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      overflow-x: auto;
+      align-items: center;
+    }
+
+    .thumbnail-item {
+      width: 68px;
+      height: 48px;
+      border-radius: 7px;
+      border: 2px solid transparent;
+      overflow: hidden;
+      cursor: pointer;
+      flex-shrink: 0;
+      opacity: 0.55;
+      transition: all 0.2s ease;
+    }
+
+    .thumbnail-item:hover { opacity: 0.9; }
+
+    .thumbnail-item.active {
+      opacity: 1;
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 14px var(--gold-glow);
+      transform: scale(1.05);
+    }
+
+    .thumbnail-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ==========================================================================
+       7. GLASS MODALS (BOOK PICKER, VIDEO, JAPA COUNTER)
        ========================================================================== */
     .modal-overlay {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(10, 6, 18, 0.92);
-      backdrop-filter: blur(14px);
+      inset: 0;
+      background: rgba(5, 3, 12, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       z-index: 500;
       align-items: center;
       justify-content: center;
-      padding: 12px;
+      padding: 16px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .modal-overlay.open {
       display: flex;
     }
 
+    /* Book & Chapter Picker Modal */
+    .picker-modal-container {
+      background: rgba(20, 16, 36, 0.95);
+      border: 1px solid var(--glass-border-strong);
+      border-radius: var(--radius-xl);
+      width: 100%;
+      max-width: 580px;
+      max-height: 82vh;
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 40px var(--gold-glow);
+    }
+
+    .picker-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+    }
+
+    .picker-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--gold-light);
+      font-family: var(--font-heading);
+      letter-spacing: 0.5px;
+    }
+
+    .picker-close-icon {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .picker-close-icon:hover {
+      background: var(--saffron-primary);
+      color: #ffffff;
+      border-color: var(--saffron-primary);
+    }
+
+    .picker-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .picker-card {
+      padding: 16px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+      font-size: 1.02rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .picker-card:hover {
+      border-color: var(--gold-primary);
+      background: rgba(245, 158, 11, 0.14);
+      color: var(--gold-light);
+      transform: translateX(4px);
+    }
+
+    .picker-badge {
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--gold-light);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    /* Video Modal */
     .video-modal-container {
-      background: #000000;
-      border: 3px solid var(--accent-gold);
-      border-radius: 20px;
-      width: 98vw;
-      height: 94vh;
+      background: #07050e;
+      border: 1px solid var(--gold-primary);
+      border-radius: var(--radius-xl);
+      width: 96vw;
+      height: 92vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 30px var(--accent-glow);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.9), 0 0 40px var(--gold-glow);
     }
 
     .modal-header {
-      background: #18181b;
+      background: rgba(18, 14, 30, 0.95);
       color: #ffffff;
       padding: 14px 22px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid #27272a;
-      font-family: var(--font-sans);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .modal-title {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
-      color: #fef08a;
+      color: var(--gold-light);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -407,20 +886,20 @@
     }
 
     .modal-close-btn {
-      background: var(--accent-saffron);
-      border: none;
+      background: linear-gradient(135deg, var(--saffron-primary), var(--saffron-deep));
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #ffffff;
-      font-size: 0.95rem;
-      font-weight: 800;
+      font-size: 0.9rem;
+      font-weight: 700;
       padding: 8px 18px;
-      border-radius: 8px;
+      border-radius: var(--radius-md);
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .modal-close-btn:hover {
-      background: #c2410c;
-      transform: scale(1.04);
+      filter: brightness(1.12);
+      transform: scale(1.03);
     }
 
     .video-modal-body {
@@ -435,16 +914,17 @@
       border: none;
     }
 
+    /* Japa Yajna Counter Modal (Temple Sanctuary Dark Glass Theme) */
     .chant-modal-container {
-      background: linear-gradient(145deg, #fffdf8 0%, #fef3c7 100%);
-      border: 3px solid var(--accent-gold);
-      border-radius: 24px;
-      width: 98vw;
-      height: 94vh;
+      background: radial-gradient(circle at top, #1f1638 0%, #0b0816 100%);
+      border: 1px solid var(--gold-primary);
+      border-radius: var(--radius-xl);
+      width: 96vw;
+      height: 92vh;
       display: flex;
       flex-direction: column;
-      padding: 24px 32px;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 40px var(--accent-glow);
+      padding: 20px 28px;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.9), 0 0 50px var(--gold-glow);
       position: relative;
       overflow: hidden;
     }
@@ -453,7 +933,7 @@
       display: flex;
       align-items: stretch;
       justify-content: space-between;
-      gap: 28px;
+      gap: 24px;
       width: 100%;
       flex: 1;
       min-height: 0;
@@ -461,110 +941,114 @@
     }
 
     .mantra-side {
-      flex: 1.1;
+      flex: 1;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      color: #78350f;
-      font-weight: 700;
-      font-size: 1.6rem;
-      line-height: 1.8;
-      padding: 30px;
-      font-family: var(--font-serif);
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
-      border: 2px solid rgba(217, 119, 6, 0.35);
-      box-shadow: inset 0 0 30px rgba(245, 158, 11, 0.08), 0 10px 25px rgba(0,0,0,0.04);
+      color: var(--gold-light);
+      font-weight: 600;
+      font-size: 1.65rem;
+      line-height: 1.9;
+      padding: 28px;
+      font-family: var(--font-reading);
+      font-style: italic;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--glass-border);
+      box-shadow: inset 0 0 40px rgba(245, 158, 11, 0.05);
     }
 
     .chant-counter-card {
-      background-color: #ffffff;
-      padding: 24px 32px;
-      border-radius: 20px;
-      border: 3px solid var(--border-color);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+      background: rgba(22, 18, 38, 0.92);
+      padding: 24px 30px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--glass-border-strong);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
       text-align: center;
-      flex: 1;
-      max-width: 520px;
+      flex: 1.1;
+      max-width: 500px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      font-family: var(--font-sans);
     }
 
     .chant-counter-card h1 {
-      color: #d97706;
-      font-size: 1.85rem;
+      color: var(--gold-primary);
+      font-size: 1.8rem;
       font-family: var(--font-heading);
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
     }
 
     .chant-counter-card p {
-      color: #78716c;
-      font-size: 0.95rem;
-      font-weight: 600;
+      color: #94a3b8;
+      font-size: 0.88rem;
+      font-weight: 500;
+      margin-top: 4px;
     }
 
     .main-count {
-      font-size: 54px;
-      color: #1c1917;
-      font-weight: 900;
-      margin: 10px 0 4px;
-      letter-spacing: -1px;
+      font-family: var(--font-mono);
+      font-size: 3.4rem;
+      color: #ffffff;
+      font-weight: 700;
+      margin: 8px 0 4px;
+      text-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
     }
 
     .sub-info {
       display: flex;
       justify-content: space-between;
-      margin: 12px 0;
+      margin: 10px 0;
       gap: 12px;
     }
 
     .info-box {
-      background-color: #f8fafc;
+      background: rgba(255, 255, 255, 0.04);
       padding: 12px;
-      border-radius: 12px;
+      border-radius: var(--radius-lg);
       flex: 1;
-      border: 1.5px solid #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .info-box h3 {
       margin: 0;
-      font-size: 12px;
-      color: #64748b;
+      font-size: 0.72rem;
+      color: #94a3b8;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
     }
 
     .info-box .value {
       margin-top: 4px;
-      font-size: 24px;
-      font-weight: 800;
-      color: #0f172a;
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold-light);
     }
 
     .target {
       margin-top: 4px;
-      font-size: 1rem;
-      color: #7c3aed;
-      font-weight: 700;
+      font-size: 0.95rem;
+      color: #c4b5fd;
+      font-weight: 600;
     }
 
     .message {
-      font-size: 0.95rem;
-      color: #16a34a;
-      margin: 6px 0;
+      font-size: 0.92rem;
+      color: #34d399;
+      margin: 4px 0;
       min-height: 22px;
-      font-weight: 700;
+      font-weight: 600;
     }
 
     .timer-section {
-      margin-top: 12px;
+      margin-top: 10px;
       padding: 14px 18px;
-      background-color: #fffbf0;
-      border-radius: 14px;
-      border: 1px solid #fde68a;
+      background: rgba(245, 158, 11, 0.06);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(245, 158, 11, 0.22);
     }
 
     .input-row {
@@ -581,37 +1065,42 @@
     }
 
     .input-group label {
-      font-size: 12px;
-      color: #555;
-      margin-bottom: 3px;
+      font-size: 0.75rem;
+      color: #cbd5e1;
+      margin-bottom: 4px;
       font-weight: 600;
     }
 
     .input-group input {
-      width: 76px;
+      width: 78px;
       padding: 6px;
-      font-size: 16px;
+      font-family: var(--font-mono);
+      font-size: 1rem;
       text-align: center;
       border-radius: 8px;
-      border: 1.5px solid #cbd5e1;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      background: rgba(10, 8, 20, 0.8);
+      color: #ffffff;
       font-weight: 700;
     }
 
     .interval-box {
       margin-top: 10px;
-      background-color: #f0f9ff;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
       border-radius: 8px;
-      padding: 8px;
-      font-size: 14px;
-      color: #0369a1;
-      font-weight: 700;
+      padding: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #7dd3fc;
+      font-weight: 600;
     }
 
     .status-box {
       margin-top: 8px;
-      font-size: 14px;
-      color: #0284c7;
-      font-weight: 700;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      font-weight: 600;
     }
 
     .chant-action-row {
@@ -622,13 +1111,13 @@
     }
 
     .chant-btn-styled {
-      padding: 12px 20px;
-      font-size: 15px;
+      padding: 12px 18px;
+      font-size: 0.92rem;
       font-weight: 700;
       border: none;
-      border-radius: 10px;
+      border-radius: var(--radius-md);
       cursor: pointer;
-      transition: transform 0.1s ease, background 0.2s ease;
+      transition: all 0.15s ease;
       flex: 1;
     }
 
@@ -636,322 +1125,25 @@
       transform: scale(0.97);
     }
 
-    .btn-green { background-color: #16a34a; color: white; }
-    .btn-green:hover { background-color: #15803d; }
-    .btn-red { background-color: #dc2626; color: white; }
-    .btn-red:hover { background-color: #b91c1c; }
-    .btn-blue { background-color: #2563eb; color: white; }
-    .btn-blue:hover { background-color: #1d4ed8; }
-    .btn-orange { background-color: #d97706; color: white; }
-    .btn-orange:hover { background-color: #b45309; }
-
-    /* BOOK & CHAPTER PICKER MODALS */
-    .picker-modal-container {
-      background: #ffffff;
-      border: 3px solid var(--accent-gold);
-      border-radius: 20px;
-      width: 90%;
-      max-width: 600px;
-      max-height: 80vh;
-      overflow-y: auto;
-      padding: 24px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
-      font-family: var(--font-sans);
-    }
-
-    .picker-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #e7e5e4;
-      padding-bottom: 12px;
-      margin-bottom: 16px;
-    }
-
-    .picker-title {
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: var(--accent-saffron);
-      font-family: var(--font-heading);
-    }
-
-    .picker-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .picker-card {
-      padding: 16px 20px;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      background: #fafafa;
-      cursor: pointer;
-      font-size: 1.05rem;
-      font-weight: 700;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .picker-card:hover {
-      border-color: var(--accent-saffron);
-      background: var(--accent-saffron-light);
-      color: var(--accent-saffron);
-      transform: translateY(-2px);
-    }
+    .btn-green { background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-green:hover { filter: brightness(1.1); }
+    .btn-red { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.5); color: #fca5a5; }
+    .btn-red:hover { background: rgba(239, 68, 68, 0.35); color: #fff; }
+    .btn-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+    .btn-blue:hover { filter: brightness(1.1); }
+    .btn-orange { background: linear-gradient(135deg, #f59e0b, #d97706); color: #090514; }
+    .btn-orange:hover { filter: brightness(1.1); }
 
     /* ==========================================================================
-       5. MAIN DASHBOARD LAYOUT & READ PANEL
+       8. RESPONSIVE BREAKPOINTS
        ========================================================================== */
-    .dashboard {
-      flex: 1;
-      display: flex;
-      gap: 12px;
-      min-height: 0;
-      width: 100%;
-    }
-
-    .reading-panel {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      border: 3px solid var(--border-color);
-      background: #ffffff;
-      min-height: 0;
-      border-radius: 12px;
-      overflow: hidden;
-      transition: all 0.1s cubic-bezier(0, 0, 0.2, 1);
-    }
-
-    .reading-area {
-      flex: 1;
-      padding: 40px 48px;
-      overflow-y: auto;
-      background: #ffffff;
-      color: #1c1917;
-    }
-
-    .reading-area::-webkit-scrollbar {
-      width: 8px;
-    }
-    .reading-area::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-    .reading-area::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 4px;
-    }
-
-    .paragraph-block {
-      font-size: 1.68rem;
-      line-height: 1.9;
-      color: #1c1917;
-      margin-bottom: 28px;
-      padding: 4px 8px;
-      background-color: transparent !important;
-    }
-
-    .sanskrit-verse-block {
-      text-align: center;
-      font-style: italic;
-      font-size: 1.6rem;
-      line-height: 2.1;
-      margin: 28px 0;
-      color: #2c1a0e;
-      background: transparent !important;
-    }
-
-    .sanskrit-verse-line {
-      text-align: center;
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .quoted-text {
-      font-weight: 700;
-      color: #000000;
-    }
-
-    .word {
-      display: inline;
-      padding: 1px 2px;
-      margin: 0;
-      border-radius: 3px;
-      cursor: pointer;
-      transition: background-color 0.15s ease;
-    }
-
-    .word:hover, .word.highlighted {
-      background-color: var(--highlight-bg);
-      color: var(--highlight-text);
-    }
-
-    /* ==========================================================================
-       6. MEDIA PANEL
-       ========================================================================== */
-    .media-panel {
-      width: 40%;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      min-height: 0;
-      opacity: 1;
-      transform: scale(1);
-      transform-origin: right center;
-      transition: width 0.1s cubic-bezier(0, 0, 0.2, 1),
-                  opacity 0.1s linear,
-                  margin 0.1s cubic-bezier(0, 0, 0.2, 1);
-      overflow: hidden;
-    }
-
-    .media-panel.hidden-panel {
-      width: 0px !important;
-      opacity: 0;
-      transform: scale(1) translateX(0px);
-      margin-left: -12px;
-      pointer-events: none;
-    }
-
-    .media-toggle-bar {
-      display: flex;
-      gap: 6px;
-      background: #ffffff;
-      border: 3px solid var(--border-color);
-      border-radius: 10px;
-      padding: 4px;
-      font-family: var(--font-sans);
-    }
-
-    .media-tab-btn {
-      flex: 1;
-      padding: 6px;
-      border: none;
-      background: transparent;
-      font-weight: 700;
-      font-size: 0.85rem;
-      border-radius: 6px;
-      cursor: pointer;
-      color: var(--text-muted);
-      transition: all 0.15s ease;
-    }
-
-    .media-tab-btn.active {
-      background: var(--accent-saffron);
-      color: #ffffff;
-    }
-
-    .image-card {
-      flex: 1;
-      border: 3px solid var(--border-color);
-      background: #090d16;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      padding: 12px;
-      border-radius: 12px;
-      position: relative;
-      min-height: 0;
-      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.7);
-    }
-
-    .image-card img, .image-card video, .image-card iframe {
-      max-width: 100%;
-      max-height: 100%;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      border-radius: 6px;
-      border: none;
-    }
-
-    .image-count-badge {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      background: rgba(13, 11, 18, 0.82);
-      border: 1px solid var(--accent-gold);
-      color: #fef08a;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-family: var(--font-sans);
-      font-weight: 700;
-      display: none;
-      z-index: 10;
-    }
-
-    .img-nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.65);
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.2rem;
-      z-index: 10;
-      transition: all 0.2s ease;
-    }
-
-    .img-nav-btn:hover {
-      background: var(--accent-saffron);
-      border-color: var(--accent-saffron);
-    }
-
-    .img-nav-prev { left: 14px; }
-    .img-nav-next { right: 14px; }
-
-    .thumbnail-gallery-strip {
-      display: none;
-      gap: 10px;
-      background: #ffffff;
-      border: 3px solid var(--border-color);
-      border-radius: 12px;
-      padding: 10px 14px;
-      overflow-x: auto;
-      align-items: center;
-    }
-
-    .thumbnail-item {
-      width: 64px;
-      height: 48px;
-      border-radius: 6px;
-      border: 2px solid #e2e8f0;
-      overflow: hidden;
-      cursor: pointer;
-      flex-shrink: 0;
-      opacity: 0.6;
-      transition: all 0.2s ease;
-    }
-
-    .thumbnail-item:hover { opacity: 0.9; }
-
-    .thumbnail-item.active {
-      opacity: 1;
-      border-color: var(--accent-saffron);
-      box-shadow: 0 0 10px var(--accent-glow);
-      transform: scale(1.05);
-    }
-
-    .thumbnail-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* ==========================================================================
-       7. RESPONSIVE LAYOUT
-       ========================================================================== */
-    @media (max-width: 1100px) {
+    @media (max-width: 1150px) {
+      header {
+        grid-template-columns: 140px 1fr 1fr 160px auto auto;
+      }
+      .date-pill {
+        display: none;
+      }
       .chant-page-wrapper {
         flex-direction: column;
         gap: 14px;
@@ -959,8 +1151,10 @@
       }
       .mantra-side {
         font-size: 1.25rem;
-        max-width: 100%;
         padding: 16px;
+      }
+      .chant-counter-card {
+        max-width: 100%;
       }
     }
 
@@ -973,8 +1167,17 @@
         grid-template-columns: 1fr 1fr;
         height: auto;
       }
+      .header-pill, .action-pill-btn {
+        min-height: 48px;
+      }
       .dashboard {
         flex-direction: column;
+      }
+      .reading-area {
+        padding: 24px 20px;
+      }
+      .paragraph-block {
+        font-size: 1.45rem;
       }
       .media-panel {
         width: 100% !important;
@@ -988,9 +1191,10 @@
 <body>
 
   <div class="app-frame">
-    <!-- TOP HEADER -->
+    <!-- TOP GLASS HEADER -->
     <header>
-      <div class="header-box logo-box">
+      <!-- ISKCON MYSORE LOGO -->
+      <div class="header-pill logo-pill" onclick="returnToWelcome()" title="Return to Home Banner">
         <img id="logoImg" src="https://res.cloudinary.com/dfmlvblds/image/upload/v1787912352/HKMCHENNAI/assets/sp_logo.png" alt="ISKCON Logo" onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';" />
         <div id="logoFallback" class="logo-fallback" style="display:none;">
           <span class="line-1">Srila Prabhupada's</span>
@@ -1001,58 +1205,74 @@
         </div>
       </div>
 
-      <!-- BOOK TITLE HEADER BLOCK WITH AUTO-MARQUEE -->
-      <div class="header-box book-title" id="displayBookName" onclick="openBookSelector()">
+      <!-- BOOK SELECTOR PILL WITH AUTO-MARQUEE -->
+      <div class="header-pill selector-pill book-pill" id="displayBookName" onclick="openBookSelector()" title="Choose Scripture / Book">
+        <span class="selector-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+        </span>
         <div class="marquee-container">
           <span class="marquee-content" id="bookTitleText">Select Book</span>
         </div>
-        <span class="dropdown-arrow">▾</span>
+        <svg class="dropdown-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </div>
 
-      <!-- CHAPTER TITLE HEADER BLOCK WITH AUTO-MARQUEE -->
-      <div class="header-box chapter-title" id="displayChapterName" onclick="openChapterSelector()">
+      <!-- CHAPTER SELECTOR PILL WITH AUTO-MARQUEE -->
+      <div class="header-pill selector-pill chapter-pill" id="displayChapterName" onclick="openChapterSelector()" title="Choose Chapter">
+        <span class="selector-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </span>
         <div class="marquee-container">
           <span class="marquee-content" id="chapterTitleText">Select Chapter</span>
         </div>
-        <span class="dropdown-arrow">▾</span>
+        <svg class="dropdown-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </div>
       
-      <div class="header-box time-box">
+      <!-- CLOCK & LIVE SESSION PROGRESS BAR -->
+      <div class="header-pill time-pill" title="Live Session Progress (9:00 PM – 9:30 PM)">
         <div class="time-progress-fill" id="timeProgressFill"></div>
         <span class="time-text" id="displayClock">00:00:00 PM</span>
       </div>
       
-      <div class="header-box" id="displayDate">Date</div>
+      <!-- DATE PILL -->
+      <div class="header-pill date-pill" id="displayDate">Date</div>
 
-      <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">
-        ⛶ Fullscreen
+      <!-- FULLSCREEN BUTTON -->
+      <button class="action-pill-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+        <span>Fullscreen</span>
       </button>
 
-      <button class="menu-dots-btn" onclick="toggleMenuPopup(event)" title="Options">
-        ⋮
+      <!-- 3-DOT MENU BUTTON -->
+      <button class="action-pill-btn menu-dots-btn" onclick="toggleMenuPopup(event)" title="More Options">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
       </button>
     </header>
 
-    <!-- 3-DOT POPUP TAB -->
+    <!-- 3-DOT POPUP MENU -->
     <div class="menu-popup" id="menuPopup">
       <div class="menu-item" onclick="openBookSelector()">
-        <span>📚</span> Books Library
+        <span class="menu-item-icon">📚</span>
+        <span>Books Library</span>
       </div>
       <div class="menu-item" onclick="openChapterSelector()">
-        <span>📖</span> Chapter Selector
+        <span class="menu-item-icon">📖</span>
+        <span>Chapter Selector</span>
       </div>
+      <div class="menu-divider"></div>
       <div class="menu-item" onclick="openMantraVideo()">
-        <span>🧘‍♂️</span> Daily Mantra
+        <span class="menu-item-icon">🧘‍♂️</span>
+        <span>Daily Mantra Kirtan</span>
       </div>
       <div class="menu-item" onclick="openChantingCounter()">
-        <span>📿</span> Chanting Counter
+        <span class="menu-item-icon">📿</span>
+        <span>Japa Yajna Counter</span>
       </div>
     </div>
 
-    <!-- MAIN DASHBOARD AREA -->
     <!-- 1. WELCOME SCREEN LANDING BANNER -->
     <div class="welcome-container" id="welcomeContainer" onclick="openBookSelector()">
       <img src="images/main.png" alt="Srila Prabhupada Reading Books" />
+      <div class="welcome-cta-badge">Click Anywhere to Open Sacred Library</div>
     </div>
 
     <!-- 2. READING DASHBOARD (HIDDEN UNTIL BOOK IS SELECTED) -->
@@ -1064,18 +1284,22 @@
       <section class="media-panel hidden-panel" id="mediaPanel">
         <!-- MEDIA MODE TOGGLE TAB -->
         <div class="media-toggle-bar" id="mediaToggleBar" style="display: none;">
-          <button class="media-tab-btn active" id="showImgTabBtn" onclick="setMediaMode('image')">📷 Image</button>
-          <button class="media-tab-btn" id="showVideoTabBtn" onclick="setMediaMode('video')">🎥 Video</button>
+          <button class="media-tab-btn active" id="showImgTabBtn" onclick="setMediaMode('image')">
+            <span>📷</span> Illustrations
+          </button>
+          <button class="media-tab-btn" id="showVideoTabBtn" onclick="setMediaMode('video')">
+            <span>🎥</span> Video Clip
+          </button>
         </div>
 
         <div class="image-card" id="mediaCard">
           <div class="image-count-badge" id="imageCountBadge">1 / 1</div>
-          <button class="img-nav-btn img-nav-prev" id="imgPrevBtn" onclick="navigateImage(-1)">❮</button>
+          <button class="img-nav-btn img-nav-prev" id="imgPrevBtn" onclick="navigateImage(-1)" title="Previous Image (Left Arrow)">❮</button>
           
           <img id="paragraphImage" src="" alt="Paragraph Visual Illustration" style="display: none;" />
           <div id="videoContainer" style="display: none; width: 100%; height: 100%;"></div>
           
-          <button class="img-nav-btn img-nav-next" id="imgNextBtn" onclick="navigateImage(1)">❯</button>
+          <button class="img-nav-btn img-nav-next" id="imgNextBtn" onclick="navigateImage(1)" title="Next Image (Right Arrow)">❯</button>
         </div>
         
         <div class="thumbnail-gallery-strip" id="thumbnailGallery"></div>
@@ -1084,28 +1308,28 @@
   </div>
 
   <!-- BOOK SELECTOR MODAL -->
-  <div class="modal-overlay" id="bookModal">
+  <div class="modal-overlay" id="bookModal" onclick="handleBackdropClose(event, 'bookModal')">
     <div class="picker-modal-container">
       <div class="picker-header">
-        <div class="picker-title">Select Book</div>
-        <button style="background:none; border:none; font-size:1.2rem; cursor:pointer;" onclick="closeModal('bookModal')">✕</button>
+        <div class="picker-title">📚 Select Sacred Book</div>
+        <button class="picker-close-icon" onclick="closeModal('bookModal')">✕</button>
       </div>
       <div class="picker-list" id="bookListContainer"></div>
     </div>
   </div>
 
   <!-- CHAPTER SELECTOR MODAL -->
-  <div class="modal-overlay" id="chapterModal">
+  <div class="modal-overlay" id="chapterModal" onclick="handleBackdropClose(event, 'chapterModal')">
     <div class="picker-modal-container">
       <div class="picker-header">
-        <div class="picker-title">Select Chapter</div>
-        <button style="background:none; border:none; font-size:1.2rem; cursor:pointer;" onclick="closeModal('chapterModal')">✕</button>
+        <div class="picker-title">📖 Select Chapter</div>
+        <button class="picker-close-icon" onclick="closeModal('chapterModal')">✕</button>
       </div>
       <div class="picker-list" id="chapterListContainer"></div>
     </div>
   </div>
 
-  <!-- MODAL 1: FULLSCREEN EXTENDED DAILY MANTRA VIDEO -->
+  <!-- MODAL 1: FULLSCREEN DAILY MANTRA VIDEO -->
   <div class="modal-overlay" id="videoModal">
     <div class="video-modal-container">
       <div class="modal-header">
@@ -1120,11 +1344,11 @@
     </div>
   </div>
 
-  <!-- MODAL 2: FULL-SCREEN EXTENDED JAPA YAJNA COUNTER -->
+  <!-- MODAL 2: FULL-SCREEN JAPA YAJNA COUNTER -->
   <div class="modal-overlay" id="chantingModal">
     <div class="chant-modal-container">
-      <div class="modal-header" style="background: transparent; border: none; padding: 0 0 10px 0;">
-        <div class="modal-title" style="color: #b45309; font-size: 1.4rem; font-family: var(--font-heading);">
+      <div class="modal-header" style="background: transparent; border: none; padding: 0 0 8px 0;">
+        <div class="modal-title" style="font-size: 1.35rem;">
           📿 Japa Yajna Counter
         </div>
         <button class="modal-close-btn" onclick="closeChantingCounter()">✕ Close</button>
@@ -1141,7 +1365,7 @@
         <div class="chant-counter-card">
           <div>
             <h1>📿 Japa Yajna</h1>
-            <p>1 Round = 108 Beads | Daily Goal = 16 Rounds</p>
+            <p>1 Round = 108 Beads &nbsp;•&nbsp; Daily Goal = 16 Rounds</p>
           </div>
 
           <div class="main-count" id="beadCount">0 / 108</div>
@@ -1153,7 +1377,7 @@
             </div>
 
             <div class="info-box">
-              <h3>Rounds</h3>
+              <h3>Rounds Completed</h3>
               <div class="value" id="roundCount">0</div>
             </div>
           </div>
@@ -1162,13 +1386,13 @@
           <div class="message" id="message"></div>
 
           <div class="chant-action-row">
-            <button class="chant-btn-styled btn-green" onclick="increaseCount()">Chant +1</button>
+            <button class="chant-btn-styled btn-green" onclick="increaseCount()">Chant +1 (Space)</button>
             <button class="chant-btn-styled btn-red" onclick="resetCount()">Reset All</button>
           </div>
 
           <div class="timer-section">
-            <h3 style="margin-top: 0; color: #b45309; font-family: var(--font-heading); font-size: 1rem;">⏱ Auto Japa Counter</h3>
-            <p style="margin-bottom: 6px; font-size: 0.85rem;">Set your 1 round chanting time</p>
+            <h3 style="margin-top: 0; color: var(--gold-light); font-family: var(--font-heading); font-size: 0.95rem;">⏱ Auto Japa Pace Timer</h3>
+            <p style="margin-bottom: 6px; font-size: 0.8rem;">Set your target time per 108-bead round</p>
 
             <div class="input-row">
               <div class="input-group">
@@ -1191,7 +1415,7 @@
             </div>
 
             <div class="chant-action-row" style="margin-top: 8px;">
-              <button class="chant-btn-styled btn-blue" onclick="startAutoCount()">▶️ Start</button>
+              <button class="chant-btn-styled btn-blue" onclick="startAutoCount()">▶ Start</button>
               <button class="chant-btn-styled btn-orange" onclick="stopAutoCount()">⏹ Stop</button>
             </div>
           </div>
@@ -1261,7 +1485,6 @@
       element.classList.remove('marquee-active');
       element.style.transform = 'translateX(0%)';
 
-      // Allow DOM to compute bounding box
       requestAnimationFrame(() => {
         const container = element.parentElement;
         if (!container) return;
@@ -1270,10 +1493,8 @@
         const textWidth = element.scrollWidth;
 
         if (textWidth > containerWidth) {
-          const overflowDistance = textWidth - containerWidth + 15; // 15px safety margin
+          const overflowDistance = textWidth - containerWidth + 18;
           const scrollPercentage = (overflowDistance / textWidth) * 100;
-          
-          // Calculate speed: 30px per second for smooth reading
           const duration = Math.max(6, Math.round(overflowDistance / 25));
 
           element.style.setProperty('--scroll-distance', `-${scrollPercentage}%`);
@@ -1284,7 +1505,7 @@
     }
 
     // ==========================================================================
-    // 1. CLOCK & GREEN PROGRESS FILL
+    // 1. CLOCK & SESSION PROGRESS FILL
     // ==========================================================================
     function updateClockAndDate() {
       const now = new Date();
@@ -1316,6 +1537,12 @@
       }
     }
 
+    function returnToWelcome() {
+      welcomeContainer.style.display = 'flex';
+      dashboardGrid.style.display = 'none';
+      currentActiveIndex = -1;
+    }
+
     async function loadCurrentChapter() {
       try {
         if (selectedBookIndex === -1 || selectedChapterIndex === -1) return;
@@ -1342,6 +1569,7 @@
 
         welcomeContainer.style.display = 'none';
         dashboardGrid.style.display = 'flex';
+        currentActiveIndex = -1;
 
         renderContinuousReading();
         if (readingData.length > 0) activateParagraph(0);
@@ -1350,7 +1578,6 @@
       }
     }
 
-    // PARSER: Scans for explicit [IMAGE: ...] and [VIDEO: ...] tags
     function parseTxtContent(rawText) {
       const rawBlocks = rawText.split(/\n\s*\n/);
       const parsedParagraphs = [];
@@ -1396,12 +1623,19 @@
       const container = document.getElementById('bookListContainer');
       container.innerHTML = '';
 
-      if (!libraryData.books || libraryData.books.length === 0) return;
+      if (!libraryData.books || libraryData.books.length === 0) {
+        container.innerHTML = `<div style="color:#94a3b8; text-align:center; padding:20px;">No books found in para.json</div>`;
+        document.getElementById('bookModal').classList.add('open');
+        return;
+      }
 
       libraryData.books.forEach((book, bIndex) => {
         const card = document.createElement('div');
         card.className = 'picker-card';
-        card.innerHTML = `<span>📖 ${book.bookName}</span> <span>${book.chapters.length} Chapters ›</span>`;
+        card.innerHTML = `
+          <span>📖 ${book.bookName}</span>
+          <span class="picker-badge">${book.chapters.length} Chapters ›</span>
+        `;
         card.onclick = () => {
           selectedBookIndex = bIndex;
           selectedChapterIndex = 0;
@@ -1431,7 +1665,10 @@
       currentBook.chapters.forEach((chap, cIndex) => {
         const card = document.createElement('div');
         card.className = 'picker-card';
-        card.innerHTML = `<span>📄 ${chap.chapterName}</span> <span>Select ›</span>`;
+        card.innerHTML = `
+          <span>📄 ${chap.chapterName}</span>
+          <span class="picker-badge">Read ›</span>
+        `;
         card.onclick = () => {
           selectedChapterIndex = cIndex;
           closeModal('chapterModal');
@@ -1445,6 +1682,12 @@
 
     function closeModal(modalId) {
       document.getElementById(modalId).classList.remove('open');
+    }
+
+    function handleBackdropClose(event, modalId) {
+      if (event.target.id === modalId) {
+        closeModal(modalId);
+      }
     }
 
     // ==========================================================================
@@ -1527,6 +1770,10 @@
           activateParagraph(index);
         });
 
+        paraEl.addEventListener('click', function() {
+          activateParagraph(index, true);
+        });
+
         readingContainer.appendChild(paraEl);
       });
     }
@@ -1537,9 +1784,22 @@
     }
 
     // ==========================================================================
-    // 5. MEDIA ENGINE
+    // 5. MEDIA & ACTIVE PARAGRAPH ENGINE
     // ==========================================================================
-    function activateParagraph(index) {
+    function activateParagraph(index, shouldScroll = false) {
+      if (index < 0 || index >= readingData.length) return;
+      
+      // Highlight active paragraph block visually
+      const allParas = readingContainer.querySelectorAll('.paragraph-block');
+      allParas.forEach(p => p.classList.remove('active-para'));
+      const targetPara = allParas[index];
+      if (targetPara) {
+        targetPara.classList.add('active-para');
+        if (shouldScroll) {
+          targetPara.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+
       if (currentActiveIndex === index) return;
       currentActiveIndex = index;
 
@@ -1626,7 +1886,7 @@
           currentParaImages.forEach((imgUrl, idx) => {
             const thumb = document.createElement('div');
             thumb.className = `thumbnail-item ${idx === currentImageSubIndex ? 'active' : ''}`;
-            thumb.innerHTML = `<img src="${imgUrl}" />`;
+            thumb.innerHTML = `<img src="${imgUrl}" alt="Thumbnail ${idx + 1}" />`;
             thumb.onclick = () => {
               currentImageSubIndex = idx;
               updateMediaGallery();
@@ -1660,7 +1920,7 @@
     }
 
     // ==========================================================================
-    // 6. 3-DOT POPUP MENU & MODAL CONTROLLERS
+    // 6. POPUP MENU, MODALS & KEYBOARD NAVIGATION
     // ==========================================================================
     function toggleMenuPopup(event) {
       event.stopPropagation();
@@ -1703,8 +1963,43 @@
       }
     }
 
+    // Keyboard Shortcuts for Live Presentation & Japa Chanting
+    document.addEventListener('keydown', function(e) {
+      // Escape closes any active modal
+      if (e.key === 'Escape') {
+        closeModal('bookModal');
+        closeModal('chapterModal');
+        closeMantraVideo();
+        closeChantingCounter();
+        menuPopup.classList.remove('open');
+        return;
+      }
+
+      // Spacebar increments bead when Japa counter is open (and not typing in an input)
+      if (chantingModal.classList.contains('open') && e.code === 'Space' && document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault();
+        increaseCount();
+        return;
+      }
+
+      // Arrow navigation inside active reading dashboard
+      if (dashboardGrid.style.display !== 'none' && !document.querySelector('.modal-overlay.open')) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          activateParagraph(Math.min(readingData.length - 1, currentActiveIndex + 1), true);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          activateParagraph(Math.max(0, currentActiveIndex - 1), true);
+        } else if (e.key === 'ArrowRight') {
+          navigateImage(1);
+        } else if (e.key === 'ArrowLeft') {
+          navigateImage(-1);
+        }
+      }
+    });
+
     // ==========================================================================
-    // 7. JAPA YAJNA CHANTING COUNTER LOGIC
+    // 7. JAPA YAJNA CHANTING COUNTER LOGIC (WITH PERSISTENT STORAGE)
     // ==========================================================================
     let currentBeads = 0;
     let totalBeads = 0;
@@ -1713,36 +2008,64 @@
     let autoCounterInterval = null;
     let beadIntervalMs = 3240.74;
 
+    function loadJapaState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('iskcon_japa_state'));
+        if (saved && saved.date === new Date().toDateString()) {
+          currentBeads = saved.currentBeads || 0;
+          totalBeads = saved.totalBeads || 0;
+          rounds = saved.rounds || 0;
+          updateJapaUI();
+        }
+      } catch (e) {}
+    }
+
+    function saveJapaState() {
+      try {
+        localStorage.setItem('iskcon_japa_state', JSON.stringify({
+          date: new Date().toDateString(),
+          currentBeads,
+          totalBeads,
+          rounds
+        }));
+      } catch (e) {}
+    }
+
+    function updateJapaUI() {
+      document.getElementById("beadCount").innerText = currentBeads + " / 108";
+      document.getElementById("totalBeads").innerText = totalBeads;
+      document.getElementById("roundCount").innerText = rounds;
+
+      let remainingRounds = Math.max(0, targetRounds - rounds);
+      if (remainingRounds > 0) {
+        document.getElementById("targetStatus").innerText = "Target: " + remainingRounds + " Rounds Remaining";
+      } else {
+        document.getElementById("targetStatus").innerText = "🎉 16 Rounds Completed Today! Haribol!";
+      }
+    }
+
     function increaseCount() {
       if (rounds < targetRounds) {
         currentBeads++;
         totalBeads++;
 
-        document.getElementById("beadCount").innerText = currentBeads + " / 108";
-        document.getElementById("totalBeads").innerText = totalBeads;
-
         if (currentBeads === 108) {
           rounds++;
           currentBeads = 0;
-
-          document.getElementById("roundCount").innerText = rounds;
-          document.getElementById("beadCount").innerText = currentBeads + " / 108";
           document.getElementById("message").innerText = "🎉 Round " + rounds + " completed! Hare Krishna!";
 
           if (navigator.vibrate) {
             navigator.vibrate([200, 100, 200, 100, 400]);
           }
 
-          let remainingRounds = targetRounds - rounds;
-
-          if (remainingRounds > 0) {
-            document.getElementById("targetStatus").innerText = "Target: " + remainingRounds + " Rounds Remaining";
-          } else {
-            document.getElementById("targetStatus").innerText = "🎉 16 Rounds Completed Today! Haribol!";
+          if (rounds >= targetRounds) {
             document.getElementById("message").innerText = "🌸 All 16 rounds completed! Wonderful seva!";
             stopAutoCount();
           }
         }
+
+        updateJapaUI();
+        saveJapaState();
       }
     }
 
@@ -1750,13 +2073,9 @@
       currentBeads = 0;
       totalBeads = 0;
       rounds = 0;
-
       stopAutoCount();
-
-      document.getElementById("beadCount").innerText = "0 / 108";
-      document.getElementById("totalBeads").innerText = "0";
-      document.getElementById("roundCount").innerText = "0";
-      document.getElementById("targetStatus").innerText = "Target: 16 Rounds Remaining";
+      updateJapaUI();
+      saveJapaState();
       document.getElementById("message").innerText = "";
     }
 
@@ -1788,7 +2107,7 @@
       }
 
       calculateBeadInterval();
-      document.getElementById("autoStatus").innerText = "Auto Counter: Running ▶️";
+      document.getElementById("autoStatus").innerText = "Auto Counter: Running ▶";
 
       autoCounterInterval = setInterval(function () {
         increaseCount();
@@ -1806,7 +2125,6 @@
     document.getElementById("minutesInput").addEventListener("input", calculateBeadInterval);
     document.getElementById("secondsInput").addEventListener("input", calculateBeadInterval);
 
-    // Re-check marquee width when screen resizes
     window.addEventListener('resize', () => {
       if (selectedBookIndex !== -1) {
         const currentBook = libraryData.books[selectedBookIndex];
@@ -1822,6 +2140,7 @@
     function init() {
       updateClockAndDate();
       setInterval(updateClockAndDate, 1000);
+      loadJapaState();
       fetchReadingData();
     }
 
