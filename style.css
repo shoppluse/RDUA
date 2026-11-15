@@ -61,9 +61,6 @@
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-* {
   margin: 0;
   padding: 0;
 }
@@ -1199,7 +1196,7 @@ header > * {
   .chapter-title .marquee-content { font-size: 0.95rem; }
 
   .menu-popup {
-    top: calc(var(--frame-pad) + 56px);
+    top: calc(var(--frame-pad) + 104px);
     right: 8px;
   }
 
